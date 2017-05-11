@@ -1,7 +1,7 @@
 'use strict';
 
 window.mainModule.controller('AdminCtrl', ['$scope', 'Link', function($scope, Link) {
-    const LINKS_PER_PAGE = 10;
+    const LINKS_PER_PAGE = 20;
 
     $scope.link = '';
     $scope.links = [];
@@ -66,7 +66,7 @@ window.mainModule.controller('AdminCtrl', ['$scope', 'Link', function($scope, Li
     };
 
     function fetchLinks() {
-        Link.fetchLinks($scope.pager.from, $scope.pager.to).then(function(data) {
+        return Link.fetchLinks($scope.pager.from, $scope.pager.to).then(function(data) {
             $scope.links = data.links;
 
             if ($scope.pager.to > data.count) {

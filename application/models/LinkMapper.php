@@ -21,7 +21,7 @@ class LinkMapper extends PsDbMapper {
         ];
     }
 
-    public function fetch($where = [], $limit = 10) {
+    public function fetch($where = [], $limit = null) {
         array_walk($where, function(&$value, $key) {
             $value = $key . ' = "' . $value . '"';
         });
@@ -30,7 +30,7 @@ class LinkMapper extends PsDbMapper {
             . "FROM Links "
             . (!empty($where) ? "WHERE " . implode(' AND ', $where) . ' ' : '')
             . "ORDER BY id DESC "
-            . "LIMIT " . $limit);
+            . (!is_null($limit) ? "LIMIT " . $limit : ''));
 
         $links = [];
         while ($row = $result->fetch_assoc()) {
