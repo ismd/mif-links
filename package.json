@@ -1,0 +1,7 @@
+{
+  "name": "mif-links",
+  "version": "0.0.1",
+  "scripts": {
+    "postinstall": "cd js && npm install"
+  }
+}
