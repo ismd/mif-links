@@ -30,7 +30,11 @@ server {
 ```
 ###### MySQL
 Создать базу данных и выполнить скрипт `doc/structure.sql`
-###### npm-пакеты
-`npm install`
 ###### Конфигурация
 Скопировать и отредактировать файл `application/configs/application.example.ini` в `application/configs/application.ini`
+###### npm-пакеты
+`npm install`
+###### Сборка js/less
+`cd js && NODE_ENV=production node_modules/.bin/gulp`
+###### Использование
+В браузере перейти по ссылке `<имя домена>/admin`
