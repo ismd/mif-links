@@ -5,10 +5,6 @@ class LinkMapper extends PsDbMapper {
     const IGNORED_WORDS = ['admin', 'stat'];
 
     public function add($link) {
-        if (strstr($link, '://') === false) {
-            $link = 'http://' . $link;
-        }
-
         $shortLink = $this->generateShortUrl();
 
         $stmt = self::$db->prepare("INSERT INTO Links (link, short_link) VALUES (?, ?)");

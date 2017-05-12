@@ -11,6 +11,10 @@ class LinksController extends PsController {
 
         $link = $request->getPost()->link;
 
+        if (strstr($link, '://') === false) {
+            $link = 'http://' . $link;
+        }
+
         $links = LinkMapper::getInstance()->fetch([
             'link' => $link,
         ]);
