@@ -13,7 +13,7 @@
 
             <div class="generated-link">
                 <span ng-if="lastLink" ng-cloak>
-                    Сгенерирована ссылка <a ng-href="{{ lastLink.shortLink }}" target="_blank">{{ lastLink.shortLink }}</a>
+                    Сгенерирована ссылка <a ng-click="copyToClipboard(lastLink.shortLink)" href="javascript:void(0);">{{ lastLink.shortLink }}</a>
                     <a ng-click="regenerateLink(lastLink)" href="javascript:void(0);" title="Перегенерировать">
                         <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
                     </a>
@@ -36,10 +36,10 @@
                 <tbody>
                 <tr ng-repeat="link in links" ng-cloak>
                     <td>
-                        <a ng-href="{{ link.link }}" target="_blank">{{ link.link }}</a>
+                        <a ng-click="copyToClipboard(link.link)" href="javascript:void(0);">{{ link.link }}</a>
                     </td>
                     <td>
-                        <a ng-href="{{ link.short_link }}" target="_blank">{{ link.short_link }}</a>
+                        <a ng-click="copyToClipboard(link.short_link)" href="javascript:void(0);">{{ link.short_link }}</a>
                     </td>
                 </tr>
                 </tbody>

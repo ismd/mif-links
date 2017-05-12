@@ -1,6 +1,6 @@
 'use strict';
 
-window.mainModule = angular.module('main', ['ngRoute'])
+window.mainModule = angular.module('main', ['ngRoute', 'angular-clipboard'])
     .config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
         $locationProvider.html5Mode(true);
 
