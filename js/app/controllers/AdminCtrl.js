@@ -27,6 +27,11 @@ window.mainModule.controller('AdminCtrl', ['$scope', 'Link', function($scope, Li
             $scope.lastLink = data.info;
 
             fetchLinks();
+        }, function(data) {
+            if (data.result === 'duplicate') {
+                $scope.duplicates = data.links;
+                $('.js-duplicate-popup').modal();
+            }
         });
     };
 

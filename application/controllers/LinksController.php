@@ -3,6 +3,7 @@
 class LinksController extends PsController {
 
     public function addAction() {
+        $serverUrl = $this->getHelper('Server')->url();
         $request = $this->getRequest();
 
         if (!$request->isPost()) {
@@ -22,12 +23,15 @@ class LinksController extends PsController {
         if (count($links) > 0) {
             $this->view->json([
                 'result' => 'duplicate',
-                'links' => $links,
+                'links' => array_map(function($link) use($serverUrl) {
+                    $link['short_link'] = $serverUrl . '/' . $link['short_link'];
+                    return $link;
+                }, $links),
             ]);
         }
 
         $result = LinkMapper::getInstance()->add($link);
-        $result['shortLink'] = $this->getHelper('Server')->url() . '/' . $result['shortLink'];
+        $result['shortLink'] = $serverUrl . '/' . $result['shortLink'];
 
         $this->view->json([
             'result' => 'ok',
