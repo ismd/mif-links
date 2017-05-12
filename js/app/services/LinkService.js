@@ -10,10 +10,10 @@
             $http.post('/api/links/add', {
                 link: link
             }).then(function(result) {
-                if (result.data.result != 'ok') {
+                if (result.data.result !== 'ok') {
                     defer.reject(result.data);
 
-                    if (result.data.result != 'duplicate') {
+                    if (result.data.result !== 'duplicate') {
                         alert('Не удалось сгенерировать ссылку');
                     }
 
