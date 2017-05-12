@@ -20,6 +20,12 @@ server {
     location / {
         try_files $uri /index.php?route=$uri;
     }
+    
+    location /admin {
+        auth_basic "MIF Links";
+        auth_basic_user_file <путь к htpasswd-файлу>;
+        try_files $uri /index.php?route=$uri;
+    }
 
     location ~ \.php$ {
         fastcgi_pass <php-fpm сокет>;
