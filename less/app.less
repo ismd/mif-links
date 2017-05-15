@@ -36,3 +36,31 @@ body {
 .duplicate-popup tr:first-child td {
     border-top: 0;
 }
+
+.copied {
+    position: relative;
+    display: inline-block;
+
+    &:before {
+        position: absolute;
+        right: -57px;
+        animation: copy-to-clipboard 1s;
+        font-size: 9px;
+        font-weight: normal;
+        color: #c9302c;
+        content: 'скопировано';
+        z-index: 11;
+    }
+}
+
+@keyframes copy-to-clipboard {
+    from {
+        top: 9px;
+        opacity: 0;
+    }
+
+    to {
+        top: -1px;
+        opacity: .99;
+    }
+}

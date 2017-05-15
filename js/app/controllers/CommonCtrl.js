@@ -6,7 +6,15 @@ window.mainModule.controller('CommonCtrl', ['$scope', 'clipboard', function($sco
         console.log('Sorry, copy to clipboard is not supported');
     }
 
-    $scope.copyToClipboard = function(text) {
+    $scope.copyToClipboard = function(text, $ev) {
+        if ($ev) {
+            $($ev.target).addClass('copied');
+
+            setTimeout(function () {
+                $($ev.target).removeClass('copied');
+            }, 1000);
+        }
+
         clipboard.copyText(text);
     };
 }]);
