@@ -26,7 +26,7 @@ class LinksController extends PsController {
                 $this->view->json([
                     'result' => 'duplicate',
                     'links' => array_map(function($link) use($serverUrl) {
-                        $link['short_link'] = $serverUrl . '/' . $link['short_link'];
+                        $link['short_link_full'] = $serverUrl . '/' . $link['short_link'];
                         return $link;
                     }, $links),
                 ]);
@@ -34,7 +34,36 @@ class LinksController extends PsController {
         }
 
         $result = LinkMapper::getInstance()->add($link);
-        $result['shortLink'] = $serverUrl . '/' . $result['shortLink'];
+        $result['shortLinkFull'] = $serverUrl . '/' . $result['shortLink'];
+
+        $this->view->json([
+            'result' => 'ok',
+            'info' => $result,
+        ]);
+    }
+
+    public function editAction() {
+        $serverUrl = $this->getHelper('Server')->url();
+        $request = $this->getRequest();
+
+        if (!$request->isPost()) {
+            throw new Exception('Не POST-запрос');
+        }
+
+        $post = $request->getPost();
+
+        $links = LinkMapper::getInstance()->fetch([
+            'short_link' => $post->shortLink,
+        ], 1);
+
+        if (count($links) > 0) {
+            $this->view->json([
+                'result' => 'duplicate',
+            ]);
+        }
+
+        $result = LinkMapper::getInstance()->edit($post->id, $post->shortLink);
+        $result['shortLinkFull'] = $serverUrl . '/' . $result['shortLink'];
 
         $this->view->json([
             'result' => 'ok',
@@ -55,7 +84,7 @@ class LinksController extends PsController {
 
         $this->view->json([
             'links' => array_map(function($link) use($serverUrl) {
-                $link['short_link'] = $serverUrl . '/' . $link['short_link'];
+                $link['short_link_full'] = $serverUrl . '/' . $link['short_link'];
                 return $link;
             }, $links),
             'count' => LinkMapper::getInstance()->fetchLinksCount(),
@@ -63,9 +92,12 @@ class LinksController extends PsController {
     }
 
     public function regenerateAction() {
+        $shortLink = LinkMapper::getInstance()->regenerate($this->getArgs()[0]);
+
         $this->view->json([
             'result' => 'ok',
-            'shortLink' => $this->getHelper('Server')->url() . '/' . LinkMapper::getInstance()->regenerate($this->getArgs()[0]),
+            'shortLink' => $shortLink,
+            'shortLinkFull' => $this->getHelper('Server')->url() . '/' . $shortLink,
         ]);
     }
 
@@ -77,7 +109,7 @@ class LinksController extends PsController {
 
         $this->view->json([
             'links' => array_map(function($link) use($serverUrl) {
-                $link['short_link'] = $serverUrl . '/' . $link['short_link'];
+                $link['short_link_full'] = $serverUrl . '/' . $link['short_link'];
                 return $link;
             }, $links),
             'idSearchRequest' => $post->idSearchRequest,

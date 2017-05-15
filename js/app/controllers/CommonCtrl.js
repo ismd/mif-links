@@ -2,6 +2,8 @@
 
 window.mainModule.controller('CommonCtrl', ['$scope', 'clipboard', function($scope, clipboard) {
 
+    $scope.location = window.location;
+
     if (!clipboard.supported) {
         console.log('Sorry, copy to clipboard is not supported');
     }

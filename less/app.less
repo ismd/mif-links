@@ -1,18 +1,20 @@
+@import 'variables';
+
 body {
     padding-top: 100px;
 }
 
 .links-table {
     position: relative;
-    padding-top: 25px;
+    margin-top: 25px;
 
     .links-search {
         position: absolute;
-        top: 0;
+        top: -25px;
         right: 10px;
 
-        input {
-
+        @media (max-width: @screen-xs-max) {
+            top: -35px;
         }
     }
 
@@ -66,6 +68,20 @@ body {
 
 .loading {
     opacity: .4;
+}
+
+.edit-link.modal .modal-body {
+    color: #4c4c4c;
+
+    input {
+        display: inline-block;
+        width: auto;
+    }
+
+    .link-exists {
+        margin-left: 10px;
+        color: #c9302c;
+    }
 }
 
 @keyframes copy-to-clipboard {

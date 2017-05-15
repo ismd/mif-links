@@ -17,6 +17,17 @@ class LinkMapper extends PsDbMapper {
         ];
     }
 
+    public function edit($id, $shortLink) {
+        $stmt = self::$db->prepare("UPDATE Links SET short_link = ? WHERE id = ? LIMIT 1");
+        $stmt->bind_param('si', $shortLink, $id);
+        $stmt->execute();
+
+        return [
+            'id' => $id,
+            'shortLink' => $shortLink,
+        ];
+    }
+
     public function fetch($where = [], $limit = null) {
         array_walk($where, function(&$value, $key) {
             $value = $key . ' = "' . $value . '"';

@@ -12,10 +12,18 @@
             </form>
 
             <div class="generated-link">
-                <span ng-if="lastLink" ng-cloak>
-                    Сгенерирована ссылка <a ng-click="copyToClipboard(lastLink.shortLink, $event)" href="javascript:void(0);">{{ lastLink.shortLink }}</a>
+                <span ng-show="lastLink" ng-cloak>
+                    Сгенерирована ссылка <a ng-click="copyToClipboard(lastLink.shortLinkFull, $event)" href="javascript:void(0);">{{ lastLink.shortLinkFull }}</a>
+
                     <a ng-click="regenerateLink(lastLink)" href="javascript:void(0);" title="Перегенерировать">
                         <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                    </a>
+
+                    <a href="javascript:void(0);" title="Ввести ссылку вручную">
+                        <span class="glyphicon glyphicon-edit"
+                              aria-hidden="true"
+                              data-toggle="modal"
+                              data-target="#edit-link"></span>
                     </a>
                 </span>
             </div>
@@ -44,7 +52,7 @@
                             <a ng-click="copyToClipboard(link.link, $event)" href="javascript:void(0);">{{ link.link }}</a>
                         </td>
                         <td>
-                            <a ng-click="copyToClipboard(link.short_link, $event)" href="javascript:void(0);">{{ link.short_link }}</a>
+                            <a ng-click="copyToClipboard(link.short_link_full, $event)" href="javascript:void(0);">{{ link.short_link_full }}</a>
                         </td>
                     </tr>
                     </tbody>
@@ -61,7 +69,7 @@
                             <a ng-click="copyToClipboard(link.link, $event)" href="javascript:void(0);">{{ link.link }}</a>
                         </td>
                         <td>
-                            <a ng-click="copyToClipboard(link.short_link, $event)" href="javascript:void(0);">{{ link.short_link }}</a>
+                            <a ng-click="copyToClipboard(link.short_link_full, $event)" href="javascript:void(0);">{{ link.short_link_full }}</a>
                         </td>
                     </tr>
                     </tbody>
@@ -101,8 +109,8 @@
                 <table class="table table-condensed">
                     <tr ng-repeat="link in duplicates">
                         <td>
-                            <a ng-click="copyToClipboard(link.short_link, $event)"
-                               href="javascript:void(0);">{{ link.short_link }}</a>
+                            <a ng-click="copyToClipboard(link.short_link_full, $event)"
+                               href="javascript:void(0);">{{ link.short_link_full }}</a>
                         </td>
                     </tr>
                 </table>
@@ -112,6 +120,31 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
                 <button ng-click="generateLink(link, true)" type="button" class="btn btn-primary" data-dismiss="modal">Сгенерировать новую</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<div id="edit-link" class="edit-link modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form ng-submit="editLink(editShortLink)">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Введите ссылку</h4>
+                </div>
+
+                <div class="modal-body">
+                    {{ location.origin }}/
+                    <input ng-model="editShortLink" type="text" class="form-control" placeholder="Короткая ссылка" />
+
+                    <span ng-show="linkExists" class="link-exists">Ссылка уже существует</span>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

@@ -14,6 +14,8 @@ window.mainModule.controller('AdminCtrl', ['$scope', '$timeout', 'Link', functio
     };
     $scope.searchText = '';
     $scope.searchActive = false;
+    $scope.editShortLink = '';
+    $scope.linkExists = false;
 
     fetchLinks();
 
@@ -27,6 +29,7 @@ window.mainModule.controller('AdminCtrl', ['$scope', '$timeout', 'Link', functio
 
             $scope.link = '';
             $scope.lastLink = data.info;
+            $scope.editShortLink = $scope.lastLink.shortLink;
 
             fetchLinks();
         }, function(data) {
@@ -37,11 +40,12 @@ window.mainModule.controller('AdminCtrl', ['$scope', '$timeout', 'Link', functio
         });
     };
 
-    $scope.regenerateLink = function(lastLink) {
+    $scope.regenerateLink = function(link) {
         $scope.loading = true;
 
-        Link.regenerateLink(lastLink.id).then(function(data) {
+        Link.regenerateLink(link.id).then(function(data) {
             $scope.lastLink.shortLink = data.shortLink;
+            $scope.editShortLink = $scope.lastLink.shortLink;
             fetchLinks();
         });
     };
@@ -91,6 +95,26 @@ window.mainModule.controller('AdminCtrl', ['$scope', '$timeout', 'Link', functio
             searchLink($scope.searchText);
         }, 500);
     };
+
+    $scope.editLink = function(shortLink) {
+        $scope.loading = true;
+
+        Link.editLink($scope.lastLink.id, shortLink).then(function(data) {
+            $('#edit-link').modal('hide');
+            $scope.lastLink = data.info;
+            $scope.editShortLink = $scope.lastLink.shortLink;
+            fetchLinks();
+        }, function(data) {
+            if (data.result === 'duplicate') {
+                $scope.linkExists = true;
+                $scope.loading = false;
+            }
+        });
+    };
+
+    $scope.$watch('editShortLink', function() {
+        $scope.linkExists = false;
+    });
 
     function searchLink(search) {
         if (!search) {

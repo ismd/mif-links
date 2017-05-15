@@ -34,6 +34,32 @@
             return defer.promise;
         };
 
+        service.editLink = function(id, shortLink) {
+            var defer = $q.defer();
+
+            $http.post('/api/links/edit', {
+                id: id,
+                shortLink: shortLink
+            }).then(function(result) {
+                if (result.data.result !== 'ok') {
+                    defer.reject(result.data);
+
+                    if (result.data.result !== 'duplicate') {
+                        alert('Не удалось сгенерировать ссылку');
+                    }
+
+                    return;
+                }
+
+                defer.resolve(result.data);
+            }, function() {
+                defer.reject();
+                alert('Не удалось сохранить ссылку');
+            });
+
+            return defer.promise;
+        };
+
         service.fetchLinks = function(from, to) {
             var defer = $q.defer();
 
