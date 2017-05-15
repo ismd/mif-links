@@ -68,4 +68,19 @@ class LinksController extends PsController {
             'shortLink' => $this->getHelper('Server')->url() . '/' . LinkMapper::getInstance()->regenerate($this->getArgs()[0]),
         ]);
     }
+
+    public function searchAction() {
+        $serverUrl = $this->getHelper('Server')->url();
+        $post = $this->getRequest()->getPost();
+
+        $links = LinkMapper::getInstance()->search($post->search);
+
+        $this->view->json([
+            'links' => array_map(function($link) use($serverUrl) {
+                $link['short_link'] = $serverUrl . '/' . $link['short_link'];
+                return $link;
+            }, $links),
+            'idSearchRequest' => $post->idSearchRequest,
+        ]);
+    }
 }

@@ -3,7 +3,31 @@ body {
 }
 
 .links-table {
-    margin-top: 40px;
+    position: relative;
+    padding-top: 25px;
+
+    .links-search {
+        position: absolute;
+        top: 0;
+        right: 10px;
+
+        input {
+
+        }
+    }
+
+    .links-pager {
+        position: relative;
+
+        .info {
+            position: absolute;
+            top: 5px;
+            left: 100px;
+            right: 100px;
+            bottom: 0;
+            text-align: center;
+        }
+    }
 }
 
 .generated-link {
@@ -17,19 +41,6 @@ body {
     .glyphicon {
         margin-left: 2px;
         font-size: 10px;
-    }
-}
-
-.links-pager {
-    position: relative;
-
-    .info {
-        position: absolute;
-        top: 5px;
-        left: 100px;
-        right: 100px;
-        bottom: 0;
-        text-align: center;
     }
 }
 
@@ -51,6 +62,10 @@ body {
         content: 'скопировано';
         z-index: 11;
     }
+}
+
+.loading {
+    opacity: .4;
 }
 
 @keyframes copy-to-clipboard {

@@ -61,6 +61,24 @@ class LinkMapper extends PsDbMapper {
         return $shortLink;
     }
 
+    public function search($link) {
+        $result = self::$db->query("SELECT id, link, short_link, created "
+            . "FROM Links "
+            . "WHERE link LIKE '%" . $link . "%' "
+            . "ORDER BY id DESC");
+
+        $links = [];
+        while ($row = $result->fetch_assoc()) {
+            $links[] = [
+                'link' => $row['link'],
+                'short_link' => $row['short_link'],
+                'created' => $row['created'],
+            ];
+        }
+
+        return $links;
+    }
+
     protected function generateShortUrl() {
         $i = 0;
 

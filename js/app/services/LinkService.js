@@ -60,6 +60,22 @@
             return defer.promise;
         };
 
+        service.search = function(search, idSearchRequest) {
+            var defer = $q.defer();
+
+            $http.post('/api/links/search', {
+                search: search,
+                idSearchRequest: idSearchRequest
+            }).then(function(result) {
+                defer.resolve(result.data);
+            }, function() {
+                defer.reject();
+                alert('Не удалось осуществить поиск');
+            });
+
+            return defer.promise;
+        };
+
         return service;
     }]);
 })();

@@ -24,40 +24,65 @@
         <div class="col-lg-4"></div>
     </div>
 
-    <div ng-show="links.length" ng-style="{opacity : loading ? .4 : 1}" class="row" ng-cloak>
+    <div ng-show="links.length || searchActive" class="row" ng-cloak>
         <div class="col-lg-2"></div>
 
         <div class="col-lg-6">
-            <table class="links-table table table-hover table-condensed">
-                <thead>
-                <th>Ссылка</th>
-                <th>Короткая ссылка</th>
-                </thead>
-                <tbody>
-                <tr ng-repeat="link in links" ng-cloak>
-                    <td>
-                        <a ng-click="copyToClipboard(link.link, $event)" href="javascript:void(0);">{{ link.link }}</a>
-                    </td>
-                    <td>
-                        <a ng-click="copyToClipboard(link.short_link, $event)" href="javascript:void(0);">{{ link.short_link }}</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="links-table">
+                <div class="links-search">
+                    <input ng-model="searchText" ng-change="searchChanged()" type="text" class="form-control" placeholder="Искать ссылку" />
+                </div>
 
-            <nav class="links-pager">
-                <div class="info">{{ pager.from + 1 }}-{{ pager.to }} из {{ pager.count }}</div>
+                <table ng-show="!searchActive && links.length > 0" ng-class="{loading: loading}" class="table table-hover table-condensed">
+                    <thead>
+                    <th>Ссылка</th>
+                    <th>Короткая ссылка</th>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="link in links" ng-cloak>
+                        <td>
+                            <a ng-click="copyToClipboard(link.link, $event)" href="javascript:void(0);">{{ link.link }}</a>
+                        </td>
+                        <td>
+                            <a ng-click="copyToClipboard(link.short_link, $event)" href="javascript:void(0);">{{ link.short_link }}</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
 
-                <ul class="pager">
-                    <li class="previous" ng-class="{disabled: pager.from == 0}">
-                        <a ng-click="previousPage()" href="javascript:void(0);"><span aria-hidden="true">&larr;</span> Назад</a>
-                    </li>
+                <table ng-show="searchActive && searchLinks.length > 0" ng-class="{loading: loading}" class="table table-hover table-condensed">
+                    <thead>
+                    <th>Ссылка</th>
+                    <th>Короткая ссылка</th>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="link in searchLinks" ng-cloak>
+                        <td>
+                            <a ng-click="copyToClipboard(link.link, $event)" href="javascript:void(0);">{{ link.link }}</a>
+                        </td>
+                        <td>
+                            <a ng-click="copyToClipboard(link.short_link, $event)" href="javascript:void(0);">{{ link.short_link }}</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
 
-                    <li class="next" ng-class="{disabled: pager.to == pager.count}">
-                        <a ng-click="nextPage()" href="javascript:void(0);">Вперёд <span aria-hidden="true">&rarr;</span></a>
-                    </li>
-                </ul>
-            </nav>
+                <div ng-show="searchActive && searchLinks.length == 0" ng-class="{loading: loading}">Ничего не найдено</div>
+
+                <nav ng-show="!searchActive" ng-class="{loading: loading}" class="links-pager">
+                    <div class="info">{{ pager.from + 1 }}-{{ pager.to }} из {{ pager.count }}</div>
+
+                    <ul class="pager">
+                        <li class="previous" ng-class="{disabled: pager.from == 0}">
+                            <a ng-click="previousPage()" href="javascript:void(0);"><span aria-hidden="true">&larr;</span> Назад</a>
+                        </li>
+
+                        <li class="next" ng-class="{disabled: pager.to == pager.count}">
+                            <a ng-click="nextPage()" href="javascript:void(0);">Вперёд <span aria-hidden="true">&rarr;</span></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
 
         <div class="col-lg-4"></div>

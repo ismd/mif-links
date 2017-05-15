@@ -1,6 +1,6 @@
 'use strict';
 
-window.mainModule.controller('AdminCtrl', ['$scope', 'Link', function($scope, Link) {
+window.mainModule.controller('AdminCtrl', ['$scope', '$timeout', 'Link', function($scope, $timeout, Link) {
     const LINKS_PER_PAGE = 20;
 
     $scope.link = '';
@@ -12,6 +12,8 @@ window.mainModule.controller('AdminCtrl', ['$scope', 'Link', function($scope, Li
         to: LINKS_PER_PAGE,
         count: null
     };
+    $scope.searchText = '';
+    $scope.searchActive = false;
 
     fetchLinks();
 
@@ -69,6 +71,45 @@ window.mainModule.controller('AdminCtrl', ['$scope', 'Link', function($scope, Li
 
         fetchLinks();
     };
+
+    var searchTimer = null,
+        idSearchRequest = 0;
+
+    $scope.searchChanged = function() {
+        $scope.loading = true;
+
+        if (++idSearchRequest > 10000) {
+            idSearchRequest = 0;
+        }
+
+        try {
+            searchTimer.cancel();
+        } catch (err) {
+        }
+
+        searchTimer = $timeout(function() {
+            searchLink($scope.searchText);
+        }, 500);
+    };
+
+    function searchLink(search) {
+        if (!search) {
+            $scope.searchActive = false;
+            $scope.searchLinks = undefined;
+            $scope.loading = false;
+            return;
+        }
+
+        Link.search(search, idSearchRequest).then(function(data) {
+            if (data.idSearchRequest != idSearchRequest) {
+                return;
+            }
+
+            $scope.searchActive = true;
+            $scope.searchLinks = data.links;
+            $scope.loading = false;
+        });
+    }
 
     function fetchLinks() {
         return Link.fetchLinks($scope.pager.from, $scope.pager.to).then(function(data) {
