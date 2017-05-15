@@ -89,7 +89,7 @@ window.mainModule.controller('AdminCtrl', ['$scope', '$timeout', 'Link', functio
 
         searchTimer = $timeout(function() {
             searchLink($scope.searchText);
-        }, 500);
+        }, 750);
     };
 
     function searchLink(search) {
