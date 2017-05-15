@@ -83,13 +83,13 @@ window.mainModule.controller('AdminCtrl', ['$scope', '$timeout', 'Link', functio
         }
 
         try {
-            searchTimer.cancel();
+            $timeout.cancel(searchTimer);
         } catch (err) {
         }
 
         searchTimer = $timeout(function() {
             searchLink($scope.searchText);
-        }, 750);
+        }, 500);
     };
 
     function searchLink(search) {
