@@ -76,7 +76,7 @@
                 <table class="table table-condensed">
                     <tr ng-repeat="link in duplicates">
                         <td>
-                            <a href="javascript:void(0);">{{ link.short_link }}</a>
+                            <a ng-click="copyToClipboard(link.short_link)" href="javascript:void(0);">{{ link.short_link }}</a>
                         </td>
                     </tr>
                 </table>

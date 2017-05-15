@@ -24,4 +24,9 @@ window.mainModule = angular.module('main', ['ngRoute', 'angular-clipboard'])
 
             return $.param(data);
         };
+
+        // Фикс, чтобы копирование работало в модальных окнах
+        $.fn.modal.Constructor.prototype.enforceFocus = function() {};
+        // Для Bootstrap 4
+        // $.fn.modal.Constructor.prototype._enforceFocus = function() {};
     }]);
