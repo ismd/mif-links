@@ -15,10 +15,10 @@ window.mainModule.controller('AdminCtrl', ['$scope', 'Link', function($scope, Li
 
     fetchLinks();
 
-    $scope.generateLink = function(link) {
+    $scope.generateLink = function(link, force) {
         $scope.loading = true;
 
-        Link.generateLink(link).then(function(data) {
+        Link.generateLink(link, force).then(function(data) {
             if ($scope.pager.to < LINKS_PER_PAGE) {
                 $scope.pager.to++;
             }

@@ -10,24 +10,27 @@ class LinksController extends PsController {
             throw new Exception('Не POST-запрос');
         }
 
-        $link = $request->getPost()->link;
+        $post = $request->getPost();
+        $link = $post->link;
 
         if (strstr($link, '://') === false) {
             $link = 'http://' . $link;
         }
 
-        $links = LinkMapper::getInstance()->fetch([
-            'link' => $link,
-        ]);
-
-        if (count($links) > 0) {
-            $this->view->json([
-                'result' => 'duplicate',
-                'links' => array_map(function($link) use($serverUrl) {
-                    $link['short_link'] = $serverUrl . '/' . $link['short_link'];
-                    return $link;
-                }, $links),
+        if ($post->force != 'true') {
+            $links = LinkMapper::getInstance()->fetch([
+                'link' => $link,
             ]);
+
+            if (count($links) > 0) {
+                $this->view->json([
+                    'result' => 'duplicate',
+                    'links' => array_map(function($link) use($serverUrl) {
+                        $link['short_link'] = $serverUrl . '/' . $link['short_link'];
+                        return $link;
+                    }, $links),
+                ]);
+            }
         }
 
         $result = LinkMapper::getInstance()->add($link);

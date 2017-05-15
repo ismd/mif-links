@@ -4,11 +4,16 @@
     window.mainModule.factory('Link', ['$q', '$http', function($q, $http) {
         var service = {};
 
-        service.generateLink = function(link) {
+        service.generateLink = function(link, force) {
+            if (typeof force === 'undefined') {
+                force = false;
+            }
+
             var defer = $q.defer();
 
             $http.post('/api/links/add', {
-                link: link
+                link: link,
+                force: force
             }).then(function(result) {
                 if (result.data.result !== 'ok') {
                     defer.reject(result.data);
