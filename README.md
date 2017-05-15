@@ -37,7 +37,7 @@ server {
 ###### MySQL
 Создать базу данных и выполнить скрипт `doc/structure.sql`
 ###### Конфигурация
-Скопировать и отредактировать файл `application/configs/application.example.ini` в `application/configs/application.ini`
+Скопировать файл `application/configs/application.example.ini` в `application/configs/application.ini` и отредактировать его
 ###### npm-пакеты
 `npm install`
 ###### Сборка js/less
