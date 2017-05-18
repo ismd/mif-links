@@ -10,6 +10,8 @@
 ### Установка
 Загрузить исходники либо склонировать репозиторий  
 `git clone https://github.com/ismd/mif-links.git`
+###### Конфигурация
+Скопировать файл `application/configs/application.example.ini` в `application/configs/application.ini` и отредактировать его
 ###### nginx
 Создать конфиг на основе `doc/nginx.conf`
 ###### MySQL
@@ -19,8 +21,6 @@
 `GRANT ALL ON <имя базы>.* TO '<имя пользователя>'@'localhost' IDENTIFIED BY '<пароль>';`  
 - Выполнить скрипт  
 `/usr/bin/php doc/init_db.php`  
-###### Конфигурация
-Скопировать файл `application/configs/application.example.ini` в `application/configs/application.ini` и отредактировать его
 ###### npm-пакеты
 `npm install`
 ###### Сборка js/less
