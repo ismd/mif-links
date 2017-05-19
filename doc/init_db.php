@@ -15,5 +15,5 @@ try {
     die($e->getMessage());
 }
 
-$sql = file_get_contents(realpath(dirname(__FILE__)) . '/structure.sql');
+$sql = file_get_contents(APPLICATION_PATH . 'doc/structure.sql');
 $db->multi_query($sql);
