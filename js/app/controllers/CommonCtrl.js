@@ -10,6 +10,7 @@ window.mainModule.controller('CommonCtrl', ['$scope', 'clipboard', function($sco
 
     $scope.copyToClipboard = function(text, $ev) {
         if ($ev) {
+            $ev.preventDefault();
             $($ev.target).addClass('copied');
 
             setTimeout(function () {
