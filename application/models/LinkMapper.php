@@ -28,7 +28,7 @@ class LinkMapper extends PsDbMapper {
         ];
     }
 
-    public function fetch($where = [], $limit = null) {
+    public function fetch($where = [], $limit = null, $withId = false) {
         array_walk($where, function(&$value, $key) {
             $value = $key . ' = "' . $value . '"';
         });
@@ -41,11 +41,17 @@ class LinkMapper extends PsDbMapper {
 
         $links = [];
         while ($row = $result->fetch_assoc()) {
-            $links[] = [
+            $link = [
                 'link' => $row['link'],
                 'short_link' => $row['short_link'],
                 'created' => $row['created'],
             ];
+
+            if ($withId) {
+                $link['id'] = $row['id'];
+            }
+
+            $links[] = $link;
         }
 
         return $links;
