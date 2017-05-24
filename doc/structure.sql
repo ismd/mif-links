@@ -11,9 +11,18 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `Links` (
   `id` int(11) NOT NULL,
-  `link` varchar(2000) NOT NULL,
+  `link` varchar(2083) NOT NULL,
   `short_link` varchar(30) NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `Stat` (
+  `id` int(11) NOT NULL,
+  `link_id` int(11) NOT NULL,
+  `visited` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `referer` varchar(2083) DEFAULT NULL,
+  `user_agent` varchar(200) DEFAULT NULL,
+  `ip` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -22,8 +31,14 @@ ALTER TABLE `Links`
   ADD UNIQUE KEY `short_link` (`short_link`),
   ADD KEY `link` (`link`(191));
 
+ALTER TABLE `Stat`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `link_id` (`link_id`);
+
 
 ALTER TABLE `Links`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `Stat`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
