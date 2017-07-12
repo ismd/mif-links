@@ -1,7 +1,7 @@
 Укорачиватель ссылок с админ-панелью и отображением статистики
 
 ### Требования
-- PHP 5.7 (mysqli, bcmath)
+- PHP 7.0 (mysqli, bcmath)
 - MySQL (MariaDB)
 - nginx
 - node.js 6.10.3
