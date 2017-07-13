@@ -14,6 +14,8 @@
 Скопировать файл `application/configs/application.example.ini` в `application/configs/application.ini` и отредактировать его
 ###### nginx
 Создать конфиг на основе `doc/nginx.conf`
+###### PHP
+В конфиге php необходимо включить опцию `short_open_tag`
 ###### MySQL
 - Создать базу данных:  
 `CREATE DATABASE <имя базы> DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;`  
