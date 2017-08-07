@@ -26,6 +26,7 @@
 ###### npm-пакеты
 `npm install`
 ###### Сборка js/less
-`cd js && NODE_ENV=production node_modules/.bin/gulp`
+`npm run build` production-режим  
+`npm run build-dev` development-режим
 ###### Использование
 В браузере перейти по ссылке `<имя домена>/admin`
