@@ -35,7 +35,12 @@ window.mainModule.controller('AdminCtrl', ['$scope', '$timeout', 'Link', functio
         }, function(data) {
             if (data.result === 'duplicate') {
                 $scope.duplicates = data.links;
-                $('.js-duplicate-popup').modal();
+
+                $('.js-duplicate-popup').modal().on('hide.bs.modal', function() {
+                    $timeout(function() {
+                        $scope.loading = false;
+                    });
+                });
             }
         });
     };
