@@ -1,150 +1,152 @@
-<div class="container">
-    <div class="row">
-        <div class="col-lg-2"></div>
+<div class="admin-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2"></div>
 
-        <div class="link-generation col-lg-6">
-            <form ng-submit="generateLink(link)" class="form-inline">
-                <div class="form-group">
-                    <input ng-disabled="loading" ng-model="link" type="text" class="link form-control" placeholder="http://">
+            <div class="link-generation col-lg-6">
+                <form ng-submit="generateLink(link)" class="form-inline">
+                    <div class="form-group">
+                        <input ng-disabled="loading" ng-model="link" type="text" class="link form-control" placeholder="http://">
+                    </div>
+
+                    <button ng-disabled="loading" type="submit" class="btn btn-default">Сгенерировать</button>
+                </form>
+
+                <div class="generated-link">
+                    <span ng-show="lastLink" ng-cloak>
+                        Сгенерирована ссылка <a ng-click="copyToClipboard(lastLink.shortLinkFull, $event)" ng-href="{{ lastLink.shortLinkFull }}">{{ lastLink.shortLinkFull }}</a>
+
+                        <a ng-click="regenerateLink(lastLink)" href="javascript:void(0);" title="Перегенерировать">
+                            <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                        </a>
+
+                        <a href="javascript:void(0);" title="Ввести ссылку вручную">
+                            <span class="glyphicon glyphicon-edit"
+                                  aria-hidden="true"
+                                  data-toggle="modal"
+                                  data-target="#edit-link"></span>
+                        </a>
+                    </span>
                 </div>
-
-                <button ng-disabled="loading" type="submit" class="btn btn-default">Сгенерировать</button>
-            </form>
-
-            <div class="generated-link">
-                <span ng-show="lastLink" ng-cloak>
-                    Сгенерирована ссылка <a ng-click="copyToClipboard(lastLink.shortLinkFull, $event)" ng-href="{{ lastLink.shortLinkFull }}">{{ lastLink.shortLinkFull }}</a>
-
-                    <a ng-click="regenerateLink(lastLink)" href="javascript:void(0);" title="Перегенерировать">
-                        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
-                    </a>
-
-                    <a href="javascript:void(0);" title="Ввести ссылку вручную">
-                        <span class="glyphicon glyphicon-edit"
-                              aria-hidden="true"
-                              data-toggle="modal"
-                              data-target="#edit-link"></span>
-                    </a>
-                </span>
             </div>
+
+            <div class="col-lg-4"></div>
         </div>
 
-        <div class="col-lg-4"></div>
-    </div>
+        <div ng-show="links.length || searchActive" class="row" ng-cloak>
+            <div class="col-lg-2"></div>
 
-    <div ng-show="links.length || searchActive" class="row" ng-cloak>
-        <div class="col-lg-2"></div>
+            <div class="col-lg-6">
+                <div class="links-table">
+                    <div class="links-search">
+                        <input ng-model="searchText" ng-change="searchChanged()" type="text" class="form-control" placeholder="Искать ссылку" />
+                    </div>
 
-        <div class="col-lg-6">
-            <div class="links-table">
-                <div class="links-search">
-                    <input ng-model="searchText" ng-change="searchChanged()" type="text" class="form-control" placeholder="Искать ссылку" />
+                    <table ng-show="!searchActive && links.length > 0" ng-class="{loading: loading}" class="table table-hover table-condensed">
+                        <thead>
+                        <th>Ссылка</th>
+                        <th>Короткая ссылка</th>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="link in links" ng-cloak>
+                            <td>
+                                <a ng-click="copyToClipboard(link.link, $event)" ng-href="{{ link.link }}">{{ link.link }}</a>
+                            </td>
+                            <td>
+                                <a ng-click="copyToClipboard(link.short_link_full, $event)" ng-href="{{ link.short_link_full }}">{{ link.short_link_full }}</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <table ng-show="searchActive && searchLinks.length > 0" ng-class="{loading: loading}" class="table table-hover table-condensed">
+                        <thead>
+                        <th>Ссылка</th>
+                        <th>Короткая ссылка</th>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="link in searchLinks" ng-cloak>
+                            <td>
+                                <a ng-click="copyToClipboard(link.link, $event)" ng-href="{{ link.link }}">{{ link.link }}</a>
+                            </td>
+                            <td>
+                                <a ng-click="copyToClipboard(link.short_link_full, $event)" ng-href="{{ link.short_link_full }}">{{ link.short_link_full }}</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <div ng-show="searchActive && searchLinks.length == 0" ng-class="{loading: loading}">Ничего не найдено</div>
+
+                    <nav ng-show="!searchActive" ng-class="{loading: loading}" class="links-pager">
+                        <div class="info">{{ pager.from + 1 }}-{{ pager.to }} из {{ pager.count }}</div>
+
+                        <ul class="pager">
+                            <li class="previous" ng-class="{disabled: pager.from == 0}">
+                                <a ng-click="previousPage()" href="javascript:void(0);"><span aria-hidden="true">&larr;</span> Назад</a>
+                            </li>
+
+                            <li class="next" ng-class="{disabled: pager.to == pager.count}">
+                                <a ng-click="nextPage()" href="javascript:void(0);">Вперёд <span aria-hidden="true">&rarr;</span></a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
-
-                <table ng-show="!searchActive && links.length > 0" ng-class="{loading: loading}" class="table table-hover table-condensed">
-                    <thead>
-                    <th>Ссылка</th>
-                    <th>Короткая ссылка</th>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="link in links" ng-cloak>
-                        <td>
-                            <a ng-click="copyToClipboard(link.link, $event)" ng-href="{{ link.link }}">{{ link.link }}</a>
-                        </td>
-                        <td>
-                            <a ng-click="copyToClipboard(link.short_link_full, $event)" ng-href="{{ link.short_link_full }}">{{ link.short_link_full }}</a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <table ng-show="searchActive && searchLinks.length > 0" ng-class="{loading: loading}" class="table table-hover table-condensed">
-                    <thead>
-                    <th>Ссылка</th>
-                    <th>Короткая ссылка</th>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="link in searchLinks" ng-cloak>
-                        <td>
-                            <a ng-click="copyToClipboard(link.link, $event)" ng-href="{{ link.link }}">{{ link.link }}</a>
-                        </td>
-                        <td>
-                            <a ng-click="copyToClipboard(link.short_link_full, $event)" ng-href="{{ link.short_link_full }}">{{ link.short_link_full }}</a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <div ng-show="searchActive && searchLinks.length == 0" ng-class="{loading: loading}">Ничего не найдено</div>
-
-                <nav ng-show="!searchActive" ng-class="{loading: loading}" class="links-pager">
-                    <div class="info">{{ pager.from + 1 }}-{{ pager.to }} из {{ pager.count }}</div>
-
-                    <ul class="pager">
-                        <li class="previous" ng-class="{disabled: pager.from == 0}">
-                            <a ng-click="previousPage()" href="javascript:void(0);"><span aria-hidden="true">&larr;</span> Назад</a>
-                        </li>
-
-                        <li class="next" ng-class="{disabled: pager.to == pager.count}">
-                            <a ng-click="nextPage()" href="javascript:void(0);">Вперёд <span aria-hidden="true">&rarr;</span></a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-
-        <div class="col-lg-4"></div>
-    </div>
-</div>
-
-<div class="js-duplicate-popup duplicate-popup modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Короткая ссылка уже существует</h4>
             </div>
 
-            <div class="modal-body">
-                <table class="table table-condensed">
-                    <tr ng-repeat="link in duplicates">
-                        <td>
-                            <a ng-click="copyToClipboard(link.short_link_full, $event)"
-                               ng-href="{{ link.short_link_full }}">{{ link.short_link_full }}</a>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                <button ng-click="generateLink(link, true)" type="button" class="btn btn-primary" data-dismiss="modal">Сгенерировать новую</button>
-            </div>
+            <div class="col-lg-4"></div>
         </div>
     </div>
-</div>
 
-<div id="edit-link" class="edit-link modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <form ng-submit="editLink(editShortLink)">
+    <div class="js-duplicate-popup duplicate-popup modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Введите ссылку</h4>
+                    <h4 class="modal-title">Короткая ссылка уже существует</h4>
                 </div>
 
                 <div class="modal-body">
-                    {{ location.origin }}/
-                    <input ng-model="editShortLink" type="text" class="form-control" placeholder="Короткая ссылка" />
-
-                    <span ng-show="linkExists" class="link-exists">Ссылка уже существует</span>
+                    <table class="table table-condensed">
+                        <tr ng-repeat="link in duplicates">
+                            <td>
+                                <a ng-click="copyToClipboard(link.short_link_full, $event)"
+                                   ng-href="{{ link.short_link_full }}">{{ link.short_link_full }}</a>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button ng-click="generateLink(link, true)" type="button" class="btn btn-primary" data-dismiss="modal">Сгенерировать новую</button>
                 </div>
-            </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="edit-link" class="edit-link modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form ng-submit="editLink(editShortLink)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Введите ссылку</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        {{ location.origin }}/
+                        <input ng-model="editShortLink" type="text" class="form-control" placeholder="Короткая ссылка" />
+
+                        <span ng-show="linkExists" class="link-exists">Ссылка уже существует</span>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

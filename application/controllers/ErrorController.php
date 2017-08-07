@@ -7,10 +7,8 @@
 class ErrorController extends PsController {
 
     public function indexAction() {
-        $route = substr($_GET['route'], 1);
-
         $link = LinkMapper::getInstance()->fetch([
-            'short_link' => $route,
+            'short_link' => $this->registry->router->getRoute(),
         ], 1, true);
 
         if (!empty($link)) {
@@ -26,5 +24,7 @@ class ErrorController extends PsController {
             header('Location: ' . $link['link']);
             die;
         }
+
+        $this->view->setLayout('empty');
     }
 }

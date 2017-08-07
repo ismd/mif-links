@@ -1,87 +1,92 @@
 @import 'variables';
 
-body {
+.admin-page {
     padding-top: 100px;
-}
 
-.links-table {
-    position: relative;
-    margin-top: 25px;
-
-    .links-search {
-        position: absolute;
-        top: -25px;
-        right: 10px;
-
-        @media (max-width: @screen-xs-max) {
-            top: -35px;
-        }
-    }
-
-    .links-pager {
+    .links-table {
         position: relative;
+        margin-top: 25px;
 
-        .info {
+        .links-search {
             position: absolute;
-            top: 5px;
-            left: 100px;
-            right: 100px;
-            bottom: 0;
-            text-align: center;
+            top: -25px;
+            right: 10px;
+
+            @media (max-width: @screen-xs-max) {
+                top: -35px;
+            }
+        }
+
+        .links-pager {
+            position: relative;
+
+            .info {
+                position: absolute;
+                top: 5px;
+                left: 100px;
+                right: 100px;
+                bottom: 0;
+                text-align: center;
+            }
+        }
+    }
+
+    .generated-link {
+        position: relative;
+        height: 20px;
+        padding-top: 15px;
+        font-weight: bold;
+        color: navy;
+        z-index: 10;
+
+        .glyphicon {
+            margin-left: 2px;
+            font-size: 10px;
+        }
+    }
+
+    .duplicate-popup tr:first-child td {
+        border-top: 0;
+    }
+
+    .copied {
+        position: relative;
+        display: inline-block;
+
+        &:before {
+            position: absolute;
+            right: -57px;
+            animation: copy-to-clipboard 1s;
+            font-size: 9px;
+            font-weight: normal;
+            color: #c9302c;
+            content: 'скопировано';
+            z-index: 11;
+        }
+    }
+
+    .loading {
+        opacity: .4;
+    }
+
+    .edit-link.modal .modal-body {
+        color: #4c4c4c;
+
+        input {
+            display: inline-block;
+            width: auto;
+        }
+
+        .link-exists {
+            margin-left: 10px;
+            color: #c9302c;
         }
     }
 }
 
-.generated-link {
-    position: relative;
-    height: 20px;
-    padding-top: 15px;
-    font-weight: bold;
-    color: navy;
-    z-index: 10;
-
-    .glyphicon {
-        margin-left: 2px;
-        font-size: 10px;
-    }
-}
-
-.duplicate-popup tr:first-child td {
-    border-top: 0;
-}
-
-.copied {
-    position: relative;
-    display: inline-block;
-
-    &:before {
-        position: absolute;
-        right: -57px;
-        animation: copy-to-clipboard 1s;
-        font-size: 9px;
-        font-weight: normal;
-        color: #c9302c;
-        content: 'скопировано';
-        z-index: 11;
-    }
-}
-
-.loading {
-    opacity: .4;
-}
-
-.edit-link.modal .modal-body {
-    color: #4c4c4c;
-
-    input {
-        display: inline-block;
-        width: auto;
-    }
-
-    .link-exists {
-        margin-left: 10px;
-        color: #c9302c;
-    }
+.error-page {
+    padding-top: 50px;
+    text-align: center;
 }
 
 @media (min-width: @screen-sm-min) {

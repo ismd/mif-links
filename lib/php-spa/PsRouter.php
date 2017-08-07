@@ -197,7 +197,9 @@ class PsRouter {
             $this->_prefix = $route[0];
 
             if (!in_array($this->_prefix, $this->_prefixes)) {
-                throw new Exception('Bad route');
+                $this->_controller = 'Index';
+                $this->_action = 'index';
+                return;
             }
 
             $controllerId = 1;
@@ -267,6 +269,14 @@ class PsRouter {
         } else {
             return self::INDEX_REQUEST;
         }
+    }
+
+    /**
+     * Возвращает route
+     * @return string
+     */
+    public function getRoute() {
+        return $this->_route;
     }
 }
 
