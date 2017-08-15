@@ -1,5 +1,17 @@
 @import 'variables';
 
+.no-underline {
+    text-decoration: none;
+    border: 0;
+
+    &:hover,
+    &:focus,
+    &:active {
+        text-decoration: none;
+        border: 0;
+    }
+}
+
 .admin-page {
     padding-top: 100px;
 
@@ -17,7 +29,7 @@
             width: 50%;
             max-width: 1px;
 
-            a {
+            .full-width {
                 display: inline-block;
                 width: 100%;
                 text-overflow: ellipsis;
@@ -60,6 +72,25 @@
 
     .duplicate-popup tr:first-child td {
         border-top: 0;
+    }
+
+    .copy-enable {
+        & + .glyphicon {
+            position: relative;
+            top: 0;
+            opacity: 0;
+            font-size: 12px;
+            transition: all .5s;
+            color: #337ab7;
+        }
+
+        &:hover + .glyphicon {
+            opacity: .99;
+        }
+
+        &.copied + .glyphicon {
+            opacity: 0;
+        }
     }
 
     .copied {

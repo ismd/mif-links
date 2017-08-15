@@ -81,7 +81,7 @@ class LinkMapper extends PsDbMapper {
     public function search($link) {
         $result = self::$db->query("SELECT id, link, short_link, created "
             . "FROM Links "
-            . "WHERE link LIKE '%" . $link . "%' "
+            . "WHERE link LIKE '%" . $link . "%' OR short_link LIKE '%" . $link . "%' "
             . "ORDER BY id DESC");
 
         $links = [];

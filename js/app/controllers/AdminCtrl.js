@@ -49,7 +49,7 @@ window.mainModule.controller('AdminCtrl', ['$scope', '$timeout', 'Link', functio
         $scope.loading = true;
 
         Link.regenerateLink(link.id).then(function(data) {
-            $scope.lastLink.shortLink = data.shortLink;
+            $scope.lastLink = data.info;
             $scope.editShortLink = $scope.lastLink.shortLink;
             fetchLinks();
         });

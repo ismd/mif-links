@@ -13,13 +13,19 @@
 
             <div class="generated-link">
                 <span ng-show="lastLink" ng-cloak>
-                    Сгенерирована ссылка <a ng-click="copyToClipboard(lastLink.shortLinkFull, $event)" ng-href="{{ lastLink.shortLinkFull }}">{{ lastLink.shortLinkFull }}</a>
+                    Сгенерирована ссылка
+                    <a ng-click="copyToClipboard(lastLink.shortLinkFull, $event)"
+                       ng-href="{{ lastLink.shortLinkFull }}"
+                       class="copy-enable"
+                       title="Скопировать">{{ lastLink.shortLinkFull }}</a>
 
-                    <a ng-click="regenerateLink(lastLink)" href="javascript:void(0);" title="Перегенерировать">
+                    <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
+
+                    <a ng-click="regenerateLink(lastLink)" href="javascript:void(0);" class="no-underline" title="Перегенерировать">
                         <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
                     </a>
 
-                    <a href="javascript:void(0);" title="Ввести ссылку вручную">
+                    <a href="javascript:void(0);" class="no-underline" title="Ввести ссылку вручную">
                         <span class="glyphicon glyphicon-edit"
                               aria-hidden="true"
                               data-toggle="modal"
@@ -49,10 +55,24 @@
                     <tbody>
                     <tr ng-repeat="link in links" ng-cloak>
                         <td>
-                            <a ng-click="copyToClipboard(link.link, $event)" ng-href="{{ link.link }}">{{ link.link }}</a>
+                            <div class="full-width">
+                                <a ng-click="copyToClipboard(link.link, $event)"
+                                   ng-href="{{ link.link }}"
+                                   class="copy-enable"
+                                   title="Скопировать">{{ link.link }}</a>
+
+                                <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
+                            </div>
                         </td>
                         <td>
-                            <a ng-click="copyToClipboard(link.short_link_full, $event)" ng-href="{{ link.short_link_full }}">{{ link.short_link_full }}</a>
+                            <div class="full-width">
+                                <a ng-click="copyToClipboard(link.short_link_full, $event)"
+                                   ng-href="{{ link.short_link_full }}"
+                                   class="copy-enable"
+                                   title="Скопировать">{{ link.short_link_full }}</a>
+
+                                <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
+                            </div>
                         </td>
                     </tr>
                     </tbody>
@@ -66,10 +86,24 @@
                     <tbody>
                     <tr ng-repeat="link in searchLinks" ng-cloak>
                         <td>
-                            <a ng-click="copyToClipboard(link.link, $event)" ng-href="{{ link.link }}">{{ link.link }}</a>
+                            <div class="full-width">
+                                <a ng-click="copyToClipboard(link.link, $event)"
+                                   ng-href="{{ link.link }}"
+                                   class="copy-enable"
+                                   title="Скопировать">{{ link.link }}</a>
+
+                                <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
+                            </div>
                         </td>
                         <td>
-                            <a ng-click="copyToClipboard(link.short_link_full, $event)" ng-href="{{ link.short_link_full }}">{{ link.short_link_full }}</a>
+                            <div class="full-width">
+                                <a ng-click="copyToClipboard(link.short_link_full, $event)"
+                                   ng-href="{{ link.short_link_full }}"
+                                   class="copy-enable"
+                                   title="Скопировать">{{ link.short_link_full }}</a>
+
+                                <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
+                            </div>
                         </td>
                     </tr>
                     </tbody>
@@ -110,7 +144,11 @@
                     <tr ng-repeat="link in duplicates">
                         <td>
                             <a ng-click="copyToClipboard(link.short_link_full, $event)"
-                               ng-href="{{ link.short_link_full }}">{{ link.short_link_full }}</a>
+                               ng-href="{{ link.short_link_full }}"
+                               class="copy-enable"
+                               title="Скопировать">{{ link.short_link_full }}</a>
+
+                            <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
                         </td>
                     </tr>
                 </table>

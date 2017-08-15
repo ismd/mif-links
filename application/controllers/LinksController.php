@@ -92,12 +92,16 @@ class LinksController extends PsController {
     }
 
     public function regenerateAction() {
-        $shortLink = LinkMapper::getInstance()->regenerate($this->getArgs()[0]);
+        $id = $this->getArgs()[0];
+        $shortLink = LinkMapper::getInstance()->regenerate($id);
 
         $this->view->json([
             'result' => 'ok',
-            'shortLink' => $shortLink,
-            'shortLinkFull' => $this->getHelper('Server')->url() . '/' . $shortLink,
+            'info' => [
+                'id' => $id,
+                'shortLink' => $shortLink,
+                'shortLinkFull' => $this->getHelper('Server')->url() . '/' . $shortLink,
+            ],
         ]);
     }
 
