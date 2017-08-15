@@ -26,8 +26,15 @@
         }
 
         .table td {
-            width: 50%;
             max-width: 1px;
+
+            &:first-child {
+                width: 65%;
+            }
+
+            &:last-child {
+                width: 35%;
+            }
 
             .full-width {
                 display: inline-block;
