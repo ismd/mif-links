@@ -77,7 +77,7 @@ class LinksController extends PsController {
         $limits = $this->getArgs()[0];
         if (!empty($limits)) {
             $limits = explode('-', $limits);
-            $links = LinkMapper::getInstance()->fetch([], $limits[0] . ', ' . $limits[1]);
+            $links = LinkMapper::getInstance()->fetch([], (int)$limits[0] . ', ' . ((int)$limits[1] - (int)$limits[0]));
         } else {
             $links = LinkMapper::getInstance()->fetch();
         }

@@ -47,44 +47,13 @@
                     <input ng-model="searchText" ng-change="searchChanged()" type="text" class="form-control" placeholder="Искать ссылку" />
                 </div>
 
-                <table ng-show="!searchActive && links.length > 0" ng-class="{loading: loading}" class="table table-hover table-condensed">
+                <table ng-show="links.length > 0" ng-class="{loading: loading}" class="table table-hover table-condensed">
                     <thead>
                     <th>Ссылка</th>
                     <th>Короткая ссылка</th>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="link in links" ng-cloak>
-                        <td>
-                            <div class="full-width">
-                                <a ng-click="copyToClipboard(link.link, $event)"
-                                   ng-href="{{ link.link }}"
-                                   class="copy-enable"
-                                   title="Скопировать">{{ link.link }}</a>
-
-                                <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="full-width">
-                                <a ng-click="copyToClipboard(link.short_link_full, $event)"
-                                   ng-href="{{ link.short_link_full }}"
-                                   class="copy-enable"
-                                   title="Скопировать">{{ link.short_link_full }}</a>
-
-                                <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <table ng-show="searchActive && searchLinks.length > 0" ng-class="{loading: loading}" class="table table-hover table-condensed">
-                    <thead>
-                    <th>Ссылка</th>
-                    <th>Короткая ссылка</th>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="link in searchLinks" ng-cloak>
+                    <tr ng-repeat="link in searchActive ? searchLinks : links" ng-cloak>
                         <td>
                             <div class="full-width">
                                 <a ng-click="copyToClipboard(link.link, $event)"
