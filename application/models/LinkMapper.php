@@ -28,7 +28,7 @@ class LinkMapper extends PsDbMapper {
         ];
     }
 
-    public function fetch($where = [], $limit = null, $withId = false) {
+    public function fetch($where = [], $limit = null) {
         array_walk($where, function(&$value, $key) {
             $value = $key . ' = "' . $value . '"';
         });
@@ -41,23 +41,22 @@ class LinkMapper extends PsDbMapper {
 
         $links = [];
         while ($row = $result->fetch_assoc()) {
-            $link = [
+            $links[] = [
+                'id' => $row['id'],
                 'link' => $row['link'],
                 'short_link' => $row['short_link'],
                 'created' => $row['created'],
             ];
-
-            if ($withId) {
-                $link['id'] = $row['id'];
-            }
-
-            $links[] = $link;
         }
 
         return $links;
     }
 
-    public function fetchLinksCount($where = []) {
+    public function fetchCount($where = []) {
+        array_walk($where, function(&$value, $key) {
+            $value = $key . ' = "' . $value . '"';
+        });
+
         $stmt = self::$db->prepare("SELECT 1 "
             . "FROM Links"
             . (!empty($where) ? " WHERE " . implode(' AND ', $where) : ''));

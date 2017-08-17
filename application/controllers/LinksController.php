@@ -87,7 +87,7 @@ class LinksController extends PsController {
                 $link['short_link_full'] = $serverUrl . '/' . $link['short_link'];
                 return $link;
             }, $links),
-            'count' => LinkMapper::getInstance()->fetchLinksCount(),
+            'count' => LinkMapper::getInstance()->fetchCount(),
         ]);
     }
 

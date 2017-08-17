@@ -1,0 +1,106 @@
+a:focus {
+    outline: 0;
+}
+
+.no-underline {
+    text-decoration: none;
+    border: 0;
+
+    &:hover,
+    &:focus,
+    &:active {
+        text-decoration: none;
+        border: 0;
+    }
+}
+
+.layout {
+    padding-top: 100px;
+}
+
+.copy-enable {
+    & + .glyphicon {
+        position: relative;
+        top: 0;
+        opacity: 0;
+        font-size: 12px;
+        transition: all .5s;
+        color: #337ab7;
+    }
+
+    &:hover + .glyphicon {
+        opacity: .99;
+    }
+
+    &.copied + .glyphicon {
+        opacity: 0;
+    }
+}
+
+.copied {
+    position: relative;
+    display: inline-block;
+
+    &:before {
+        position: absolute;
+        right: -57px;
+        animation: copy-to-clipboard 1s;
+        font-size: 9px;
+        font-weight: normal;
+        color: #c9302c;
+        content: 'скопировано';
+        z-index: 11;
+    }
+}
+
+.error-page {
+    padding-top: 50px;
+    text-align: center;
+}
+
+.pager li > a:hover, .pager li > a:focus {
+    background-color: inherit;
+}
+
+.table-condensed > tbody > tr:first-child > td {
+    border-top: 0;
+}
+
+.modal .table {
+    margin-bottom: 0;
+}
+
+.loading {
+    opacity: .4;
+}
+
+nav.pager {
+    position: relative;
+
+    .info {
+        position: absolute;
+        top: 5px;
+        left: 100px;
+        right: 100px;
+        bottom: 0;
+        text-align: center;
+    }
+}
+
+@media (min-width: @screen-sm-min) {
+    .link-generation .form-group input.link {
+        width: 200px;
+    }
+}
+
+@keyframes copy-to-clipboard {
+    from {
+        top: 9px;
+        opacity: 0;
+    }
+
+    to {
+        top: -1px;
+        opacity: .99;
+    }
+}

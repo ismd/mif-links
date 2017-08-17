@@ -47,13 +47,13 @@
                     <input ng-model="searchText" ng-change="searchChanged()" type="text" class="form-control" placeholder="Искать ссылку" />
                 </div>
 
-                <table ng-show="links.length > 0" ng-class="{loading: loading}" class="table table-hover table-condensed">
+                <table ng-show="links.length > 0" ng-class="{loading: loading}" class="table table-hover table-condensed" ng-cloak>
                     <thead>
                     <th>Ссылка</th>
                     <th>Короткая ссылка</th>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="link in searchActive ? searchLinks : links" ng-cloak>
+                    <tr ng-repeat="link in searchActive ? searchLinks : links" ng-click="openStat(link.id)" title="Открыть статистику" ng-cloak>
                         <td>
                             <div class="full-width">
                                 <a ng-click="copyToClipboard(link.link, $event)"
@@ -78,9 +78,9 @@
                     </tbody>
                 </table>
 
-                <div ng-show="searchActive && searchLinks.length == 0" ng-class="{loading: loading}">Ничего не найдено</div>
+                <div ng-show="searchActive && searchLinks.length == 0" ng-class="{loading: loading}" ng-cloak>Ничего не найдено</div>
 
-                <nav ng-show="!searchActive" ng-class="{loading: loading}" class="links-pager">
+                <nav ng-show="!searchActive && pager.count" ng-class="{loading: loading}" class="pager" ng-cloak>
                     <div class="info">{{ pager.from + 1 }}-{{ pager.to }} из {{ pager.count }}</div>
 
                     <ul class="pager">

@@ -8,6 +8,47 @@ class StatMapper extends PsDbMapper {
         $stmt->execute();
     }
 
+    public function fetch($where = [], $limit = null) {
+        array_walk($where, function(&$value, $key) {
+            $value = $key . ' = "' . $value . '"';
+        });
+
+        $result = self::$db->query("SELECT id, visited, referer, user_agent, ip "
+            . "FROM Stat "
+            . (!empty($where) ? "WHERE " . implode(' AND ', $where) . ' ' : '')
+            . "ORDER BY id DESC "
+            . (!is_null($limit) ? "LIMIT " . $limit : ''));
+
+        $stat = [];
+        while ($row = $result->fetch_assoc()) {
+            //var_dump(new DateTime($row['visited']));die;
+            $stat[] = [
+                'id' => $row['id'],
+                'visited' => $row['visited'],
+                'referer' => $row['referer'],
+                'user_agent' => $row['user_agent'],
+                'ip' => $row['ip'],
+            ];
+        }
+
+        return $stat;
+    }
+
+    public function fetchCount($where = []) {
+        array_walk($where, function(&$value, $key) {
+            $value = $key . ' = "' . $value . '"';
+        });
+
+        $stmt = self::$db->prepare("SELECT 1 "
+            . "FROM Stat"
+            . (!empty($where) ? " WHERE " . implode(' AND ', $where) : ''));
+
+        $stmt->execute();
+        $stmt->store_result();
+
+        return $stmt->num_rows;
+    }
+
     /**
      * @return StatMapper
      */

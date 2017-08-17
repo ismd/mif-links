@@ -26,7 +26,7 @@ var uglify = require('gulp-uglify'),
 gulp.task('less', function () {
     var files   = [
             'node_modules/bootstrap/dist/css/bootstrap.css',
-            '../less/**/*.less'
+            '../less/app.less'
         ],
         includePath = [
             'node_modules/bootstrap/less',

@@ -117,6 +117,10 @@ window.mainModule.controller('AdminCtrl', ['$scope', '$timeout', 'Link', functio
         });
     };
 
+    $scope.openStat = function(id) {
+        window.open('/admin/stat/' + id);
+    };
+
     $scope.$watch('editShortLink', function() {
         $scope.linkExists = false;
     });
