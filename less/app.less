@@ -1,5 +1,9 @@
 @import 'variables';
 
+a:focus {
+    outline: 0;
+}
+
 .no-underline {
     text-decoration: none;
     border: 0;
@@ -138,6 +142,10 @@
 .error-page {
     padding-top: 50px;
     text-align: center;
+}
+
+.pager li > a:hover, .pager li > a:focus {
+    background-color: inherit;
 }
 
 .table-condensed > tbody > tr:first-child > td {
