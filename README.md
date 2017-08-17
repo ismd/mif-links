@@ -4,8 +4,8 @@
 - PHP 7.0 (mysqli, bcmath)
 - MySQL (MariaDB)
 - nginx
-- node.js 6.10.3
-- npm 3.10.10
+- node.js 6.11
+- npm 3.10
 
 ### Установка
 Загрузить исходники либо склонировать репозиторий
@@ -24,7 +24,7 @@
 ###### npm-пакеты
 `npm install`
 ###### Сборка js/less
-`NODE_ENV=production npm run build` production-режим
+`NODE_ENV=production npm run build` production-режим  
 `NODE_ENV=development npm run build` development-режим
 ###### Использование
 В браузере перейти по ссылке `<имя домена>/admin`
