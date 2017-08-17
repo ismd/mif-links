@@ -81,41 +81,6 @@
         border-top: 0;
     }
 
-    .copy-enable {
-        & + .glyphicon {
-            position: relative;
-            top: 0;
-            opacity: 0;
-            font-size: 12px;
-            transition: all .5s;
-            color: #337ab7;
-        }
-
-        &:hover + .glyphicon {
-            opacity: .99;
-        }
-
-        &.copied + .glyphicon {
-            opacity: 0;
-        }
-    }
-
-    .copied {
-        position: relative;
-        display: inline-block;
-
-        &:before {
-            position: absolute;
-            right: -57px;
-            animation: copy-to-clipboard 1s;
-            font-size: 9px;
-            font-weight: normal;
-            color: #c9302c;
-            content: 'скопировано';
-            z-index: 11;
-        }
-    }
-
     .loading {
         opacity: .4;
     }
@@ -135,9 +100,48 @@
     }
 }
 
+.copy-enable {
+    & + .glyphicon {
+        position: relative;
+        top: 0;
+        opacity: 0;
+        font-size: 12px;
+        transition: all .5s;
+        color: #337ab7;
+    }
+
+    &:hover + .glyphicon {
+        opacity: .99;
+    }
+
+    &.copied + .glyphicon {
+        opacity: 0;
+    }
+}
+
+.copied {
+    position: relative;
+    display: inline-block;
+
+    &:before {
+        position: absolute;
+        right: -57px;
+        animation: copy-to-clipboard 1s;
+        font-size: 9px;
+        font-weight: normal;
+        color: #c9302c;
+        content: 'скопировано';
+        z-index: 11;
+    }
+}
+
 .error-page {
     padding-top: 50px;
     text-align: center;
+}
+
+.table-condensed > tbody > tr:first-child > td {
+    border-top: 0;
 }
 
 @media (min-width: @screen-sm-min) {
