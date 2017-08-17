@@ -3,8 +3,6 @@
   "version": "0.0.2",
   "scripts": {
     "build": "cd js && node_modules/.bin/gulp",
-    "build-dev": "cd js && NODE_ENV=development node_modules/.bin/gulp",
-    "build-prod": "cd js && NODE_ENV=production node_modules/.bin/gulp",
     "postinstall": "cd js && npm install"
   }
 }
