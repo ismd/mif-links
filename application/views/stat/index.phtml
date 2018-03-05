@@ -3,6 +3,12 @@
         <div class="col-lg-2"></div>
 
         <div class="page-title col-lg-7">
+            <a href="javascript:void(0);" ng-click="back()">
+                <span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span>
+                Вернуться назад
+            </a>
+            <br/><br/>
+
             Ссылка: <a ng-click="copyToClipboard(info.link, $event)"
                        ng-href="{{ info.link }}"
                        class="copy-enable"

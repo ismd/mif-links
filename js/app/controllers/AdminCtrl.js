@@ -1,6 +1,6 @@
 'use strict';
 
-window.mainModule.controller('AdminCtrl', ['$scope', '$timeout', 'Link', function($scope, $timeout, Link) {
+window.mainModule.controller('AdminCtrl', ['$scope', '$location', '$timeout', 'Link', function($scope, $location, $timeout, Link) {
     const LINKS_PER_PAGE = 20;
 
     $scope.link = '';
@@ -118,7 +118,7 @@ window.mainModule.controller('AdminCtrl', ['$scope', '$timeout', 'Link', functio
     };
 
     $scope.openStat = function(id) {
-        window.open('/admin/stat/' + id);
+        $location.path('/admin/stat/' + id);
     };
 
     $scope.$watch('editShortLink', function() {
