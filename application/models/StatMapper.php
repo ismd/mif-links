@@ -21,7 +21,6 @@ class StatMapper extends PsDbMapper {
 
         $stat = [];
         while ($row = $result->fetch_assoc()) {
-            //var_dump(new DateTime($row['visited']));die;
             $stat[] = [
                 'id' => $row['id'],
                 'visited' => $row['visited'],

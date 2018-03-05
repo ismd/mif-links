@@ -208,7 +208,13 @@ class PsRouter {
         }
 
         // Контроллер
-        $this->_controller = '' != $route[$controllerId] ? ucfirst(strtolower($route[$controllerId])) : 'Index';
+        if ('' != $route[$controllerId]) {
+            $this->_controller = implode(array_map(function($part) {
+                return ucfirst(strtolower($part));
+            }, explode('-', $route[$controllerId])));
+        } else {
+            $this->_controller = 'Index';
+        }
 
         // Действие
         if (count($route) > $controllerId + 1) {
@@ -231,6 +237,27 @@ class PsRouter {
      */
     public function getController() {
         return $this->_controller;
+    }
+
+    /**
+     * Возвращает часть url, соответствующую контроллеру
+     * @return string
+     */
+    public function getControllerUrlPart() {
+        $route = explode('/', $this->_route);
+
+        // Префикс
+        if (!is_null($this->_prefixes) && (count($route) > 1 || count($route) == 1 && !empty($route[0]))) {
+            if (!in_array($this->_prefix, $this->_prefixes)) {
+                return 'index';
+            }
+
+            $controllerId = 1;
+        } else {
+            $controllerId = 0;
+        }
+
+        return '' != $route[$controllerId] ? $route[$controllerId] : 'index';
     }
 
     /**

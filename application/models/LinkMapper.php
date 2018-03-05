@@ -4,11 +4,11 @@ class LinkMapper extends PsDbMapper {
 
     const IGNORED_WORDS = ['admin', 'stat'];
 
-    public function add($link) {
+    public function add($link, $groupId = null) {
         $shortLink = $this->generateShortUrl();
 
-        $stmt = self::$db->prepare("INSERT INTO Links (link, short_link) VALUES (?, ?)");
-        $stmt->bind_param('ss', $link, $shortLink);
+        $stmt = self::$db->prepare("INSERT INTO Links (link, short_link, group_id) VALUES (?, ?, ?)");
+        $stmt->bind_param('ssi', $link, $shortLink, $groupId);
         $stmt->execute();
 
         return [
@@ -17,9 +17,9 @@ class LinkMapper extends PsDbMapper {
         ];
     }
 
-    public function edit($id, $shortLink) {
-        $stmt = self::$db->prepare("UPDATE Links SET short_link = ? WHERE id = ? LIMIT 1");
-        $stmt->bind_param('si', $shortLink, $id);
+    public function edit($id, $shortLink, $groupId) {
+        $stmt = self::$db->prepare("UPDATE Links SET short_link = ?, group_id = ? WHERE id = ? LIMIT 1");
+        $stmt->bind_param('sii', $shortLink, $groupId, $id);
         $stmt->execute();
 
         return [
@@ -33,10 +33,11 @@ class LinkMapper extends PsDbMapper {
             $value = $key . ' = "' . $value . '"';
         });
 
-        $result = self::$db->query("SELECT id, link, short_link, created "
-            . "FROM Links "
+        $result = self::$db->query("SELECT l.id, l.link, l.short_link, l.created, l.group_id, g.title AS group_title "
+            . "FROM Links l "
+            . "LEFT JOIN Groups g ON l.group_id = g.id "
             . (!empty($where) ? "WHERE " . implode(' AND ', $where) . ' ' : '')
-            . "ORDER BY id DESC "
+            . "ORDER BY l.id DESC "
             . (!is_null($limit) ? "LIMIT " . $limit : ''));
 
         $links = [];
@@ -46,6 +47,8 @@ class LinkMapper extends PsDbMapper {
                 'link' => $row['link'],
                 'short_link' => $row['short_link'],
                 'created' => $row['created'],
+                'group_id' => $row['group_id'],
+                'group_title' => $row['group_title'],
             ];
         }
 
@@ -78,10 +81,11 @@ class LinkMapper extends PsDbMapper {
     }
 
     public function search($link) {
-        $result = self::$db->query("SELECT id, link, short_link, created "
-            . "FROM Links "
-            . "WHERE link LIKE '%" . $link . "%' OR short_link LIKE '%" . $link . "%' "
-            . "ORDER BY id DESC");
+        $result = self::$db->query("SELECT l.id, l.link, l.short_link, l.created, l.group_id, g.title AS group_title "
+            . "FROM Links l "
+            . "LEFT JOIN Groups g ON l.group_id = g.id "
+            . "WHERE l.link LIKE '%" . $link . "%' OR l.short_link LIKE '%" . $link . "%' "
+            . "ORDER BY l.id DESC");
 
         $links = [];
         while ($row = $result->fetch_assoc()) {
@@ -89,6 +93,8 @@ class LinkMapper extends PsDbMapper {
                 'link' => $row['link'],
                 'short_link' => $row['short_link'],
                 'created' => $row['created'],
+                'group_id' => $row['group_id'],
+                'group_title' => $row['group_title'],
             ];
         }
 

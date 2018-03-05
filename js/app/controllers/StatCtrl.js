@@ -1,6 +1,6 @@
 'use strict';
 
-window.mainModule.controller('StatCtrl', ['$scope', '$window', '$routeParams', 'Stat', function($scope, $window, $routeParams, Stat) {
+window.mainModule.controller('StatCtrl', ['$scope', '$routeParams', 'Stat', function($scope, $routeParams, Stat) {
     const LINKS_PER_PAGE = 20;
 
     $scope.idLink = $routeParams.id;
@@ -40,10 +40,6 @@ window.mainModule.controller('StatCtrl', ['$scope', '$window', '$routeParams', '
         }
 
         fetchStat();
-    };
-
-    $scope.back = function() {
-        $window.history.back();
     };
 
     function fetchStat() {

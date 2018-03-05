@@ -9,7 +9,7 @@ class StatController extends PsController {
         $id = (int)$this->getArgs()[0];
 
         $link = LinkMapper::getInstance()->fetch([
-            'id' => $id,
+            'l.id' => $id,
         ], 1);
 
         if (empty($link)) {

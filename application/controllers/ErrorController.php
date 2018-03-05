@@ -8,7 +8,7 @@ class ErrorController extends PsController {
 
     public function indexAction() {
         $link = LinkMapper::getInstance()->fetch([
-            'short_link' => $this->registry->router->getRoute(),
+            'l.short_link' => $this->registry->router->getRoute(),
         ], 1);
 
         if (!empty($link)) {

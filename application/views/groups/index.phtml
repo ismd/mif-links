@@ -1,0 +1,60 @@
+<div class="groups-page container-fluid">
+    <div class="row">
+        <div class="col-lg-2"></div>
+
+        <div class="create-form col-lg-7">
+            <form ng-submit="addGroup(group)" class="form-inline">
+                <div class="form-group">
+                    <input ng-disabled="loading" ng-model="group" type="text" class="form-control" placeholder="Название группы" />
+                </div>
+
+                <button ng-disabled="loading || group == ''" type="submit" class="btn btn-default">Создать</button>
+
+                <span ng-if="groupExists" class="text-danger" ng-cloak>Группа с таким названием уже существует</span>
+            </form>
+        </div>
+
+        <div class="col-lg-3"></div>
+    </div>
+
+    <div ng-show="groups.length || searchActive" class="row" ng-cloak>
+        <div class="col-lg-12">
+            <div class="list-table groups-table">
+                <div class="search">
+                    <input ng-model="searchText" ng-change="searchChanged()" type="text" class="form-control" placeholder="Искать группу" />
+                </div>
+
+                <table ng-show="groups.length > 0" ng-class="{loading: loading}" class="table table-hover table-condensed" ng-cloak>
+                    <thead>
+                        <tr>
+                            <th>Название</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="group in searchActive ? searchGroups : groups" ng-cloak>
+                            <td>
+                                <div class="full-width">{{ group.title }}</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div ng-show="searchActive && searchGroups.length == 0" ng-class="{loading: loading}" ng-cloak>Ничего не найдено</div>
+
+                <nav ng-show="!searchActive && pager.count" ng-class="{loading: loading}" class="pager" ng-cloak>
+                    <div class="info">{{ pager.from + 1 }}-{{ pager.to }} из {{ pager.count }}</div>
+
+                    <ul class="pager">
+                        <li class="previous" ng-class="{disabled: pager.from == 0}">
+                            <a ng-click="previousPage()" href="javascript:void(0);"><span aria-hidden="true">&larr;</span> Назад</a>
+                        </li>
+
+                        <li class="next" ng-class="{disabled: pager.to == pager.count}">
+                            <a ng-click="nextPage()" href="javascript:void(0);">Вперёд <span aria-hidden="true">&rarr;</span></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

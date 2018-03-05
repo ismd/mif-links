@@ -16,6 +16,10 @@ window.mainModule = angular.module('main', ['ngRoute', 'angular-clipboard'])
                 controller: 'StatCtrl',
                 templateUrl: '/partial/stat/index'
             })
+            .when('/admin/groups', {
+                controller: 'GroupsCtrl',
+                templateUrl: '/partial/groups/index'
+            })
             .otherwise({
                 redirectTo: '/'
             });

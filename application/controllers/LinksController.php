@@ -19,7 +19,7 @@ class LinksController extends PsController {
 
         if ($post->force != 'true') {
             $links = LinkMapper::getInstance()->fetch([
-                'link' => $link,
+                'l.link' => $link,
             ]);
 
             if (count($links) > 0) {
@@ -33,7 +33,7 @@ class LinksController extends PsController {
             }
         }
 
-        $result = LinkMapper::getInstance()->add($link);
+        $result = LinkMapper::getInstance()->add($link, $post->group_id);
         $result['shortLinkFull'] = $serverUrl . '/' . $result['shortLink'];
 
         $this->view->json([
@@ -53,7 +53,7 @@ class LinksController extends PsController {
         $post = $request->getPost();
 
         $links = LinkMapper::getInstance()->fetch([
-            'short_link' => $post->shortLink,
+            'l.short_link' => $post->shortLink,
         ], 1);
 
         if (count($links) > 0) {
@@ -62,7 +62,7 @@ class LinksController extends PsController {
             ]);
         }
 
-        $result = LinkMapper::getInstance()->edit($post->id, $post->shortLink);
+        $result = LinkMapper::getInstance()->edit($post->id, $post->shortLink, $post->group_id);
         $result['shortLinkFull'] = $serverUrl . '/' . $result['shortLink'];
 
         $this->view->json([

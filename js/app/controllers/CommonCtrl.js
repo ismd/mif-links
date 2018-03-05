@@ -1,6 +1,6 @@
 'use strict';
 
-window.mainModule.controller('CommonCtrl', ['$scope', 'clipboard', function($scope, clipboard) {
+window.mainModule.controller('CommonCtrl', ['$scope', '$window', 'clipboard', function($scope, $window, clipboard) {
 
     $scope.location = window.location;
 
@@ -21,5 +21,9 @@ window.mainModule.controller('CommonCtrl', ['$scope', 'clipboard', function($sco
         }
 
         clipboard.copyText(text);
+    };
+
+    $scope.historyBack = function() {
+        $window.history.back();
     };
 }]);

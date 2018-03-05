@@ -1,15 +1,6 @@
 .admin-page {
     .links-table {
-        position: relative;
-        margin-top: 25px;
-
-        .links-search {
-            position: absolute;
-            top: -35px;
-            right: 10px;
-        }
-
-        .table {
+        .table tbody {
             tr {
                 cursor: pointer;
             }
@@ -20,23 +11,7 @@
                 &:first-child {
                     width: 65%;
                 }
-
-                &:last-child {
-                    width: 35%;
-                }
-
-                .full-width {
-                    display: inline-block;
-                    width: 100%;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                    overflow: hidden;
-                }
             }
-        }
-
-        @media (max-width: @screen-xs-max) {
-            margin-top: 75px;
         }
     }
 

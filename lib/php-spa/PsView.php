@@ -130,7 +130,7 @@ class PsView extends PsObject {
         $router = $this->_registry->router;
 
         // Путь к файлу шаблона
-        $filename = $viewsPath . lcfirst($router->getController())
+        $filename = $viewsPath . $router->getControllerUrlPart()
             . '/' . $router->getAction() . '.phtml';
 
         if (!is_readable($filename)) {

@@ -88,7 +88,7 @@ nav.pager {
 }
 
 @media (min-width: @screen-sm-min) {
-    .link-generation .form-group input.link {
+    .create-form .form-group input {
         width: 200px;
     }
 }
@@ -102,5 +102,28 @@ nav.pager {
     to {
         top: -1px;
         opacity: .99;
+    }
+}
+
+.list-table {
+    position: relative;
+    margin-top: 25px;
+
+    .search {
+        position: absolute;
+        top: -35px;
+        right: 10px;
+    }
+
+    .table tbody td.full-width {
+        display: inline-block;
+        width: 100%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    @media (max-width: @screen-xs-max) {
+        margin-top: 75px;
     }
 }
