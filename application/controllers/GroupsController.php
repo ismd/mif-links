@@ -5,6 +5,9 @@ class GroupsController extends PsController {
     public function indexPartial() {
     }
 
+    public function tablePartial() {
+    }
+
     public function infoPartial() {
     }
 
@@ -72,7 +75,7 @@ class GroupsController extends PsController {
         }
 
         $this->view->json([
-            'groups' => $groups,
+            'items' => $groups,
             'count' => GroupMapper::getInstance()->fetchCount(),
         ]);
     }
@@ -83,7 +86,7 @@ class GroupsController extends PsController {
         $groups = GroupMapper::getInstance()->search($post->search);
 
         $this->view->json([
-            'groups' => $groups,
+            'items' => $groups,
             'idSearchRequest' => $post->idSearchRequest,
         ]);
     }

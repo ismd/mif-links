@@ -102,6 +102,24 @@
             return defer.promise;
         };
 
+        service.fetchLinkById = function(id) {
+            var defer = $q.defer();
+
+            $http.get('/api/links/get/' + id).then(function(result) {
+                if (result.data.result == 'ok') {
+                    defer.resolve(result.data.link);
+                } else {
+                    alert('Ссылка не найдена');
+                    defer.reject();
+                }
+            }, function() {
+                alert('Не удалось получить ссылку');
+                defer.reject();
+            });
+
+            return defer.promise;
+        };
+
         return service;
     }]);
 })();

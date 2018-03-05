@@ -83,7 +83,7 @@ class LinksController extends PsController {
         }
 
         $this->view->json([
-            'links' => array_map(function($link) use($serverUrl) {
+            'items' => array_map(function($link) use($serverUrl) {
                 $link['short_link_full'] = $serverUrl . '/' . $link['short_link'];
                 return $link;
             }, $links),
@@ -112,11 +112,32 @@ class LinksController extends PsController {
         $links = LinkMapper::getInstance()->search($post->search);
 
         $this->view->json([
-            'links' => array_map(function($link) use($serverUrl) {
+            'items' => array_map(function($link) use($serverUrl) {
                 $link['short_link_full'] = $serverUrl . '/' . $link['short_link'];
                 return $link;
             }, $links),
             'idSearchRequest' => $post->idSearchRequest,
         ]);
+    }
+
+    public function getAction() {
+        $idLink = (int)$this->getArgs()[0];
+        $links = LinkMapper::getInstance()->fetch(['l.id' => $idLink], 1);
+
+        if (count($links) > 0) {
+            $link = $links[0];
+
+            $serverUrl = $this->getHelper('Server')->url();
+            $link['short_link_full'] = $serverUrl . '/' . $link['short_link'];
+
+            $this->view->json([
+                'result' => 'ok',
+                'link' => $link,
+            ]);
+        } else {
+            $this->view->json([
+                'result' => 'not_found',
+            ]);
+        }
     }
 }

@@ -27,50 +27,7 @@
         <div class="col-lg-3"></div>
     </div>
 
-    <div class="row">
-        <div class="col-lg-12">
-            <table ng-show="stat.length > 0" ng-class="{loading: loading}" class="table table-hover table-condensed" ng-cloak>
-                <thead>
-                    <tr>
-                        <th>Дата</th>
-                        <th>IP</th>
-                        <th>Браузер</th>
-                        <th>Источник</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="item in stat" ng-cloak>
-                        <td>{{ item.visited.toLocaleString('ru') }}</td>
-                        <td>
-                            <a ng-href="http://ipinfo.io/{{ item.ip }}" target="_blank" title="Подробная информация">{{ item.ip }}</a>
-                        </td>
-                        <td>
-                            <div class="full-width" ng-attr-title="{{ item.user_agent }}">{{ item.user_agent }}</div>
-                        </td>
-                        <td>
-                            <div class="full-width" ng-attr-title="{{ item.referer }}">
-                                <a ng-href="{{ item.referer }}" target="_blank">{{ item.referer }}</a>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div ng-show="!loading && stat.length == 0" ng-cloak>Переходов по ссылке не найдено</div>
-
-            <nav ng-show="pager.count" ng-class="{loading: loading}" class="pager" ng-cloak>
-                <div class="info">{{ pager.from + 1 }}-{{ pager.to }} из {{ pager.count }}</div>
-
-                <ul class="pager">
-                    <li class="previous" ng-class="{disabled: pager.from == 0}">
-                        <a ng-click="previousPage()" href="javascript:void(0);"><span aria-hidden="true">&larr;</span> Назад</a>
-                    </li>
-
-                    <li class="next" ng-class="{disabled: pager.to == pager.count}">
-                        <a ng-click="nextPage()" href="javascript:void(0);">Вперёд <span aria-hidden="true">&rarr;</span></a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </div>
+    <div list-table
+         table="'/partial/stat/table'"
+         fetch-items="fetchStat"></div>
 </div>

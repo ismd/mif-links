@@ -1,0 +1,31 @@
+<div ng-show="items.length || search.active" class="row" ng-cloak>
+    <div class="col-lg-12">
+        <div class="list-table">
+            <div ng-if="searchItems" class="search">
+                <input ng-model="search.text" ng-change="searchChanged()" type="text" class="form-control" placeholder="Поиск" />
+            </div>
+
+            <div ng-show="items.length > 0"
+                 ng-class="{loading: loading}"
+                 ng-cloak>
+                <div ng-include="table"></div>
+            </div>
+
+            <div ng-show="search.active && searchItems.length == 0" ng-class="{loading: loading}" ng-cloak>Ничего не найдено</div>
+
+            <nav ng-show="!search.active && pager.count" ng-class="{loading: loading}" class="pager" ng-cloak>
+                <div class="info">{{ pager.from + 1 }}-{{ pager.to }} из {{ pager.count }}</div>
+
+                <ul class="pager">
+                    <li class="previous" ng-class="{disabled: pager.from == 0}">
+                        <a ng-click="previousPage()" href="javascript:void(0);"><span aria-hidden="true">&larr;</span> Назад</a>
+                    </li>
+
+                    <li class="next" ng-class="{disabled: pager.to == pager.count}">
+                        <a ng-click="nextPage()" href="javascript:void(0);">Вперёд <span aria-hidden="true">&rarr;</span></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

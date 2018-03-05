@@ -18,4 +18,7 @@ class IndexController extends PsController {
 
         throw new Exception('Not allowed url');
     }
+
+    public function listTablePartial() {
+    }
 }

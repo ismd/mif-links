@@ -5,18 +5,11 @@ class StatController extends PsController {
     public function indexPartial() {
     }
 
+    public function tablePartial() {
+    }
+
     public function fetchAction() {
         $id = (int)$this->getArgs()[0];
-
-        $link = LinkMapper::getInstance()->fetch([
-            'l.id' => $id,
-        ], 1);
-
-        if (empty($link)) {
-            throw new Exception('Ссылка не найдена');
-        }
-
-        $link = $link[0];
 
         $limits = $this->getArgs()[1];
         if (!empty($limits)) {
@@ -30,12 +23,8 @@ class StatController extends PsController {
             ]);
         }
 
-        $serverUrl = $this->getHelper('Server')->url();
-        $link['short_link_full'] = $serverUrl . '/' . $link['short_link'];
-
         $this->view->json([
-            'link_info' => $link,
-            'stat' => $stat,
+            'items' => $stat,
             'count' => StatMapper::getInstance()->fetchCount([
                 'link_id' => $id,
             ]),

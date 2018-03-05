@@ -8,7 +8,7 @@
             var defer = $q.defer();
 
             $http.get('/api/stat/fetch/' + idLink + '/' + from + '-' + to).then(function(result) {
-                result.data.stat.forEach(function(item) {
+                result.data.items.forEach(function(item) {
                     item.visited = new Date(item.visited);
                 });
 

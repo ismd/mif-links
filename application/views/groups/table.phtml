@@ -1,0 +1,16 @@
+<table class="table table-hover table-condensed">
+    <thead>
+        <tr>
+            <th>Название</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="group in search.active ? search.items : items" ng-cloak>
+            <td>
+                <div class="full-width">
+                    <a ng-href="/admin/groups/{{ group.id }}">{{ group.title }}</a>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

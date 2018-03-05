@@ -1,0 +1,26 @@
+<table class="table table-hover table-condensed" ng-cloak>
+    <thead>
+        <tr>
+            <th>Дата</th>
+            <th>IP</th>
+            <th>Браузер</th>
+            <th>Источник</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="item in items" ng-cloak>
+            <td>{{ item.visited.toLocaleString('ru') }}</td>
+            <td>
+                <a ng-href="http://ipinfo.io/{{ item.ip }}" target="_blank" title="Подробная информация">{{ item.ip }}</a>
+            </td>
+            <td>
+                <div class="full-width" ng-attr-title="{{ item.user_agent }}">{{ item.user_agent }}</div>
+            </td>
+            <td>
+                <div class="full-width" ng-attr-title="{{ item.referer }}">
+                    <a ng-href="{{ item.referer }}" target="_blank">{{ item.referer }}</a>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

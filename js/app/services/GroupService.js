@@ -53,8 +53,8 @@
                     defer.reject();
                 }
             }, function() {
+                alert('Не удалось получить группу');
                 defer.reject();
-                alert('Не удалось получить группы');
             });
 
             return defer.promise;
