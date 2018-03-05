@@ -5,6 +5,9 @@ class GroupsController extends PsController {
     public function indexPartial() {
     }
 
+    public function infoPartial() {
+    }
+
     public function addAction() {
         $request = $this->getRequest();
 
@@ -83,5 +86,21 @@ class GroupsController extends PsController {
             'groups' => $groups,
             'idSearchRequest' => $post->idSearchRequest,
         ]);
+    }
+
+    public function getAction() {
+        $idGroup = (int)$this->getArgs()[0];
+        $groups = GroupMapper::getInstance()->fetch(['g.id' => $idGroup], 1);
+
+        if (count($groups) > 0) {
+            $this->view->json([
+                'result' => 'ok',
+                'group' => $groups[0],
+            ]);
+        } else {
+            $this->view->json([
+                'result' => 'not_found',
+            ]);
+        }
     }
 }

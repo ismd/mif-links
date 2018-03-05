@@ -33,7 +33,9 @@
                     <tbody>
                         <tr ng-repeat="group in searchActive ? searchGroups : groups" ng-cloak>
                             <td>
-                                <div class="full-width">{{ group.title }}</div>
+                                <div class="full-width">
+                                    <a ng-href="/admin/groups/{{ group.id }}">{{ group.title }}</a>
+                                </div>
                             </td>
                         </tr>
                     </tbody>

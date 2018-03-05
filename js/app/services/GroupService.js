@@ -42,6 +42,24 @@
             return defer.promise;
         };
 
+        service.fetchGroupById = function(id) {
+            var defer = $q.defer();
+
+            $http.get('/api/groups/get/' + id).then(function(result) {
+                if (result.data.result == 'ok') {
+                    defer.resolve(result.data.group);
+                } else {
+                    alert('Группа не найдена');
+                    defer.reject();
+                }
+            }, function() {
+                defer.reject();
+                alert('Не удалось получить группы');
+            });
+
+            return defer.promise;
+        };
+
         service.search = function(search, idSearchRequest) {
             var defer = $q.defer();
 

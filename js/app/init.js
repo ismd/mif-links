@@ -16,6 +16,10 @@ window.mainModule = angular.module('main', ['ngRoute', 'angular-clipboard'])
                 controller: 'StatCtrl',
                 templateUrl: '/partial/stat/index'
             })
+            .when('/admin/groups/:id', {
+                controller: 'GroupInfoCtrl',
+                templateUrl: '/partial/groups/info'
+            })
             .when('/admin/groups', {
                 controller: 'GroupsCtrl',
                 templateUrl: '/partial/groups/index'
