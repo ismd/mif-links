@@ -12,6 +12,10 @@
 `git clone https://github.com/ismd/mif-links.git`
 ###### Конфигурация
 Скопировать файл `application/configs/application.example.ini` в `application/configs/application.ini` и отредактировать его
+###### PHP
+Включить расширения:  
+`extension=bcmath`  
+`extension=mysqli`
 ###### nginx
 Создать конфиг на основе `doc/nginx.conf`
 ###### MySQL
