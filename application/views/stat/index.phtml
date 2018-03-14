@@ -21,7 +21,9 @@
                                 class="copy-enable"
                                 title="Скопировать">{{ info.short_link_full }}</a>
 
-            <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-copy" aria-hidden="true"></span><br />
+
+            Группа: <a ng-href="/admin/groups/{{ info.group_id }}">{{ info.group_title }}</a>
         </div>
 
         <div class="col-lg-3"></div>
