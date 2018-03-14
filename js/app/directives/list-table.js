@@ -11,7 +11,7 @@ window.mainModule.directive('listTable', function() {
             redirect: '=?'
         },
         controller: ['$scope', '$timeout', function($scope, $timeout) {
-            $scope.itemsPerPage = 20;
+            $scope.itemsPerPage = 15;
 
             $scope.items = [];
 

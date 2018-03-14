@@ -27,9 +27,12 @@ class GroupMapper extends PsDbMapper {
             $value = $key . ' = "' . $value . '"';
         });
 
-        $result = self::$db->query("SELECT g.id, g.title " .
+        $result = self::$db->query("SELECT g.id, g.title, COUNT(DISTINCT l.id) AS links_count, COUNT(s.id) AS stat_count " .
                                    "FROM Groups g " .
+                                   "LEFT JOIN Links l ON g.id = l.group_id " .
+                                   "LEFT JOIN Stat s ON l.id = s.link_id " .
                                    (!empty($where) ? "WHERE " . implode(' AND ', $where) . ' ' : '') .
+                                   "GROUP BY g.id " .
                                    "ORDER BY g.id DESC " .
                                    (!is_null($limit) ? "LIMIT " . $limit : ''));
 
@@ -38,6 +41,8 @@ class GroupMapper extends PsDbMapper {
             $links[] = [
                 'id' => $row['id'],
                 'title' => $row['title'],
+                'links_count' => $row['links_count'],
+                'stat_count' => $row['stat_count'],
             ];
         }
 

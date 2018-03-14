@@ -2,6 +2,8 @@
     <thead>
         <tr>
             <th>Название</th>
+            <th class="align-center">Ссылок</th>
+            <th class="align-center">Посещений</th>
         </tr>
     </thead>
     <tbody>
@@ -10,6 +12,12 @@
                 <div class="full-width">
                     <a ng-href="/admin/groups/{{ group.id }}" ng-click="redirect('/admin/groups/' + group.id, $event)">{{ group.title }}</a>
                 </div>
+            </td>
+            <td class="align-center">
+                {{ group.links_count }}
+            </td>
+            <td class="align-center">
+                {{ group.stat_count }}
             </td>
         </tr>
     </tbody>

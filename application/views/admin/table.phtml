@@ -4,7 +4,7 @@
             <th>Ссылка</th>
             <th>Короткая ссылка</th>
             <th>Группа</th>
-            <th>Посещений</th>
+            <th class="align-center">Посещений</th>
         </tr>
     </thead>
     <tbody>
@@ -22,7 +22,7 @@
             <td>
                 <a ng-href="/admin/groups/{{ item.group_id }}" ng-click="redirect('/admin/groups/' + item.group_id, $event)">{{ item.group_title }}</a>
             </td>
-            <td>
+            <td class="align-center">
                 {{ item.stat_count }}
             </td>
         </tr>
