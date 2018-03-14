@@ -9,28 +9,24 @@
             </a>
             <br/><br/>
 
-            Ссылка: <a ng-click="copyToClipboard(info.link, $event)"
-                       ng-href="{{ info.link }}"
-                       class="copy-enable"
-                       title="Скопировать">{{ info.link }}</a>
+            <b>Ссылка:</b>
+            <a ng-click="copyToClipboard(info.link, $event)"
+               ng-href="{{ info.link }}"
+               class="copy-enable"
+               title="Скопировать">{{ info.link }}</a>
 
             <span class="glyphicon glyphicon-copy" aria-hidden="true"></span><br />
 
-            Короткая ссылка: <a ng-click="copyToClipboard(info.short_link_full, $event)"
-                                ng-href="{{ info.short_link_full }}"
-                                class="copy-enable"
-                                title="Скопировать">{{ info.short_link_full }}</a>
+            <b>Короткая ссылка:</b>
+            <a ng-click="copyToClipboard(info.short_link_full, $event)"
+               ng-href="{{ info.short_link_full }}"
+               class="copy-enable"
+               title="Скопировать">{{ info.short_link_full }}</a>
 
             <span class="glyphicon glyphicon-copy" aria-hidden="true"></span><br />
 
-            Группа:
-            <span ng-show="info.group_id" ng-cloak>
-                <a ng-href="/admin/groups/{{ info.group_id }}">{{ info.group_title }}</a>
-            </span>
-
-            <span ng-hide="info.group_id" ng-cloak>
-                <i>без группы</i>
-            </span>
+            <b>Группа:</b>
+            <a ng-href="/admin/groups/{{ info.group_id }}">{{ info.group_title }}</a>
         </div>
 
         <div class="col-lg-3"></div>
