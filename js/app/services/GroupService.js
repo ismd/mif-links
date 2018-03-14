@@ -33,7 +33,7 @@
             var defer = $q.defer();
 
             var url = '/api/groups/list/';
-            if (from && to) {
+            if (typeof from != 'undefined' && typeof to != 'undefined') {
                 url += from + '-' + to;
             }
 
