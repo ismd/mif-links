@@ -4,7 +4,7 @@
     window.mainModule.factory('Link', ['$q', '$http', function($q, $http) {
         var service = {};
 
-        service.generateLink = function(link, force) {
+        service.generateLink = function(link, groupId, force) {
             if (typeof force === 'undefined') {
                 force = false;
             }
@@ -13,6 +13,7 @@
 
             $http.post('/api/links/add', {
                 link: link,
+                groupId: groupId ? groupId : null,
                 force: force
             }).then(function(result) {
                 if (result.data.result !== 'ok') {
@@ -34,11 +35,12 @@
             return defer.promise;
         };
 
-        service.editLink = function(id, shortLink) {
+        service.editLink = function(link, shortLink) {
             var defer = $q.defer();
 
             $http.post('/api/links/edit', {
-                id: id,
+                id: link.id,
+                groupId: link.groupId ? link.groupId : null,
                 shortLink: shortLink
             }).then(function(result) {
                 if (result.data.result !== 'ok') {

@@ -19,6 +19,8 @@ a:focus {
 }
 
 .copy-enable {
+    display: inline-block;
+
     & + .glyphicon {
         position: relative;
         top: 0;
@@ -39,7 +41,6 @@ a:focus {
 
 .copied {
     position: relative;
-    display: inline-block;
 
     &:before {
         position: absolute;
@@ -91,6 +92,10 @@ nav.pager {
     .create-form .form-group input {
         width: 200px;
     }
+
+    .create-form .form-group select.form-control {
+        width: 160px;
+    }
 }
 
 @keyframes copy-to-clipboard {
@@ -115,12 +120,16 @@ nav.pager {
         right: 10px;
     }
 
-    .table tbody td.full-width {
-        display: inline-block;
-        width: 100%;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
+    .table td {
+        max-width: 1px;
+
+        .full-width {
+            display: inline-block;
+            width: 100%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
     }
 
     @media (max-width: @screen-xs-max) {

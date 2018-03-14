@@ -3,12 +3,17 @@
         <div class="col-lg-2"></div>
 
         <div class="create-form col-lg-7">
-            <form ng-submit="generateLink(link)" class="form-inline">
+            <form ng-submit="generateLink(newLink.link, newLink.groupId)" class="form-inline">
                 <div class="form-group">
-                    <input ng-disabled="loading" ng-model="link" type="text" class="form-control" placeholder="http://" />
+                    <input ng-disabled="loading" ng-model="newLink.link" type="text" class="form-control" placeholder="http://" />
+
+                    <select ng-model="newLink.groupId" class="form-control">
+                        <option selected="true" value="">Выберите группу</option>
+                        <option ng-repeat="group in groups | orderBy: 'title'" ng-value="group.id">{{ group.title }}</option>
+                    </select>
                 </div>
 
-                <button ng-disabled="loading || link == ''" type="submit" class="btn btn-default">Сгенерировать</button>
+                <button ng-disabled="loading || newLink.link == ''" type="submit" class="btn btn-default">Сгенерировать</button>
             </form>
 
             <div class="generated-link">
@@ -70,7 +75,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                <button ng-click="generateLink(link, true)" type="button" class="btn btn-primary" data-dismiss="modal">Сгенерировать новую</button>
+                <button ng-click="generateLink(newLink.link, newLink.groupId, true)" type="button" class="btn btn-primary" data-dismiss="modal">Сгенерировать новую</button>
             </div>
         </div>
     </div>

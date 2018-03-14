@@ -22,8 +22,8 @@
 
                 defer.resolve(result.data);
             }, function() {
-                defer.reject();
                 alert('Не удалось создать группу');
+                defer.reject();
             });
 
             return defer.promise;
@@ -32,11 +32,16 @@
         service.fetchGroups = function(from, to) {
             var defer = $q.defer();
 
-            $http.get('/api/groups/list/' + from + '-' + to).then(function(result) {
+            var url = '/api/groups/list/';
+            if (from && to) {
+                url += from + '-' + to;
+            }
+
+            $http.get(url).then(function(result) {
                 defer.resolve(result.data);
             }, function() {
-                defer.reject();
                 alert('Не удалось получить группы');
+                defer.reject();
             });
 
             return defer.promise;
@@ -69,8 +74,8 @@
             }).then(function(result) {
                 defer.resolve(result.data);
             }, function() {
-                defer.reject();
                 alert('Не удалось осуществить поиск');
+                defer.reject();
             });
 
             return defer.promise;

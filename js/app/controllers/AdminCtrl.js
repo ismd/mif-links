@@ -1,17 +1,26 @@
 'use strict';
 
-window.mainModule.controller('AdminCtrl', ['$scope', '$location', '$timeout', 'Link', function($scope, $location, $timeout, Link) {
-    $scope.link = '';
+window.mainModule.controller('AdminCtrl', ['$scope', '$location', '$timeout', 'Link', 'Group', function($scope, $location, $timeout, Link, Group) {
+    $scope.newLink = {
+        link: '',
+        groupId: null
+    };
+    $scope.groups = null;
     $scope.lastLink = null;
     $scope.editShortLink = '';
     $scope.linkExists = false;
-    $scope.loading = false;
+    $scope.loading = true;
 
-    $scope.generateLink = function(link, force) {
+    Group.fetchGroups().then(function(data) {
+        $scope.groups = data.items;
+        $scope.loading = false;
+    });
+
+    $scope.generateLink = function(link, groupId, force) {
         $scope.loading = true;
 
-        Link.generateLink(link, force).then(function(data) {
-            $scope.link = '';
+        Link.generateLink(link, groupId, force).then(function(data) {
+            $scope.newLink.link = '';
             $scope.lastLink = data.info;
             $scope.editShortLink = $scope.lastLink.shortLink;
             $scope.$broadcast('updateListTable');
@@ -34,18 +43,18 @@ window.mainModule.controller('AdminCtrl', ['$scope', '$location', '$timeout', 'L
         Link.regenerateLink(link.id).then(function(data) {
             $scope.lastLink = data.info;
             $scope.editShortLink = $scope.lastLink.shortLink;
-            fetchLinks();
+            $scope.$broadcast('updateListTable');
         });
     };
 
     $scope.editLink = function(shortLink) {
         $scope.loading = true;
 
-        Link.editLink($scope.lastLink.id, shortLink).then(function(data) {
+        Link.editLink($scope.lastLink, shortLink).then(function(data) {
             $('#edit-link').modal('hide');
             $scope.lastLink = data.info;
             $scope.editShortLink = $scope.lastLink.shortLink;
-            fetchLinks();
+            $scope.$broadcast('updateListTable');
         }, function(data) {
             if (data.result === 'duplicate') {
                 $scope.linkExists = true;

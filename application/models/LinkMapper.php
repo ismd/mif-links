@@ -5,6 +5,10 @@ class LinkMapper extends PsDbMapper {
     const IGNORED_WORDS = ['admin', 'stat'];
 
     public function add($link, $groupId = null) {
+        if (!$groupId) {
+            $groupId = null;
+        }
+
         $shortLink = $this->generateShortUrl();
 
         $stmt = self::$db->prepare("INSERT INTO Links (link, short_link, group_id) VALUES (?, ?, ?)");
@@ -14,10 +18,15 @@ class LinkMapper extends PsDbMapper {
         return [
             'id' => $stmt->insert_id,
             'shortLink' => $shortLink,
+            'groupId' => $groupId,
         ];
     }
 
     public function edit($id, $shortLink, $groupId) {
+        if (!$groupId) {
+            $groupId = null;
+        }
+
         $stmt = self::$db->prepare("UPDATE Links SET short_link = ?, group_id = ? WHERE id = ? LIMIT 1");
         $stmt->bind_param('sii', $shortLink, $groupId, $id);
         $stmt->execute();
@@ -25,6 +34,7 @@ class LinkMapper extends PsDbMapper {
         return [
             'id' => $id,
             'shortLink' => $shortLink,
+            'groupId' => $groupId,
         ];
     }
 

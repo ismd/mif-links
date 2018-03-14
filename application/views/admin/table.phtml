@@ -15,12 +15,7 @@
             </td>
             <td>
                 <div class="full-width">
-                    <a ng-click="copyToClipboard(item.short_link_full, $event)"
-                       ng-href="{{ item.short_link_full }}"
-                       class="copy-enable"
-                       title="Скопировать">{{ item.short_link_full }}</a>
-
-                    <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
+                    <a ng-href="/admin/stat/{{ item.id }}">{{ item.short_link_full }}</a>
                 </div>
             </td>
             <td>

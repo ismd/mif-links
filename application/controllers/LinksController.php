@@ -33,7 +33,7 @@ class LinksController extends PsController {
             }
         }
 
-        $result = LinkMapper::getInstance()->add($link, $post->group_id);
+        $result = LinkMapper::getInstance()->add($link, $post->groupId);
         $result['shortLinkFull'] = $serverUrl . '/' . $result['shortLink'];
 
         $this->view->json([
@@ -62,7 +62,7 @@ class LinksController extends PsController {
             ]);
         }
 
-        $result = LinkMapper::getInstance()->edit($post->id, $post->shortLink, $post->group_id);
+        $result = LinkMapper::getInstance()->edit($post->id, $post->shortLink, $post->groupId);
         $result['shortLinkFull'] = $serverUrl . '/' . $result['shortLink'];
 
         $this->view->json([
@@ -93,6 +93,18 @@ class LinksController extends PsController {
 
     public function regenerateAction() {
         $id = $this->getArgs()[0];
+
+        $links = LinkMapper::getInstance()->fetch([
+            'l.id' => $id,
+        ]);
+
+        if (count($links) == 0) {
+            $this->view->json([
+                'result' => 'error',
+            ]);
+        }
+
+        $link = $links[0];
         $shortLink = LinkMapper::getInstance()->regenerate($id);
 
         $this->view->json([
@@ -101,6 +113,7 @@ class LinksController extends PsController {
                 'id' => $id,
                 'shortLink' => $shortLink,
                 'shortLinkFull' => $this->getHelper('Server')->url() . '/' . $shortLink,
+                'groupId' => $link['group_id'],
             ],
         ]);
     }
