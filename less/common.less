@@ -120,15 +120,21 @@ nav.pager {
         right: 10px;
     }
 
-    .table td {
-        max-width: 1px;
+    .table {
+        td {
+            max-width: 1px;
 
-        .full-width {
-            display: inline-block;
-            width: 100%;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
+            .full-width {
+                display: inline-block;
+                width: 100%;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+        }
+
+        tr.row-link {
+            cursor: pointer;
         }
     }
 

@@ -8,19 +8,19 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="item in search.active ? search.items : items" ng-cloak>
+        <tr ng-repeat="item in search.active ? search.items : items" ng-click="redirect('/admin/stat/' + item.id, $event)" class="row-link" ng-cloak>
             <td>
                 <div class="full-width">
-                    <a ng-href="/admin/stat/{{ item.id }}">{{ item.link }}</a>
+                    <a ng-href="/admin/stat/{{ item.id }}" ng-click="redirect('/admin/stat/' + item.id, $event)">{{ item.link }}</a>
                 </div>
             </td>
             <td>
                 <div class="full-width">
-                    <a ng-href="/admin/stat/{{ item.id }}">{{ item.short_link_full }}</a>
+                    <a ng-href="/admin/stat/{{ item.id }}" ng-click="redirect('/admin/stat/' + item.id, $event)">{{ item.short_link_full }}</a>
                 </div>
             </td>
             <td>
-                <a ng-href="/admin/groups/{{ item.group_id }}">{{ item.group_title }}</a>
+                <a ng-href="/admin/groups/{{ item.group_id }}" ng-click="redirect('/admin/groups/' + item.group_id, $event)">{{ item.group_title }}</a>
             </td>
             <td>
                 {{ item.stat_count }}

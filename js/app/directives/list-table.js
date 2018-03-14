@@ -7,7 +7,8 @@ window.mainModule.directive('listTable', function() {
             table: '=',
             fetchItems: '=',
             searchItems: '=?',
-            loading: '=?'
+            loading: '=?',
+            redirect: '=?'
         },
         controller: ['$scope', '$timeout', function($scope, $timeout) {
             $scope.itemsPerPage = 20;

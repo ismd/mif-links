@@ -26,4 +26,13 @@ window.mainModule.controller('CommonCtrl', ['$scope', '$window', 'clipboard', fu
     $scope.historyBack = function() {
         $window.history.back();
     };
+
+    $scope.redirect = function(url, $ev) {
+        if ($ev) {
+            $ev.preventDefault();
+            $ev.stopPropagation();
+        }
+
+        window.location.href = url;
+    };
 }]);
