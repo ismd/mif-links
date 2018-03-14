@@ -23,7 +23,14 @@
 
             <span class="glyphicon glyphicon-copy" aria-hidden="true"></span><br />
 
-            Группа: <a ng-href="/admin/groups/{{ info.group_id }}">{{ info.group_title }}</a>
+            Группа:
+            <span ng-show="info.group_id" ng-cloak>
+                <a ng-href="/admin/groups/{{ info.group_id }}">{{ info.group_title }}</a>
+            </span>
+
+            <span ng-hide="info.group_id" ng-cloak>
+                <i>без группы</i>
+            </span>
         </div>
 
         <div class="col-lg-3"></div>

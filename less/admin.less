@@ -1,6 +1,15 @@
 .admin-page {
-    .list-table .table tbody td:first-child {
-        width: 65%;
+    .list-table .table {
+        td,
+        th {
+            &:first-child {
+                width: 65%;
+            }
+
+            &:last-child {
+                text-align: center;
+            }
+        }
     }
 
     .generated-link {

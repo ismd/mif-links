@@ -43,10 +43,12 @@ class LinkMapper extends PsDbMapper {
             $value = $key . ' = "' . $value . '"';
         });
 
-        $result = self::$db->query("SELECT l.id, l.link, l.short_link, l.created, l.group_id, g.title AS group_title "
+        $result = self::$db->query("SELECT l.id, l.link, l.short_link, l.created, l.group_id, g.title AS group_title, COUNT(s.id) AS stat_count "
             . "FROM Links l "
             . "LEFT JOIN Groups g ON l.group_id = g.id "
+            . "LEFT JOIN Stat s ON l.id = s.link_id "
             . (!empty($where) ? "WHERE " . implode(' AND ', $where) . ' ' : '')
+            . "GROUP BY l.id "
             . "ORDER BY l.id DESC "
             . (!is_null($limit) ? "LIMIT " . $limit : ''));
 
@@ -59,6 +61,7 @@ class LinkMapper extends PsDbMapper {
                 'created' => $row['created'],
                 'group_id' => $row['group_id'],
                 'group_title' => $row['group_title'],
+                'stat_count' => $row['stat_count'],
             ];
         }
 
