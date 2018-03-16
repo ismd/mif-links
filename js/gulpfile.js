@@ -50,6 +50,8 @@ gulp.task('js', function() {
         'node_modules/angular-route/angular-route.js',
         'node_modules/angular-clipboard/angular-clipboard.js',
         'node_modules/bootstrap/dist/js/bootstrap.js',
+        'node_modules/chart.js/dist/Chart.js',
+        'node_modules/angular-chart.js/dist/angular-chart.js',
         'app/**/*.js'
     ]);
 

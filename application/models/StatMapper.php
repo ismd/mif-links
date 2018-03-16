@@ -48,6 +48,35 @@ class StatMapper extends PsDbMapper {
         return $stmt->num_rows;
     }
 
+    public function fetchPeriodByGroup(DateTime $from, DateTime $to, $groupId) {
+        $to = $to->modify('+1 day');
+        $interval = new DateInterval('P1D');
+        $period = new DatePeriod($from, $interval, $to);
+
+        $dates = [];
+        foreach ($period as $date){
+            $dates[$date->format('d.m.Y')] = 0;
+        }
+
+        $stmt = self::$db->prepare("SELECT DATE_FORMAT(s.visited, '%d.%m.%Y') AS visited_date, COUNT(s.id) AS stat_count " .
+                                   "FROM Stat s " .
+                                   "JOIN Links l ON s.link_id = l.id " .
+                                   "JOIN Groups g ON l.group_id = g.id " .
+                                   "WHERE g.id = ? AND s.visited >= ? AND s.visited < ? " .
+                                   "GROUP BY visited_date " .
+                                   "ORDER BY s.id");
+
+        $stmt->bind_param('iss', $groupId, $from->format('Y-m-d'), $to->format('Y-m-d'));
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $dates[$row['visited_date']] = $row['stat_count'];
+        }
+
+        return $dates;
+    }
+
     /**
      * @return StatMapper
      */

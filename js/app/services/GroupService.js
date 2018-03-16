@@ -65,6 +65,19 @@
             return defer.promise;
         };
 
+        service.fetchVisitsById = function(id, from, to) {
+            var defer = $q.defer();
+
+            $http.get('/api/stat/fetch-period-by-group/' + from + '/' + to + '/' + id).then(function(result) {
+                defer.resolve(result.data);
+            }, function() {
+                alert('Не удалось получить посещения для группы');
+                defer.reject();
+            });
+
+            return defer.promise;
+        };
+
         service.search = function(search, idSearchRequest) {
             var defer = $q.defer();
 

@@ -30,4 +30,18 @@ class StatController extends PsController {
             ]),
         ]);
     }
+
+    public function fetchPeriodByGroupAction() {
+        $args = $this->getArgs();
+
+        if (count($args) < 3) {
+            throw new Exception('Неправильный запрос');
+        }
+
+        $this->view->json([
+            'items' => StatMapper::getInstance()->fetchPeriodByGroup(new DateTime($args[0]),
+                                                                     new DateTime($args[1]),
+                                                                     (int)$args[2])
+        ]);
+    }
 }

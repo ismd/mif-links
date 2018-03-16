@@ -21,4 +21,7 @@ class IndexController extends PsController {
 
     public function listTablePartial() {
     }
+
+    public function visitsChartPartial() {
+    }
 }
