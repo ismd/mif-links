@@ -93,12 +93,20 @@ class LinkMapper extends PsDbMapper {
         return $shortLink;
     }
 
-    public function search($link) {
-        $result = self::$db->query("SELECT l.id, l.link, l.short_link, l.created, l.group_id, g.title AS group_title "
-            . "FROM Links l "
-            . "LEFT JOIN Groups g ON l.group_id = g.id "
-            . "WHERE l.link LIKE '%" . $link . "%' OR l.short_link LIKE '%" . $link . "%' "
-            . "ORDER BY l.id DESC");
+    public function search($link, $groupId = null) {
+        $stmt = self::$db->prepare("SELECT l.id, l.link, l.short_link, l.created, l.group_id, g.title AS group_title " .
+                                   "FROM Links l " .
+                                   "LEFT JOIN Groups g ON l.group_id = g.id " .
+                                   "WHERE (l.link LIKE '%" . $link . "%' OR l.short_link LIKE '%" . $link . "%') " .
+                                   ($groupId ? "AND g.id = ? " : "") .
+                                   "ORDER BY l.id DESC");
+
+        if ($groupId) {
+            $stmt->bind_param('i', $groupId);
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         $links = [];
         while ($row = $result->fetch_assoc()) {

@@ -135,7 +135,13 @@ class LinksController extends PsController {
         $serverUrl = $this->getHelper('Server')->url();
         $post = $this->getRequest()->getPost();
 
-        $links = LinkMapper::getInstance()->search($post->search);
+        if (!empty($post->groupId)) {
+            $groupId = (int)$post->groupId;
+        } else {
+            $groupId = null;
+        }
+
+        $links = LinkMapper::getInstance()->search($post->search, $groupId);
 
         $this->view->json([
             'items' => array_map(function($link) use($serverUrl) {

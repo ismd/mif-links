@@ -1,6 +1,6 @@
 'use strict';
 
-window.mainModule.controller('StatCtrl', ['$scope', '$routeParams', '$q', 'Stat', 'Link', 'Group', function($scope, $routeParams, $q, Stat, Link, Group) {
+window.mainModule.controller('StatCtrl', ['$scope', '$routeParams', 'Stat', 'Link', 'Group', function($scope, $routeParams, Stat, Link, Group) {
     $scope.idLink = $routeParams.id;
     $scope.info = null;
     $scope.group = {
@@ -16,15 +16,7 @@ window.mainModule.controller('StatCtrl', ['$scope', '$routeParams', '$q', 'Stat'
     fetchLink();
 
     $scope.fetchStat = function(from, to) {
-        var defer = $q.defer();
-
-        Stat.fetchStat($scope.idLink, from, to).then(function(data) {
-            defer.resolve(data);
-        }, function() {
-            defer.reject();
-        });
-
-        return defer.promise;
+        return Stat.fetchStat($scope.idLink, from, to);
     };
 
     $scope.groupChanged = function(groupId) {

@@ -109,6 +109,23 @@
             return defer.promise;
         };
 
+        service.searchByGroup = function(search, groupId, idSearchRequest) {
+            var defer = $q.defer();
+
+            $http.post('/api/links/search', {
+                search: search,
+                groupId: groupId,
+                idSearchRequest: idSearchRequest
+            }).then(function(result) {
+                defer.resolve(result.data);
+            }, function() {
+                defer.reject();
+                alert('Не удалось осуществить поиск');
+            });
+
+            return defer.promise;
+        };
+
         service.fetchLinkById = function(id) {
             var defer = $q.defer();
 
