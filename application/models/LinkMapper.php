@@ -4,9 +4,9 @@ class LinkMapper extends PsDbMapper {
 
     const IGNORED_WORDS = ['admin', 'stat'];
 
-    public function add($link, $groupId = null) {
+    public function add($link, $groupId) {
         if (!$groupId) {
-            $groupId = null;
+            throw new Exception('Не задана группа');
         }
 
         $shortLink = $this->generateShortUrl();
@@ -24,7 +24,7 @@ class LinkMapper extends PsDbMapper {
 
     public function edit($id, $shortLink, $groupId) {
         if (!$groupId) {
-            $groupId = null;
+            throw new Exception('Не задана группа');
         }
 
         $stmt = self::$db->prepare("UPDATE Links SET short_link = ?, group_id = ? WHERE id = ? LIMIT 1");
