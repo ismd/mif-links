@@ -22,8 +22,10 @@ a:focus {
     display: inline-block;
 
     & + .glyphicon {
+        display: none;
         position: relative;
         top: 0;
+        left: 4px;
         opacity: 0;
         font-size: 12px;
         transition: all .5s;
@@ -31,6 +33,7 @@ a:focus {
     }
 
     &:hover + .glyphicon {
+        display: inline-block;
         opacity: .99;
     }
 
@@ -44,7 +47,7 @@ a:focus {
 
     &:before {
         position: absolute;
-        right: -57px;
+        right: -60px;
         animation: copy-to-clipboard 1s;
         font-size: 9px;
         font-weight: normal;

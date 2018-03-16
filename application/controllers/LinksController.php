@@ -56,7 +56,8 @@ class LinksController extends PsController {
             'l.short_link' => $post->shortLink,
         ], 1);
 
-        if (count($links) > 0) {
+        $countLinks = count($links);
+        if ($countLinks == 1 && $links[0]['id'] != $post->id || $countLinks > 1) {
             $this->view->json([
                 'result' => 'duplicate',
             ]);

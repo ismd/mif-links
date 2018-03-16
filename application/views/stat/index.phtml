@@ -13,20 +13,28 @@
             <a ng-click="copyToClipboard(info.link, $event)"
                ng-href="{{ info.link }}"
                class="copy-enable"
-               title="Скопировать">{{ info.link }}</a>
-
-            <span class="glyphicon glyphicon-copy" aria-hidden="true"></span><br />
+               title="Скопировать">{{ info.link }}</a><span class="glyphicon glyphicon-copy" aria-hidden="true"></span><br />
 
             <b>Короткая ссылка:</b>
             <a ng-click="copyToClipboard(info.short_link_full, $event)"
                ng-href="{{ info.short_link_full }}"
                class="copy-enable"
-               title="Скопировать">{{ info.short_link_full }}</a>
-
-            <span class="glyphicon glyphicon-copy" aria-hidden="true"></span><br />
+               title="Скопировать">{{ info.short_link_full }}</a><span class="glyphicon glyphicon-copy" aria-hidden="true"></span><br />
 
             <b>Группа:</b>
-            <a ng-href="/admin/groups/{{ info.group_id }}">{{ info.group_title }}</a>
+            <div ng-show="group.editEnabled == false" class="group-wrapper" ng-cloak>
+                <a ng-href="/admin/groups/{{ info.group_id }}">{{ info.group_title }}</a>
+
+                <a href="javascript:void(0);" ng-click="group.editEnabled = true" title="Изменить">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                </a>
+            </div>
+
+            <div ng-show="group.editEnabled == true" class="group-wrapper" ng-cloak>
+                <select ng-model="group.id" ng-change="groupChanged(group.id)" class="form-control">
+                    <option ng-repeat="group in groups | orderBy: 'title'" ng-value="group.id">{{ group.title }}</option>
+                </select>
+            </div>
         </div>
 
         <div class="col-lg-3"></div>
