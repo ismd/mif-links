@@ -1,6 +1,6 @@
 'use strict';
 
-window.mainModule.controller('CommonCtrl', ['$scope', '$window', 'clipboard', function($scope, $window, clipboard) {
+window.mainModule.controller('CommonCtrl', ['$scope', '$window', '$location', 'clipboard', function($scope, $window, $location, clipboard) {
 
     $scope.location = window.location;
 
@@ -33,6 +33,6 @@ window.mainModule.controller('CommonCtrl', ['$scope', '$window', 'clipboard', fu
             $ev.stopPropagation();
         }
 
-        window.location.href = url;
+        $location.path(url);
     };
 }]);
