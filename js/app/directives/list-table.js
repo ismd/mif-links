@@ -8,10 +8,11 @@ window.mainModule.directive('listTable', function() {
             fetchItems: '=',
             searchItems: '=?',
             loading: '=?',
-            redirect: '=?'
+            redirect: '=?',
+            itemsPerPage: '=?'
         },
         controller: ['$scope', '$timeout', function($scope, $timeout) {
-            $scope.itemsPerPage = 15;
+            $scope.itemsPerPage = $scope.itemsPerPage || 15;
 
             $scope.items = [];
 
