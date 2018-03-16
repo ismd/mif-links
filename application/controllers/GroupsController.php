@@ -11,6 +11,9 @@ class GroupsController extends PsController {
     public function infoPartial() {
     }
 
+    public function infoTablePartial() {
+    }
+
     public function addAction() {
         $request = $this->getRequest();
 

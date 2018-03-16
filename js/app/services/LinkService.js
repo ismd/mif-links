@@ -62,10 +62,15 @@
             return defer.promise;
         };
 
-        service.fetchLinks = function(from, to) {
+        service.fetchLinks = function(from, to, groupId) {
             var defer = $q.defer();
 
-            $http.get('/api/links/list/' + from + '-' + to).then(function(result) {
+            var url = '/api/links/list/' + from + '-' + to;
+            if (groupId) {
+                url += '/' + groupId;
+            }
+
+            $http.get(url).then(function(result) {
                 defer.resolve(result.data);
             }, function() {
                 defer.reject();

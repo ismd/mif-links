@@ -1,0 +1,26 @@
+<table class="table table-hover table-condensed">
+    <thead>
+        <tr>
+            <th>Ссылка</th>
+            <th>Короткая ссылка</th>
+            <th class="align-center">Посещений</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="item in search.active ? search.items : items" ng-click="redirect('/admin/stat/' + item.id, $event)" class="row-link" ng-cloak>
+            <td>
+                <div class="full-width">
+                    <a ng-href="/admin/stat/{{ item.id }}" ng-click="redirect('/admin/stat/' + item.id, $event)">{{ item.link }}</a>
+                </div>
+            </td>
+            <td>
+                <div class="full-width">
+                    <a ng-href="/admin/stat/{{ item.id }}" ng-click="redirect('/admin/stat/' + item.id, $event)">{{ item.short_link_full }}</a>
+                </div>
+            </td>
+            <td class="align-center">
+                {{ item.stat_count }}
+            </td>
+        </tr>
+    </tbody>
+</table>

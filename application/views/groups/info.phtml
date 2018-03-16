@@ -10,9 +10,20 @@
             <br/><br/>
 
             <b>Название:</b>
-            {{ groupTitle }}
+            {{ groupInfo.title }}
+            <br />
+
+            <b>Посещений:</b>
+            {{ groupInfo.stat_count }}
         </div>
 
         <div class="col-lg-3"></div>
     </div>
+
+    <div list-table
+         table="'/partial/groups/info-table'"
+         fetch-items="fetchLinks"
+         search-items="searchLinks"
+         loading="loading"
+         redirect="redirect"></div>
 </div>

@@ -75,10 +75,22 @@ class LinksController extends PsController {
     public function listAction() {
         $serverUrl = $this->getHelper('Server')->url();
 
-        $limits = $this->getArgs()[0];
-        if (!empty($limits)) {
+        $args = $this->getArgs();
+        $countArgs = count($args);
+
+        if ($countArgs > 1) {
+            $where = [
+                'group_id' => (int)$args[1],
+            ];
+        } else {
+            $where = [];
+        }
+
+        if ($countArgs > 0) {
+            $limits = $args[0];
             $limits = explode('-', $limits);
-            $links = LinkMapper::getInstance()->fetch([], (int)$limits[0] . ', ' . ((int)$limits[1] - (int)$limits[0]));
+
+            $links = LinkMapper::getInstance()->fetch($where, (int)$limits[0] . ', ' . ((int)$limits[1] - (int)$limits[0]));
         } else {
             $links = LinkMapper::getInstance()->fetch();
         }
@@ -88,7 +100,7 @@ class LinksController extends PsController {
                 $link['short_link_full'] = $serverUrl . '/' . $link['short_link'];
                 return $link;
             }, $links),
-            'count' => LinkMapper::getInstance()->fetchCount(),
+            'count' => LinkMapper::getInstance()->fetchCount($where),
         ]);
     }
 
