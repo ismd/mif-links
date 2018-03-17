@@ -20,7 +20,14 @@ window.mainModule.directive('visitsChart', function() {
                     scales: {
                         yAxes: [{
                             ticks: {
-                                beginAtZero: true
+                                beginAtZero: true,
+                                callback: function(tick, index, ticks) {
+                                    if (tick.toString().indexOf('.') != -1) {
+                                        return null;
+                                    }
+
+                                    return tick.toLocaleString();
+                                }
                             }
                         }]
                     },
