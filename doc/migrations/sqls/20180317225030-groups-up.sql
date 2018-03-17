@@ -1,0 +1,26 @@
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+CREATE TABLE `Groups` (
+`id` int(11) NOT NULL,
+`title` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+ALTER TABLE `Groups`
+ADD PRIMARY KEY (`id`);
+
+
+ALTER TABLE `Groups`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
+
+
+ALTER TABLE `Links`
+ADD COLUMN `group_id` int(11) NOT NULL;
+
+
+ALTER TABLE `Links`
+ADD KEY `group_id` (`group_id`);

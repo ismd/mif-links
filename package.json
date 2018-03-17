@@ -3,6 +3,6 @@
   "version": "0.0.2",
   "scripts": {
     "build": "cd js && node_modules/.bin/gulp",
-    "postinstall": "cd js && npm install"
+    "postinstall": "cd js && npm install && cd ../doc && npm install"
   }
 }
