@@ -144,6 +144,24 @@
             return defer.promise;
         };
 
+        service.fetchVisitsById = function(id, from, to) {
+            var defer = $q.defer();
+
+            var url = '/api/stat/fetch-by-link/' + id;
+            if (from && to) {
+                url += '/' + from + '/' + to;
+            }
+
+            $http.get(url).then(function(result) {
+                defer.resolve(result.data);
+            }, function() {
+                alert('Не удалось получить посещения для ссылки');
+                defer.reject();
+            });
+
+            return defer.promise;
+        };
+
         return service;
     }]);
 })();

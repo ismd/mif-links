@@ -28,6 +28,10 @@ window.mainModule.controller('StatCtrl', ['$scope', '$routeParams', 'Stat', 'Lin
         });
     };
 
+    $scope.fetchVisitsByLink = function(from, to) {
+        return Link.fetchVisitsById($scope.idLink, from, to);
+    };
+
     function fetchLink() {
         Link.fetchLinkById($scope.idLink).then(function(data) {
             $scope.info = data;

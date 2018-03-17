@@ -53,4 +53,27 @@ class StatController extends PsController {
             ]);
         }
     }
+
+    public function fetchByLinkAction() {
+        $args = $this->getArgs();
+        $countArgs = count($args);
+
+        if ($countArgs != 1 && $countArgs != 3) {
+            throw new Exception('Неправильный запрос');
+        }
+
+        $linkId = (int)$args[0];
+
+        if ($countArgs == 1) {
+            $this->view->json([
+                'items' => StatMapper::getInstance()->fetchByLink($linkId)
+            ]);
+        } else {
+            $this->view->json([
+                'items' => StatMapper::getInstance()->fetchByLink($linkId,
+                                                                  new DateTime($args[1]),
+                                                                  new DateTime($args[2]))
+            ]);
+        }
+    }
 }
