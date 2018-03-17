@@ -68,7 +68,12 @@
         service.fetchVisitsById = function(id, from, to) {
             var defer = $q.defer();
 
-            $http.get('/api/stat/fetch-period-by-group/' + from + '/' + to + '/' + id).then(function(result) {
+            var url = '/api/stat/fetch-by-group/' + id;
+            if (from && to) {
+                url += '/' + from + '/' + to;
+            }
+
+            $http.get(url).then(function(result) {
                 defer.resolve(result.data);
             }, function() {
                 alert('Не удалось получить посещения для группы');

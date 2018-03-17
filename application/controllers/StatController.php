@@ -31,17 +31,26 @@ class StatController extends PsController {
         ]);
     }
 
-    public function fetchPeriodByGroupAction() {
+    public function fetchByGroupAction() {
         $args = $this->getArgs();
+        $countArgs = count($args);
 
-        if (count($args) < 3) {
+        if ($countArgs != 1 && $countArgs != 3) {
             throw new Exception('Неправильный запрос');
         }
 
-        $this->view->json([
-            'items' => StatMapper::getInstance()->fetchPeriodByGroup(new DateTime($args[0]),
-                                                                     new DateTime($args[1]),
-                                                                     (int)$args[2])
-        ]);
+        $groupId = (int)$args[0];
+
+        if ($countArgs == 1) {
+            $this->view->json([
+                'items' => StatMapper::getInstance()->fetchByGroup($groupId)
+            ]);
+        } else {
+            $this->view->json([
+                'items' => StatMapper::getInstance()->fetchByGroup($groupId,
+                                                                   new DateTime($args[1]),
+                                                                   new DateTime($args[2]))
+            ]);
+        }
     }
 }

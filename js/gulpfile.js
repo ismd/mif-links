@@ -52,6 +52,7 @@ gulp.task('js', function() {
         'node_modules/bootstrap/dist/js/bootstrap.js',
         'node_modules/chart.js/dist/Chart.js',
         'node_modules/angular-chart.js/dist/angular-chart.js',
+        'node_modules/dateformat/lib/dateformat.js',
         'app/**/*.js'
     ]);
 

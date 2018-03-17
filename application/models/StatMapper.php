@@ -48,30 +48,61 @@ class StatMapper extends PsDbMapper {
         return $stmt->num_rows;
     }
 
-    public function fetchPeriodByGroup(DateTime $from, DateTime $to, $groupId) {
+    public function fetchByGroup($groupId, DateTime $from = null, DateTime $to = null) {
+        $stmt = self::$db->prepare("SELECT DATE_FORMAT(s.visited, '%d.%m.%Y') AS visited_date, COUNT(s.id) AS stat_count " .
+                                   "FROM Stat s " .
+                                   "JOIN Links l ON s.link_id = l.id " .
+                                   "JOIN Groups g ON l.group_id = g.id " .
+                                   "WHERE g.id = ? " .
+                                   ($from && $to ? "AND s.visited >= ? AND s.visited < ? " : "") .
+                                   "GROUP BY visited_date " .
+                                   "ORDER BY s.id");
+
+        if ($from && $to) {
+            $stmt->bind_param('iss', $groupId, $from->format('Y-m-d'), $to->format('Y-m-d'));
+        } else {
+            $stmt->bind_param('i', $groupId);
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 0) {
+            return [];
+        }
+
+        $firstDate = null;
+        $lastDate = null;
+
+        $resultDates = [];
+        while ($row = $result->fetch_assoc()) {
+            $resultDates[$row['visited_date']] = $row['stat_count'];
+
+            if ($firstDate == null) {
+                $firstDate = $row['visited_date'];
+            }
+
+            $lastDate = $row['visited_date'];
+        }
+
+        if (!$from || !$to) {
+            $explode = [
+                'first' => explode('.', $firstDate),
+                'last' => explode('.', $lastDate),
+            ];
+
+            $from = new DateTime($explode['first'][2] . '-' . $explode['first'][1] . '-' . $explode['first'][0]);
+            $to = new DateTime($explode['last'][2] . '-' . $explode['last'][1] . '-' . $explode['last'][0]);
+        }
+
         $to = $to->modify('+1 day');
         $interval = new DateInterval('P1D');
         $period = new DatePeriod($from, $interval, $to);
 
         $dates = [];
-        foreach ($period as $date){
-            $dates[$date->format('d.m.Y')] = 0;
-        }
-
-        $stmt = self::$db->prepare("SELECT DATE_FORMAT(s.visited, '%d.%m.%Y') AS visited_date, COUNT(s.id) AS stat_count " .
-                                   "FROM Stat s " .
-                                   "JOIN Links l ON s.link_id = l.id " .
-                                   "JOIN Groups g ON l.group_id = g.id " .
-                                   "WHERE g.id = ? AND s.visited >= ? AND s.visited < ? " .
-                                   "GROUP BY visited_date " .
-                                   "ORDER BY s.id");
-
-        $stmt->bind_param('iss', $groupId, $from->format('Y-m-d'), $to->format('Y-m-d'));
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        while ($row = $result->fetch_assoc()) {
-            $dates[$row['visited_date']] = $row['stat_count'];
+        foreach ($period as $date) {
+            $formattedDate = $date->format('d.m.Y');
+            $dates[$formattedDate] = isset($resultDates[$formattedDate]) ? $resultDates[$formattedDate] : 0;
         }
 
         return $dates;
