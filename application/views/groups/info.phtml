@@ -18,6 +18,9 @@
         <div class="col-lg-3"></div>
     </div>
 
+    <div visits-chart
+         fetch-items="fetchVisitsByGroup"></div>
+
     <div list-table
          table="'/partial/groups/info-table'"
          fetch-items="fetchLinks"
@@ -25,7 +28,4 @@
          loading="loading"
          redirect="redirect"
          items-per-page="10"></div>
-
-    <div visits-chart
-         fetch-items="fetchVisitsByGroup"></div>
 </div>
