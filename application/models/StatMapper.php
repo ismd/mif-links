@@ -72,7 +72,6 @@ class StatMapper extends PsDbMapper {
         }
 
         $firstDate = null;
-        $lastDate = null;
 
         $resultDates = [];
         while ($row = $result->fetch_assoc()) {
@@ -81,21 +80,15 @@ class StatMapper extends PsDbMapper {
             if ($firstDate == null) {
                 $firstDate = $row['visited_date'];
             }
-
-            $lastDate = $row['visited_date'];
         }
 
         if (!$from || !$to) {
-            $explode = [
-                'first' => explode('.', $firstDate),
-                'last' => explode('.', $lastDate),
-            ];
-
-            $from = new DateTime($explode['first'][2] . '-' . $explode['first'][1] . '-' . $explode['first'][0]);
-            $to = new DateTime($explode['last'][2] . '-' . $explode['last'][1] . '-' . $explode['last'][0]);
+            $explodeFirst = explode('.', $firstDate);
+            $from = new DateTime($explodeFirst[2] . '-' . $explodeFirst[1] . '-' . $explodeFirst[0]);
+            $from = $from->modify('-1 day');
+            $to = new DateTime();
         }
 
-        $to = $to->modify('+1 day');
         $interval = new DateInterval('P1D');
         $period = new DatePeriod($from, $interval, $to);
 
