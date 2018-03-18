@@ -25,10 +25,9 @@
 `CREATE DATABASE <имя базы> DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;`
 - Создать пользователя и выдать права:
 `GRANT ALL ON <имя базы>.* TO '<имя пользователя>'@'localhost' IDENTIFIED BY '<пароль>';`
-- Создать и отредактировать конфигурационный файл для миграций database.json на основе database.example.json:
-`cd doc && cp database.example.json database.json`
+- Скопировать файл `doc/database.example.json` в `doc/database.json` и отредактировать его
 - Выполнить миграции
-`node node_modules/db-migrate/bin/db-migrate up`
+`cd doc && node node_modules/db-migrate/bin/db-migrate up`
 ###### Сборка js/less
 `NODE_ENV=production npm run build` production-режим  
 `NODE_ENV=development npm run build` development-режим
