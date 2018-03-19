@@ -1,38 +1,40 @@
 'use strict';
 
-window.mainModule.controller('CommonCtrl', ['$scope', '$window', '$location', 'clipboard', function($scope, $window, $location, clipboard) {
+(function() {
+    window.mainModule.controller('CommonCtrl', ['$scope', '$window', '$location', 'clipboard', function($scope, $window, $location, clipboard) {
 
-    $scope.location = window.location;
+        $scope.location = window.location;
 
-    if (!clipboard.supported) {
-        console.log('Sorry, copy to clipboard is not supported');
-    }
-
-    $scope.copyToClipboard = function(text, $ev) {
-        if ($ev) {
-            $ev.preventDefault();
-            $ev.stopPropagation();
-
-            $($ev.target).addClass('copied');
-
-            setTimeout(function () {
-                $($ev.target).removeClass('copied');
-            }, 1000);
+        if (!clipboard.supported) {
+            console.log('Sorry, copy to clipboard is not supported');
         }
 
-        clipboard.copyText(text);
-    };
+        $scope.copyToClipboard = function(text, $ev) {
+            if ($ev) {
+                $ev.preventDefault();
+                $ev.stopPropagation();
 
-    $scope.historyBack = function() {
-        $window.history.back();
-    };
+                $($ev.target).addClass('copied');
 
-    $scope.redirect = function(url, $ev) {
-        if ($ev) {
-            $ev.preventDefault();
-            $ev.stopPropagation();
-        }
+                setTimeout(function () {
+                    $($ev.target).removeClass('copied');
+                }, 1000);
+            }
 
-        $location.path(url);
-    };
-}]);
+            clipboard.copyText(text);
+        };
+
+        $scope.historyBack = function() {
+            $window.history.back();
+        };
+
+        $scope.redirect = function(url, $ev) {
+            if ($ev) {
+                $ev.preventDefault();
+                $ev.stopPropagation();
+            }
+
+            $location.path(url);
+        };
+    }]);
+})();
