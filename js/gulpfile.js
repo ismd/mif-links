@@ -22,15 +22,17 @@ var LessPluginCleanCSS = require('less-plugin-clean-css'),
 var uglify = require('gulp-uglify'),
     concat = require('gulp-concat');
 
+var browserify = require('gulp-browserify');
+
 // Less
 gulp.task('less', function () {
     var files   = [
-            'node_modules/bootstrap/dist/css/bootstrap.css',
+            './node_modules/bootstrap/dist/css/bootstrap.css',
             '../less/app.less'
         ],
         includePath = [
-            'node_modules/bootstrap/less',
-            'node_modules/bootstrap/less/mixins'
+            './node_modules/bootstrap/less',
+            './node_modules/bootstrap/less/mixins'
         ];
 
     return gulp.src(files)
@@ -44,37 +46,27 @@ gulp.task('less', function () {
 
 // JavaScript
 gulp.task('js', function() {
-    var stream = gulp.src([
-        'node_modules/jquery/dist/jquery.js',
-        'node_modules/angular/angular.js',
-        'node_modules/angular-route/angular-route.js',
-        'node_modules/angular-clipboard/angular-clipboard.js',
-        'node_modules/bootstrap/dist/js/bootstrap.js',
-        'node_modules/chart.js/dist/Chart.js',
-        'node_modules/angular-chart.js/dist/angular-chart.js',
-        'node_modules/dateformat/lib/dateformat.js',
-        'app/**/*.js'
-    ]);
+    var stream = gulp.src('./app/init.js')
+        .pipe(browserify())
+        .pipe(concat('app.js'));
 
     if ('production' === environment) {
         stream = stream.pipe(uglify());
     }
 
-    return stream
-        .pipe(concat('app.js'))
-        .pipe(gulp.dest('../public/js'));
+    return stream.pipe(gulp.dest('../public/js'));
 });
 
 // Fonts
 gulp.task('fonts', function() {
-    return gulp.src('node_modules/bootstrap/fonts/**/*')
+    return gulp.src('./node_modules/bootstrap/fonts/**/*')
         .pipe(gulp.dest('../public/fonts'));
 });
 
 // Watch
 gulp.task('watch', function() {
     gulp.watch('../less/**/*.less', ['less']);
-    gulp.watch('app/**/*.js', ['js']);
+    gulp.watch('./app/**/*.js', ['js']);
 });
 
 var tasks = ['less', 'js', 'fonts'];

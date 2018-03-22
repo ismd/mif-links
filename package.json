@@ -4,5 +4,6 @@
   "scripts": {
     "build": "cd js && node_modules/.bin/gulp",
     "postinstall": "cd js && npm install && cd ../doc && npm install"
-  }
+  },
+  "dependencies": {}
 }

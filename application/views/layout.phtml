@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" ng-app="main">
+<html lang="ru" ng-app="app">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,7 +13,6 @@
     <?php endforeach; ?>
 
     <link href="/css/style.css" rel="stylesheet" />
-    <script src="/js/app.js?rev=1"></script>
 </head>
 <body ng-controller="CommonCtrl">
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -38,5 +37,7 @@
 </nav>
 
 <div class="layout" ng-view></div>
+
+<script src="/js/app.js?rev=1"></script>
 </body>
 </html>

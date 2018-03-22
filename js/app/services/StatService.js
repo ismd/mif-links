@@ -1,26 +1,20 @@
 'use strict';
 
-(function() {
-    window.mainModule.factory('Stat', ['$q', '$http', function($q, $http) {
-        var service = {};
+module.exports = ['$q', '$http', function($q, $http) {
+    this.fetchStat = function(idLink, from, to) {
+        var defer = $q.defer();
 
-        service.fetchStat = function(idLink, from, to) {
-            var defer = $q.defer();
-
-            $http.get('/api/stat/fetch/' + idLink + '/' + from + '-' + to).then(function(result) {
-                result.data.items.forEach(function(item) {
-                    item.visited = new Date(item.visited);
-                });
-
-                defer.resolve(result.data);
-            }, function() {
-                defer.reject();
-                alert('Не удалось получить статистику');
+        $http.get('/api/stat/fetch/' + idLink + '/' + from + '-' + to).then(function(result) {
+            result.data.items.forEach(function(item) {
+                item.visited = new Date(item.visited);
             });
 
-            return defer.promise;
-        };
+            defer.resolve(result.data);
+        }, function() {
+            defer.reject();
+            alert('Не удалось получить статистику');
+        });
 
-        return service;
-    }]);
-})();
+        return defer.promise;
+    };
+}];

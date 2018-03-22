@@ -1,6 +1,17 @@
 'use strict';
 
-window.mainModule = angular.module('main', ['ngRoute', 'angular-clipboard', 'chart.js'])
+window.$ = require('jquery');
+window.jQuery = $;
+
+require('angular');
+require('angular-route');
+require('angular-clipboard');
+require('bootstrap');
+require('chart.js');
+require('angular-chart.js');
+require('dateformat');
+
+angular.module('app', ['ngRoute', 'angular-clipboard', 'chart.js'])
     .config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
         $locationProvider.html5Mode(true);
 
@@ -42,3 +53,7 @@ window.mainModule = angular.module('main', ['ngRoute', 'angular-clipboard', 'cha
         // Для Bootstrap 4
         // $.fn.modal.Constructor.prototype._enforceFocus = function() {};
     }]);
+
+require('./controllers');
+require('./directives');
+require('./services');
