@@ -94,11 +94,13 @@ class LinkMapper extends PsDbMapper {
     }
 
     public function search($link, $groupId = null) {
-        $stmt = self::$db->prepare("SELECT l.id, l.link, l.short_link, l.created, l.group_id, g.title AS group_title " .
+        $stmt = self::$db->prepare("SELECT l.id, l.link, l.short_link, l.created, l.group_id, g.title AS group_title, COUNT(s.id) AS stat_count " .
                                    "FROM Links l " .
                                    "LEFT JOIN Groups g ON l.group_id = g.id " .
+                                   "LEFT JOIN Stat s ON l.id = s.link_id " .
                                    "WHERE (l.link LIKE '%" . $link . "%' OR l.short_link LIKE '%" . $link . "%') " .
                                    ($groupId ? "AND g.id = ? " : "") .
+                                   "GROUP BY l.id " .
                                    "ORDER BY l.id DESC");
 
         if ($groupId) {
@@ -111,11 +113,13 @@ class LinkMapper extends PsDbMapper {
         $links = [];
         while ($row = $result->fetch_assoc()) {
             $links[] = [
+                'id' => $row['id'],
                 'link' => $row['link'],
                 'short_link' => $row['short_link'],
                 'created' => $row['created'],
                 'group_id' => $row['group_id'],
                 'group_title' => $row['group_title'],
+                'stat_count' => $row['stat_count'],
             ];
         }
 
