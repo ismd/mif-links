@@ -22,17 +22,7 @@ module.exports = function() {
                 text: ''
             };
 
-            var page = $routeParams.page;
-            page = page ? Number(page) - 1 : 0;
-
-            $scope.pager = {
-                page: page,
-                from: page * $scope.itemsPerPage,
-                to: (page + 1) * $scope.itemsPerPage - 1,
-                count: null
-            };
-
-            fetchItems();
+            init();
 
             $scope.previousPage = function() {
                 if ($scope.pager.from - $scope.itemsPerPage < 0) {
@@ -43,7 +33,6 @@ module.exports = function() {
                 $scope.pager.to = $scope.pager.from + $scope.itemsPerPage;
 
                 updatePage($scope.pager.page - 1);
-                fetchItems();
             };
 
             $scope.nextPage = function() {
@@ -59,7 +48,6 @@ module.exports = function() {
                 }
 
                 updatePage($scope.pager.page + 1);
-                fetchItems();
             };
 
             var searchTimer = null,
@@ -85,6 +73,24 @@ module.exports = function() {
             $scope.$on('updateListTable', function() {
                 fetchItems();
             });
+
+            $scope.$on('$routeUpdate', function(e, current) {
+                init();
+            });
+
+            function init() {
+                var page = $routeParams.page;
+                page = page ? Number(page) - 1 : 0;
+
+                $scope.pager = {
+                    page: page,
+                    from: page * $scope.itemsPerPage,
+                    to: (page + 1) * $scope.itemsPerPage - 1,
+                    count: null
+                };
+
+                fetchItems();
+            }
 
             function searchItems(search) {
                 if (!search) {
