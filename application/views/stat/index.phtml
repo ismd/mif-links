@@ -30,7 +30,7 @@
             </div>
 
             <div ng-show="group.editEnabled == true" class="group-wrapper" ng-cloak>
-                <select ng-model="group.id" ng-change="groupChanged(group.id)" class="form-control">
+                <select ng-model="group.id" ng-change="groupChanged(group.id)" ng-blur="group.editEnabled = false" class="form-control">
                     <option ng-repeat="group in groups | orderBy: 'title'" ng-value="group.id">{{ group.title }}</option>
                 </select>
             </div>
