@@ -7,10 +7,10 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="group in search.active ? search.items : items" ng-click="redirect('/admin/groups/' + group.id, $event)" class="row-link" ng-cloak>
+        <tr ng-repeat="group in search.active ? search.items : items" ng-click="redirect('/admin/group/' + group.id, $event)" class="row-link" ng-cloak>
             <td>
                 <div class="full-width">
-                    <a ng-href="/admin/groups/{{ group.id }}" ng-click="redirect('/admin/groups/' + group.id, $event)">{{ group.title }}</a>
+                    <a ng-href="/admin/group/{{ group.id }}" ng-click="redirect('/admin/group/' + group.id, $event)">{{ group.title }}</a>
                 </div>
             </td>
             <td class="align-center">

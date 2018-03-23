@@ -22,7 +22,7 @@
 
             <b>Группа:</b>
             <div ng-show="group.editEnabled == false" class="group-wrapper" ng-cloak>
-                <a ng-href="/admin/groups/{{ info.group_id }}">{{ info.group_title }}</a>
+                <a ng-href="/admin/group/{{ info.group_id }}">{{ info.group_title }}</a>
 
                 <a href="javascript:void(0);" ng-click="group.editEnabled = true" title="Изменить">
                     <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>

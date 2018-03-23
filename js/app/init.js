@@ -16,27 +16,24 @@ angular.module('app', ['ngRoute', 'angular-clipboard', 'chart.js'])
         $locationProvider.html5Mode(true);
 
         $routeProvider
-            .when('/', {
-                templateUrl: '/partial/index/index'
+            .when('/admin/links', {
+                controller: 'LinksCtrl',
+                templateUrl: '/partial/links/index'
             })
-            .when('/admin', {
-                controller: 'AdminCtrl',
-                templateUrl: '/partial/admin/index'
-            })
-            .when('/admin/stat/:id', {
-                controller: 'StatCtrl',
+            .when('/admin/link/:id', {
+                controller: 'LinkInfoCtrl',
                 templateUrl: '/partial/stat/index'
-            })
-            .when('/admin/groups/:id', {
-                controller: 'GroupInfoCtrl',
-                templateUrl: '/partial/groups/info'
             })
             .when('/admin/groups', {
                 controller: 'GroupsCtrl',
                 templateUrl: '/partial/groups/index'
             })
+            .when('/admin/group/:id', {
+                controller: 'GroupInfoCtrl',
+                templateUrl: '/partial/groups/info'
+            })
             .otherwise({
-                redirectTo: '/'
+                redirectTo: '/admin/links'
             });
 
         $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';

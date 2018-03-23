@@ -33,5 +33,6 @@ module.exports = ['$scope', '$window', '$location', 'clipboard', function($scope
         }
 
         $location.path(url);
+        $location.search('page', null);
     };
 }];

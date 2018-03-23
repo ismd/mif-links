@@ -11,7 +11,7 @@ module.exports = function() {
             redirect: '=?',
             itemsPerPage: '=?'
         },
-        controller: ['$scope', '$timeout', function($scope, $timeout) {
+        controller: ['$scope', '$timeout', '$routeParams', '$route', '$location', function($scope, $timeout, $routeParams, $route, $location) {
             $scope.itemsPerPage = $scope.itemsPerPage || 15;
 
             $scope.items = [];
@@ -22,9 +22,13 @@ module.exports = function() {
                 text: ''
             };
 
+            var page = $routeParams.page;
+            page = page ? Number(page) - 1 : 0;
+
             $scope.pager = {
-                from: 0,
-                to: $scope.itemsPerPage,
+                page: page,
+                from: page * $scope.itemsPerPage,
+                to: (page + 1) * $scope.itemsPerPage - 1,
                 count: null
             };
 
@@ -38,6 +42,7 @@ module.exports = function() {
                 $scope.pager.from -= $scope.itemsPerPage;
                 $scope.pager.to = $scope.pager.from + $scope.itemsPerPage;
 
+                updatePage($scope.pager.page - 1);
                 fetchItems();
             };
 
@@ -53,6 +58,7 @@ module.exports = function() {
                     $scope.pager.to = $scope.pager.count;
                 }
 
+                updatePage($scope.pager.page + 1);
                 fetchItems();
             };
 
@@ -111,6 +117,18 @@ module.exports = function() {
                     alert('Не удалось загрузить данные');
                 });
             };
+
+            function updatePage(page) {
+                $scope.pager.page = page;
+
+                if (page > 0) {
+                    $route.updateParams({
+                        page: page + 1
+                    });
+                } else {
+                    $location.search('page', null);
+                }
+            }
         }]
     };
 };

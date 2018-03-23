@@ -2,6 +2,12 @@
 
 class LinksController extends PsController {
 
+    public function indexPartial() {
+    }
+
+    public function tablePartial() {
+    }
+
     public function addAction() {
         $serverUrl = $this->getHelper('Server')->url();
         $request = $this->getRequest();
