@@ -25,6 +25,7 @@ class ErrorController extends PsController {
             die;
         }
 
-        $this->view->setLayout('empty');
+        header('HTTP/1.0 404 Not Found', true, 404);
+        die;
     }
 }
