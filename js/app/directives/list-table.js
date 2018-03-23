@@ -50,15 +50,9 @@ module.exports = function() {
                 updatePage($scope.pager.page + 1);
             };
 
-            var searchTimer = null,
-                idSearchRequest = 0;
-
+            var searchTimer = null;
             $scope.searchChanged = function() {
                 $scope.loading = true;
-
-                if (++idSearchRequest > 10000) {
-                    idSearchRequest = 0;
-                }
 
                 try {
                     $timeout.cancel(searchTimer);
@@ -92,12 +86,17 @@ module.exports = function() {
                 fetchItems();
             }
 
+            var idSearchRequest = 0;
             function searchItems(search) {
                 if (!search) {
                     $scope.search.items = null;
                     $scope.search.active = false;
                     $scope.loading = false;
                     return;
+                }
+
+                if (++idSearchRequest > 10000) {
+                    idSearchRequest = 0;
                 }
 
                 $scope.searchItems(search, idSearchRequest).then(function(data) {

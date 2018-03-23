@@ -154,7 +154,6 @@ class LinksController extends PsController {
                 $link['short_link_full'] = $serverUrl . '/' . $link['short_link'];
                 return $link;
             }, $links),
-            'idSearchRequest' => $post->idSearchRequest,
         ]);
     }
 

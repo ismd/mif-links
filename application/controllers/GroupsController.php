@@ -90,7 +90,6 @@ class GroupsController extends PsController {
 
         $this->view->json([
             'items' => $groups,
-            'idSearchRequest' => $post->idSearchRequest,
         ]);
     }
 

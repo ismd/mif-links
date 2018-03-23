@@ -94,9 +94,9 @@ module.exports = ['$q', '$http', function($q, $http) {
         var defer = $q.defer();
 
         $http.post('/api/links/search', {
-            search: search,
-            idSearchRequest: idSearchRequest
+            search: search
         }).then(function(result) {
+            result.data.idSearchRequest = idSearchRequest;
             defer.resolve(result.data);
         }, function() {
             defer.reject();
@@ -111,9 +111,9 @@ module.exports = ['$q', '$http', function($q, $http) {
 
         $http.post('/api/links/search', {
             search: search,
-            groupId: groupId,
-            idSearchRequest: idSearchRequest
+            groupId: groupId
         }).then(function(result) {
+            result.data.idSearchRequest = idSearchRequest;
             defer.resolve(result.data);
         }, function() {
             defer.reject();
