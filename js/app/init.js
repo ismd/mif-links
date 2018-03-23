@@ -18,19 +18,23 @@ angular.module('app', ['ngRoute', 'angular-clipboard', 'chart.js'])
         $routeProvider
             .when('/admin/links', {
                 controller: 'LinksCtrl',
-                templateUrl: '/partial/links/index'
+                templateUrl: '/partial/links/index',
+                reloadOnSearch: false
             })
             .when('/admin/link/:id', {
                 controller: 'LinkInfoCtrl',
-                templateUrl: '/partial/stat/index'
+                templateUrl: '/partial/stat/index',
+                reloadOnSearch: false
             })
             .when('/admin/groups', {
                 controller: 'GroupsCtrl',
-                templateUrl: '/partial/groups/index'
+                templateUrl: '/partial/groups/index',
+                reloadOnSearch: false
             })
             .when('/admin/group/:id', {
                 controller: 'GroupInfoCtrl',
-                templateUrl: '/partial/groups/info'
+                templateUrl: '/partial/groups/info',
+                reloadOnSearch: false
             })
             .otherwise({
                 redirectTo: '/admin/links'
