@@ -50,7 +50,7 @@ class GroupsController extends PsController {
 
         $post = $request->getPost();
 
-        $groups = GroupsMapper::getInstance()->fetch([
+        $groups = GroupMapper::getInstance()->fetch([
             'g.title' => $post->title,
         ], 1);
 
@@ -64,7 +64,6 @@ class GroupsController extends PsController {
 
         $this->view->json([
             'result' => 'ok',
-            'info' => $result,
         ]);
     }
 

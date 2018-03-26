@@ -9,7 +9,22 @@
             </a><br /><br />
 
             <b>Группа:</b>
-            {{ groupInfo.title }}<br />
+
+            <span ng-show="edit.title == false" ng-cloak>
+                {{ groupInfo.title }}
+
+                <a ng-click="edit.title = true" href="javascript:void(0);" class="no-underline" title="Изменить">
+                    <span class="glyphicon glyphicon-edit"
+                          aria-hidden="true"
+                          data-toggle="modal"></span>
+                </a><br>
+            </span>
+
+            <span ng-show="edit.title == true" ng-cloak>
+                <form ng-submit="editGroup(edit.values)" class="edit-group-title" ng-class="{loading: edit.loading}">
+                    <input type="text" ng-model="edit.values.title" ng-blur="edit.title = false" ng-disabled="edit.loading">
+                </form><br>
+            </span>
 
             <b>Посещений:</b>
             {{ groupInfo.stat_count }}

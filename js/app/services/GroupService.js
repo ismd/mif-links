@@ -26,6 +26,31 @@ module.exports = ['$q', '$http', function($q, $http) {
         return defer.promise;
     };
 
+    this.editGroup = function(group) {
+        var defer = $q.defer();
+
+        $http.post('/api/groups/edit', {
+            id: group.id,
+            title: group.title
+        }).then(function(result) {
+            if (result.data.result != 'ok') {
+                if (result.data.result != 'duplicate') {
+                    alert('Не удалось изменить группу');
+                }
+
+                defer.reject(result.data);
+                return;
+            }
+
+            defer.resolve();
+        }, function() {
+            alert('Не удалось изменить группу');
+            defer.reject();
+        });
+
+        return defer.promise;
+    };
+
     this.fetchGroups = function(from, to) {
         var defer = $q.defer();
 
