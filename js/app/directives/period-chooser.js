@@ -48,6 +48,7 @@ module.exports = function() {
                         start.setMonth(start.getMonth() - 1);
                     } else {
                         start = $scope.period.interval.start;
+                        end = $scope.period.interval.end;
                     }
                     break;
                 }
@@ -70,7 +71,6 @@ module.exports = function() {
 
                 if (!justChoosedSelect && $scope.period.select != 'dates') {
                     $scope.period.select = 'dates';
-                    return;
                 }
 
                 justChoosedSelect = false;
@@ -82,6 +82,10 @@ module.exports = function() {
                     $scope.showDateRange = false;
                 }
             });
+
+            $scope.inputFocus = function(e) {
+                $(e.target).blur();
+            };
 
             $window.addEventListener('click', function(e) {
                 if ($(e.target).closest('.period-chooser').length == 0) {

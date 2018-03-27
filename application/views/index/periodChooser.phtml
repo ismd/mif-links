@@ -11,9 +11,9 @@
 
     <div ng-show="period.select != 'all-time'" class="date-range" ng-cloak>
         <input type="text"
-               ng-focus="showDateRange=true"
+               ng-click="showDateRange=!showDateRange"
+               ng-focus="inputFocus($event)"
                ng-model="period.text"
-               ng-disabled="showDateRange"
                class="pull-right">
 
         <div class="clear"></div>
