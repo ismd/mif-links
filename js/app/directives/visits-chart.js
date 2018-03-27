@@ -19,6 +19,11 @@ module.exports = function() {
                     },
                     maintainAspectRatio: false,
                     scales: {
+                        xAxes: [{
+                            ticks: {
+                                autoSkipPadding: 5
+                            }
+                        }],
                         yAxes: [{
                             ticks: {
                                 beginAtZero: true,
