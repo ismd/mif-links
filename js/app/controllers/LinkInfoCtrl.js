@@ -28,8 +28,8 @@ module.exports = ['$scope', '$routeParams', 'Stat', 'Link', 'Group', function($s
         });
     };
 
-    $scope.fetchVisitsByLink = function(from, to) {
-        return Link.fetchVisitsById($scope.idLink, from, to);
+    $scope.fetchVisitsByLink = function(period) {
+        return Link.fetchVisitsById($scope.idLink, period);
     };
 
     function fetchLink() {

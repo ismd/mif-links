@@ -141,12 +141,12 @@ module.exports = ['$q', '$http', function($q, $http) {
         return defer.promise;
     };
 
-    this.fetchVisitsById = function(id, from, to) {
+    this.fetchVisitsById = function(id, period) {
         var defer = $q.defer();
 
         var url = '/api/stat/fetch-by-link/' + id;
-        if (from && to) {
-            url += '/' + from + '/' + to;
+        if (typeof period != 'undefined' && period.select != 'all-time') {
+            url += '/' + dateFormat(period.interval.start, 'dd.mm.yyyy') + '-' + dateFormat(period.interval.end, 'dd.mm.yyyy');
         }
 
         $http.get(url).then(function(result) {

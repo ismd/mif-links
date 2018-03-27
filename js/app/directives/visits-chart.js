@@ -4,7 +4,8 @@ module.exports = function() {
     return {
         templateUrl: '/partial/index/visitsChart',
         scope: {
-            fetchItems: '='
+            fetchItems: '=',
+            period: '=?'
         },
         controller: ['$scope', function($scope) {
             $scope.chart = {
@@ -44,19 +45,27 @@ module.exports = function() {
                 }
             };
 
-            $scope.fetchItems().then(function(data) {
-                var itemsValues = Object.values(data.items);
-                var itemsKeys = Object.keys(data.items);
+            fetchItems();
 
-                if (itemsValues.length == 0) {
-                    return;
-                }
-
-                $scope.chart.data = [itemsValues];
-                $scope.chart.labels = itemsKeys.map(function(item) {
-                    return item.split('.').slice(0, 2).join('.');
-                });
+            $scope.$on('updateVisitsChart', function() {
+                fetchItems();
             });
+
+            function fetchItems() {
+                $scope.fetchItems($scope.period).then(function(data) {
+                    var itemsValues = Object.values(data.items);
+                    var itemsKeys = Object.keys(data.items);
+
+                    if (itemsValues.length == 0) {
+                        return;
+                    }
+
+                    $scope.chart.data = [itemsValues];
+                    $scope.chart.labels = itemsKeys.map(function(item) {
+                        return item.split('.').slice(0, 2).join('.');
+                    });
+                });
+            }
         }]
     };
 };

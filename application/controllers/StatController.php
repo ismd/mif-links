@@ -58,7 +58,7 @@ class StatController extends PsController {
         $args = $this->getArgs();
         $countArgs = count($args);
 
-        if ($countArgs != 1 && $countArgs != 3) {
+        if ($countArgs != 1 && $countArgs != 2) {
             throw new Exception('Неправильный запрос');
         }
 
@@ -69,10 +69,14 @@ class StatController extends PsController {
                 'items' => StatMapper::getInstance()->fetchByLink($linkId)
             ]);
         } else {
+            $period = explode('-', $args[1]);
+
+            $from = new DateTime($period[0]);
+            $to = new DateTime($period[1]);
+            $to->add(new DateInterval('P1D'));
+
             $this->view->json([
-                'items' => StatMapper::getInstance()->fetchByLink($linkId,
-                                                                  new DateTime($args[1]),
-                                                                  new DateTime($args[2]))
+                'items' => StatMapper::getInstance()->fetchByLink($linkId, $from, $to)
             ]);
         }
     }

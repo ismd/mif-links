@@ -1,10 +1,12 @@
 <div class="period-chooser">
-    <select ng-model="period.select" class="form-control">
+    <select ng-model="period.select" class="form-control pull-right">
         <option value="all-time" selected="true">За всё время</option>
         <option value="dates">Указать период</option>
     </select>
 
-    <div ng-show="period.select == 'dates'" class="date-range" ng-cloak>
+    <div class="clear"></div>
+
+    <div ng-show="period.select != 'all-time'" class="date-range" ng-cloak>
         <input type="text"
                ng-focus="showDateRange=true"
                ng-model="period.text"

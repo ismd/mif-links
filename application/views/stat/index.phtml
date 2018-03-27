@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-sm-2"></div>
 
-        <div class="page-title col-sm-6">
+        <div class="page-title col-sm-5">
             <a href="javascript:void(0);" ng-click="historyBack()">
                 <span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span>
                 Назад
@@ -36,15 +36,17 @@
             </div>
         </div>
 
-        <div class="col-sm-2 text-right">
-            <div period-chooser></div>
+        <div class="col-sm-3">
+            <div period-chooser
+                 period="period"></div>
         </div>
 
         <div class="col-sm-2"></div>
     </div>
 
     <div visits-chart
-         fetch-items="fetchVisitsByLink"></div>
+         fetch-items="fetchVisitsByLink"
+         period="period"></div>
 
     <div list-table
          table="'/partial/stat/table'"
