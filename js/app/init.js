@@ -2,6 +2,7 @@
 
 window.$ = require('jquery');
 window.jQuery = $;
+window.dateFormat = require('dateformat');
 
 require('angular');
 require('angular-route');
@@ -9,9 +10,9 @@ require('angular-clipboard');
 require('bootstrap');
 require('chart.js');
 require('angular-chart.js');
-require('dateformat');
+require('angular-datepicker');
 
-angular.module('app', ['ngRoute', 'angular-clipboard', 'chart.js'])
+angular.module('app', ['ngRoute', 'angular-clipboard', 'chart.js', 'datePicker'])
     .config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
         $locationProvider.html5Mode(true);
 

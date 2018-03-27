@@ -24,4 +24,7 @@ class IndexController extends PsController {
 
     public function visitsChartPartial() {
     }
+
+    public function periodChooserPartial() {
+    }
 }

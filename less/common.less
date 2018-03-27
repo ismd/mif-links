@@ -18,6 +18,10 @@ a:focus {
     padding-top: 100px;
 }
 
+.clear {
+    clear: both;
+}
+
 .copy-enable {
     display: inline-block;
 
@@ -161,4 +165,29 @@ nav.pager {
 
 .glyphicon.glyphicon-edit {
     font-size: 12px;
+}
+
+.period-chooser {
+    padding-top: 40px;
+
+    .date-range {
+        position: relative;
+        padding-top: 3px;
+
+        input {
+            max-width: 110px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .popup-date-range {
+            position: absolute;
+            top: 35px;
+            right: 0;
+            background: #fff;
+            border: 1px solid #dcdcdc;
+            border-radius: 5px;
+            z-index: 10;
+        }
+    }
 }

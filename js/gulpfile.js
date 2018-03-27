@@ -7,8 +7,7 @@
 var gulp = require('gulp'),
     environment = 'undefined' !== typeof process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
 
-var less = require('gulp-less')/*,
-    path = require('path')*/;
+var less = require('gulp-less');
 
 var LessPluginCleanCSS = require('less-plugin-clean-css'),
     LessPluginAutoPrefix = require('less-plugin-autoprefix'),
@@ -26,14 +25,14 @@ var browserify = require('gulp-browserify');
 
 // Less
 gulp.task('less', function () {
-    var files   = [
-            './node_modules/bootstrap/dist/css/bootstrap.css',
-            '../less/app.less'
-        ],
-        includePath = [
-            './node_modules/bootstrap/less',
-            './node_modules/bootstrap/less/mixins'
-        ];
+    var files = [
+        './node_modules/bootstrap/dist/css/bootstrap.css',
+        './node_modules/angular-datepicker/dist/index.css',
+        '../less/app.less'
+    ], includePath = [
+        './node_modules/bootstrap/less',
+        './node_modules/bootstrap/less/mixins'
+    ];
 
     return gulp.src(files)
         .pipe(concat('style.less'))
