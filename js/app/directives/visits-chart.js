@@ -21,7 +21,7 @@ module.exports = function() {
                     scales: {
                         xAxes: [{
                             ticks: {
-                                autoSkipPadding: 5
+                                autoSkipPadding: 8
                             }
                         }],
                         yAxes: [{
