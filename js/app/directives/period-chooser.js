@@ -55,6 +55,7 @@ module.exports = function() {
 
                 justChoosedSelect = true;
                 datesInitialized = $scope.period.select != 'all-time';
+                $scope.showDateRange = false;
 
                 $scope.period.interval = {
                     start: start,
