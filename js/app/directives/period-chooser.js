@@ -10,24 +10,38 @@ module.exports = function() {
             $scope.showDateRange = false;
             $scope.interval = {};
 
-            var updateSelect = true;
+            var updateSelect = true,
+                skipRouteUpdate = false;
 
-            init();
+            init(true);
 
-            function init() {
+            function init(useGlobal) {
                 var period = parsePeriod($routeParams.period);
 
-                if (updateSelect) {
-                    $scope.interval.select = period == null ? 'all-time' : 'dates';
+                if (!useGlobal || period != null || angular.equals($scope.period, {})) {
+                    if (updateSelect) {
+                        $scope.interval.select = period == null ? 'all-time' : 'dates';
+                    } else {
+                        updateSelect = true;
+                    }
+
+                    $scope.interval.start = period != null ? period.start : null;
+                    $scope.interval.end = period != null ? period.end : null;
                 } else {
-                    updateSelect = true;
+                    $scope.interval.select = $scope.period.select;
+                    $scope.interval.start = $scope.period.start;
+                    $scope.interval.end = $scope.period.end;
+
+                    skipRouteUpdate = true;
+                    intervalChanged($scope.interval, {
+                        select: null,
+                        start: null,
+                        end: null
+                    });
                 }
 
-                $scope.interval.start = period != null ? period.start : null;
-                $scope.interval.end = period != null ? period.end : null;
-
-                if (period != null) {
-                    $scope.periodText = dateFormat(period.start, 'dd.mm') + ' - ' + dateFormat(period.end, 'dd.mm');
+                if ($scope.interval.select != 'all-time' && $scope.interval.start != null && $scope.interval.end != null) {
+                    $scope.periodText = dateFormat($scope.interval.start, 'dd.mm') + ' - ' + dateFormat($scope.interval.end, 'dd.mm');
                 } else {
                     $scope.periodText = '';
                 }
@@ -37,7 +51,9 @@ module.exports = function() {
                 $scope.period.end = $scope.interval.end;
             }
 
-            $scope.$watchCollection('interval', function(newValue, oldValue) {
+            $scope.$watchCollection('interval', intervalChanged);
+
+            function intervalChanged(newValue, oldValue) {
                 if (newValue.select != 'all-time' && !compareIntervals(newValue, oldValue)) {
                     if (dateFormat(newValue.end, 'dd.mm.yyyy') != dateFormat(oldValue.end, 'dd.mm.yyyy')) {
                         $scope.showDateRange = false;
@@ -84,15 +100,18 @@ module.exports = function() {
                     $scope.interval.end = endDate;
 
                     updateSelect = false;
-
                     $route.updateParams({
                         period: dateFormat($scope.interval.start, 'dd.mm.yyyy') + '-' + dateFormat($scope.interval.end, 'dd.mm.yyyy')
                     });
                 }
-            });
+            }
 
             $scope.$on('$routeUpdate', function(e, current) {
-                init();
+                if (!skipRouteUpdate) {
+                    init();
+                } else {
+                    skipRouteUpdate = false;
+                }
             });
 
             $scope.inputFocus = function(e) {
