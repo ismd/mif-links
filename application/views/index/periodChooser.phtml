@@ -1,6 +1,6 @@
 <div class="period-chooser">
-    <select ng-model="period.select" class="form-control pull-right">
-        <option value="all-time" selected="true">Всё время</option>
+    <select ng-model="interval.select" class="form-control pull-right">
+        <option value="all-time">Всё время</option>
         <option value="3-days">3 дня</option>
         <option value="week">Неделя</option>
         <option value="month">Месяц</option>
@@ -9,19 +9,19 @@
 
     <div class="clear"></div>
 
-    <div ng-show="period.select != 'all-time'" class="date-range" ng-cloak>
+    <div ng-show="interval.select != 'all-time'" class="date-range" ng-cloak>
         <input type="text"
                ng-click="showDateRange=!showDateRange"
                ng-focus="inputFocus($event)"
-               ng-model="period.text"
-               class="pull-right">
+               ng-model="periodText"
+               class="form-control pull-right">
 
         <div class="clear"></div>
 
         <div ng-show="showDateRange"
              date-range
-             start="period.interval.start"
-             end="period.interval.end"
+             start="interval.start"
+             end="interval.end"
              class="popup-date-range"
              ng-cloak></div>
     </div>

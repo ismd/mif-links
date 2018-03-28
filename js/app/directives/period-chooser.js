@@ -6,82 +6,93 @@ module.exports = function() {
         scope: {
             period: '='
         },
-        controller: ['$scope', '$window', '$element', '$rootScope', function($scope, $window, $element, $rootScope) {
+        controller: ['$scope', '$window', '$element', '$route', '$routeParams', function($scope, $window, $element, $route, $routeParams) {
             $scope.showDateRange = false;
+            $scope.interval = {};
 
-            $scope.period = {
-                select: 'all-time',
-                interval: {
-                    start: null,
-                    end: null
-                },
-                text: ''
-            };
+            var updateSelect = true;
 
-            var justChoosedSelect = false,
-                datesInitialized = false;
+            init();
 
-            $scope.$watch('period.select', function() {
-                var start = new Date(),
-                    end = new Date();
+            function init() {
+                var period = parsePeriod($routeParams.period);
 
-                switch ($scope.period.select) {
-                case 'all-time':
-                    start = null;
-                    end = null;
-                    break;
-
-                case '3-days':
-                    start.setDate(start.getDate() - 2);
-                    break;
-
-                case 'week':
-                    start.setDate(start.getDate() - 7);
-                    break;
-
-                case 'month':
-                    start.setMonth(start.getMonth() - 1);
-                    break;
-
-                case 'dates':
-                    if (!datesInitialized) {
-                        start.setMonth(start.getMonth() - 1);
-                    } else {
-                        start = $scope.period.interval.start;
-                        end = $scope.period.interval.end;
-                    }
-                    break;
+                if (updateSelect) {
+                    $scope.interval.select = period == null ? 'all-time' : 'dates';
+                } else {
+                    updateSelect = true;
                 }
 
-                justChoosedSelect = true;
-                datesInitialized = $scope.period.select != 'all-time';
-                $scope.showDateRange = false;
+                $scope.interval.start = period != null ? period.start : null;
+                $scope.interval.end = period != null ? period.end : null;
 
-                $scope.period.interval = {
-                    start: start,
-                    end: end
-                };
+                if (period != null) {
+                    $scope.periodText = dateFormat(period.start, 'dd.mm') + ' - ' + dateFormat(period.end, 'dd.mm');
+                } else {
+                    $scope.periodText = '';
+                }
+
+                $scope.period.select = $scope.interval.select;
+                $scope.period.start = $scope.interval.start;
+                $scope.period.end = $scope.interval.end;
+            }
+
+            $scope.$watchCollection('interval', function(newValue, oldValue) {
+                if (newValue.select != 'all-time' && !compareIntervals(newValue, oldValue)) {
+                    if (dateFormat(newValue.end, 'dd.mm.yyyy') != dateFormat(oldValue.end, 'dd.mm.yyyy')) {
+                        $scope.showDateRange = false;
+                    }
+
+                    $route.updateParams({
+                        period: dateFormat(newValue.start, 'dd.mm.yyyy') + '-' + dateFormat(newValue.end, 'dd.mm.yyyy')
+                    });
+                } else if (newValue.select != oldValue.select) {
+                    var startDate = new Date(),
+                        endDate = new Date();
+
+                    switch (newValue.select) {
+                    case 'all-time':
+                        $route.updateParams({
+                            period: null
+                        });
+                        return;
+                        break;
+
+                    case '3-days':
+                        startDate.setDate(startDate.getDate() - 2);
+                        break;
+
+                    case 'week':
+                        startDate.setDate(startDate.getDate() - 7);
+                        break;
+
+                    case 'month':
+                        startDate.setMonth(startDate.getMonth() - 1);
+                        break;
+
+                    case 'dates':
+                        if (oldValue.select == 'all-time') {
+                            startDate.setMonth(startDate.getMonth() - 1);
+                        } else {
+                            startDate = newValue.start;
+                            endDate = newValue.end;
+                        }
+                        break;
+                    }
+
+                    $scope.interval.start = startDate;
+                    $scope.interval.end = endDate;
+
+                    updateSelect = false;
+
+                    $route.updateParams({
+                        period: dateFormat($scope.interval.start, 'dd.mm.yyyy') + '-' + dateFormat($scope.interval.end, 'dd.mm.yyyy')
+                    });
+                }
             });
 
-            $scope.$watchCollection('period.interval', function(oldValue, newValue) {
-                if ($scope.period.select == 'all-time') {
-                    $rootScope.$broadcast('updateVisitsChart');
-                    $scope.showDateRange = false;
-                    return;
-                }
-
-                if (!justChoosedSelect && $scope.period.select != 'dates') {
-                    $scope.period.select = 'dates';
-                }
-
-                justChoosedSelect = false;
-                $scope.period.text = dateFormat($scope.period.interval.start, 'dd.mm') + ' - ' + dateFormat($scope.period.interval.end, 'dd.mm');
-
-                $rootScope.$broadcast('updateVisitsChart');
-
-                if (dateFormat(oldValue.end, 'dd.mm.yyyy') != dateFormat(newValue.end, 'dd.mm.yyyy')) {
-                    $scope.showDateRange = false;
-                }
+            $scope.$on('$routeUpdate', function(e, current) {
+                init();
             });
 
             $scope.inputFocus = function(e) {
@@ -102,6 +113,37 @@ module.exports = function() {
                     $scope.$apply();
                 }
             });
+
+            function compareIntervals(newValue, oldValue) {
+                if (newValue.start == null) {
+                    return oldValue.start == null;
+                } else if (oldValue.start == null) {
+                    return false;
+                } else {
+                    return dateFormat(newValue.start, 'dd.mm.yyyy') == dateFormat(oldValue.start, 'dd.mm.yyyy') &&
+                        dateFormat(newValue.end, 'dd.mm.yyyy') == dateFormat(oldValue.end, 'dd.mm.yyyy');
+                }
+            }
+
+            function parsePeriod(period) {
+                if (typeof period == 'undefined') {
+                    return null;
+                }
+
+                var result = {
+                    start: null,
+                    end: null
+                };
+
+                var periodSplit = period.split('-'),
+                    startSplit = periodSplit[0].split('.'),
+                    endSplit = periodSplit[1].split('.');
+
+                result.start = new Date(parseInt(startSplit[2]), parseInt(startSplit[1] - 1), parseInt(startSplit[0]));
+                result.end = new Date(parseInt(endSplit[2]), parseInt(endSplit[1] - 1), parseInt(endSplit[0]));
+
+                return result;
+            }
         }]
     };
 };

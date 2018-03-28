@@ -2,6 +2,7 @@
 
 module.exports = ['$scope', '$window', '$location', 'clipboard', function($scope, $window, $location, clipboard) {
     $scope.location = window.location;
+    $scope.period = {};
 
     if (!clipboard.supported) {
         console.log('Sorry, copy to clipboard is not supported');

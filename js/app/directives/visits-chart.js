@@ -50,10 +50,10 @@ module.exports = function() {
                 }
             };
 
-            fetchItems();
-
-            $scope.$on('updateVisitsChart', function() {
-                fetchItems();
+            $scope.$watchCollection('period', function(newValue, oldValue) {
+                if (!angular.equals(newValue, {}) && newValue) {
+                    fetchItems();
+                }
             });
 
             function fetchItems() {
