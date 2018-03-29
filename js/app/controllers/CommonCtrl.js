@@ -23,10 +23,6 @@ module.exports = ['$scope', '$window', '$location', 'clipboard', function($scope
         clipboard.copyText(text);
     };
 
-    $scope.historyBack = function() {
-        $window.history.back();
-    };
-
     $scope.redirect = function(url, $ev) {
         if ($ev) {
             $ev.preventDefault();
