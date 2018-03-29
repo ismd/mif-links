@@ -5,7 +5,7 @@
 
 class IndexController extends PsController {
 
-    private const ALLOWED_URLS = ['/^admin/'];
+    const ALLOWED_URLS = ['/^admin/'];
 
     public function indexAction() {
         $route = $this->registry->router->getRoute();
