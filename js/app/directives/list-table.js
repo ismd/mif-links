@@ -111,7 +111,7 @@ module.exports = function() {
             };
 
             function fetchItems() {
-                $scope.fetchItems($scope.pager.from, $scope.pager.from + $scope.itemsPerPage).then(function(data) {
+                $scope.fetchItems($scope.pager.from, $scope.pager.from + $scope.itemsPerPage, $routeParams.period).then(function(data) {
                     $scope.items = data.items;
 
                     $scope.pager.to = $scope.pager.from + $scope.items.length;

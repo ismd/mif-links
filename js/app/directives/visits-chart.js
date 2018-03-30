@@ -5,7 +5,7 @@ module.exports = function() {
         templateUrl: '/partial/index/visitsChart',
         scope: {
             fetchItems: '=',
-            period: '=?'
+            period: '='
         },
         controller: ['$scope', function($scope) {
             $scope.chart = {

@@ -9,18 +9,32 @@ class StatController extends PsController {
     }
 
     public function fetchAction() {
-        $id = (int)$this->getArgs()[0];
+        $args = $this->getArgs();
+        $id = (int)$args[0];
 
-        $limits = $this->getArgs()[1];
+        $limits = $args[1];
+
+        if (count($args) == 3) {
+            $period = explode('-', $args[2]);
+
+            $from = new DateTime($period[0]);
+            $to = new DateTime($period[1]);
+            $to->add(new DateInterval('P1D'));
+        } else {
+            $period = null;
+            $from = null;
+            $to = null;
+        }
+
         if (!empty($limits)) {
             $limits = explode('-', $limits);
             $stat = StatMapper::getInstance()->fetch([
                 'link_id' => $id,
-            ], (int)$limits[0] . ', ' . ((int)$limits[1] - (int)$limits[0]));
+            ], (int)$limits[0] . ', ' . ((int)$limits[1] - (int)$limits[0]), $from, $to);
         } else {
             $stat = StatMapper::getInstance()->fetch([
                 'link_id' => $id,
-            ]);
+            ], null, $from, $to);
         }
 
         $this->view->json([

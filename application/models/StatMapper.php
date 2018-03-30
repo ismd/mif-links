@@ -8,16 +8,28 @@ class StatMapper extends PsDbMapper {
         $stmt->execute();
     }
 
-    public function fetch($where = [], $limit = null) {
+    public function fetch($where = [], $limit = null, DateTime $from = null, DateTime $to = null) {
         array_walk($where, function(&$value, $key) {
             $value = $key . ' = "' . $value . '"';
         });
 
-        $result = self::$db->query("SELECT id, visited, referer, user_agent, ip "
+        if ($from != null && $to != null) {
+            $where[] = "visited >= ?";
+            $where[] = "visited < ?";
+        }
+
+        $stmt = self::$db->prepare("SELECT id, visited, referer, user_agent, ip "
             . "FROM Stat "
             . (!empty($where) ? "WHERE " . implode(' AND ', $where) . ' ' : '')
             . "ORDER BY id DESC "
             . (!is_null($limit) ? "LIMIT " . $limit : ''));
+
+        if ($from != null && $to != null) {
+            $stmt->bind_param('ss', $from->format('Y-m-d'), $to->format('Y-m-d'));
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         $stat = [];
         while ($row = $result->fetch_assoc()) {
@@ -138,7 +150,6 @@ class StatMapper extends PsDbMapper {
                 $from = new DateTime($explodeFirst[2] . '-' . $explodeFirst[1] . '-' . $explodeFirst[0]);
             }
 
-            $from = $from->modify('-1 day');
             $to = new DateTime();
         }
 

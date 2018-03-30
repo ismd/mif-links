@@ -15,8 +15,8 @@ module.exports = ['$scope', '$routeParams', 'Stat', 'Link', 'Group', function($s
 
     fetchLink();
 
-    $scope.fetchStat = function(from, to) {
-        return Stat.fetchStat($scope.idLink, from, to);
+    $scope.fetchStat = function(from, to, period) {
+        return Stat.fetchStat($scope.idLink, from, to, period);
     };
 
     $scope.groupChanged = function(groupId) {

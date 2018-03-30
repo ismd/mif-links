@@ -1,10 +1,15 @@
 'use strict';
 
 module.exports = ['$q', '$http', function($q, $http) {
-    this.fetchStat = function(idLink, from, to) {
+    this.fetchStat = function(idLink, from, to, period) {
         var defer = $q.defer();
 
-        $http.get('/api/stat/fetch/' + idLink + '/' + from + '-' + to).then(function(result) {
+        var url = '/api/stat/fetch/' + idLink + '/' + from + '-' + to;
+        if (period) {
+            url += '/' + period;
+        }
+
+        $http.get(url).then(function(result) {
             result.data.items.forEach(function(item) {
                 item.visited = new Date(item.visited);
             });
