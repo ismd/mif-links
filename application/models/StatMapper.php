@@ -110,7 +110,7 @@ class StatMapper extends PsDbMapper {
                                    "GROUP BY visited_date " .
                                    "ORDER BY s.id");
 
-        if ($from && $to) {
+        if ($from != null && $to != null) {
             $stmt->bind_param('iss', $linkId, $from->format('Y-m-d'), $to->format('Y-m-d'));
         } else {
             $stmt->bind_param('i', $linkId);
@@ -130,9 +130,14 @@ class StatMapper extends PsDbMapper {
             }
         }
 
-        if (!$from || !$to) {
-            $explodeFirst = explode('.', $firstDate);
-            $from = new DateTime($explodeFirst[2] . '-' . $explodeFirst[1] . '-' . $explodeFirst[0]);
+        if ($from == null || $to == null) {
+            if ($firstDate == null) {
+                $from = new DateTime();
+            } else {
+                $explodeFirst = explode('.', $firstDate);
+                $from = new DateTime($explodeFirst[2] . '-' . $explodeFirst[1] . '-' . $explodeFirst[0]);
+            }
+
             $from = $from->modify('-1 day');
             $to = new DateTime();
         }
