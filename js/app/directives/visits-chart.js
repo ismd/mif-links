@@ -4,10 +4,9 @@ module.exports = function() {
     return {
         templateUrl: '/partial/index/visitsChart',
         scope: {
-            fetchItems: '=',
-            period: '='
+            fetchItems: '='
         },
-        controller: ['$scope', function($scope) {
+        controller: ['$scope', '$routeParams', function($scope, $routeParams) {
             $scope.chart = {
                 data: null,
                 labels: null,
@@ -50,14 +49,18 @@ module.exports = function() {
                 }
             };
 
-            $scope.$watchCollection('period', function(newValue, oldValue) {
-                if (!angular.equals(newValue, {}) && newValue) {
+            fetchItems();
+
+            var currentPeriod = $routeParams.period;
+            $scope.$on('$routeUpdate', function(e, current) {
+                if ($routeParams.period != currentPeriod) {
                     fetchItems();
+                    currentPeriod = $routeParams.period;
                 }
             });
 
             function fetchItems() {
-                $scope.fetchItems($scope.period).then(function(data) {
+                $scope.fetchItems($routeParams.period).then(function(data) {
                     var itemsValues = Object.values(data.items);
                     var itemsKeys = Object.keys(data.items);
 

@@ -145,8 +145,8 @@ module.exports = ['$q', '$http', function($q, $http) {
         var defer = $q.defer();
 
         var url = '/api/stat/fetch-by-link/' + id;
-        if (typeof period != 'undefined' && period.select != 'all-time') {
-            url += '/' + dateFormat(period.start, 'dd.mm.yyyy') + '-' + dateFormat(period.end, 'dd.mm.yyyy');
+        if (period) {
+            url += '/' + period;
         }
 
         $http.get(url).then(function(result) {

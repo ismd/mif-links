@@ -3,12 +3,10 @@
 module.exports = function() {
     return {
         templateUrl: '/partial/index/period-chooser',
-        scope: {
-            period: '='
-        },
         controller: ['$scope', '$window', '$element', '$route', '$routeParams', function($scope, $window, $element, $route, $routeParams) {
             $scope.showDateRange = false;
             $scope.interval = {};
+            $scope.period = {};
 
             var updateSelect = true,
                 skipRouteUpdate = false;
