@@ -59,12 +59,18 @@ module.exports = ['$q', '$http', function($q, $http) {
         return defer.promise;
     };
 
-    this.fetchLinks = function(from, to, groupId) {
+    this.fetchLinks = function(from, to, groupId, period) {
         var defer = $q.defer();
 
         var url = '/api/links/list/' + from + '-' + to;
         if (groupId) {
             url += '/' + groupId;
+        } else if (period) {
+            url += '/';
+        }
+
+        if (period) {
+            url += '/' + period;
         }
 
         $http.get(url).then(function(result) {

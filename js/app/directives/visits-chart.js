@@ -64,10 +64,6 @@ module.exports = function() {
                     var itemsValues = Object.values(data.items);
                     var itemsKeys = Object.keys(data.items);
 
-                    if (itemsValues.length == 0) {
-                        return;
-                    }
-
                     $scope.chart.data = [itemsValues];
                     $scope.chart.labels = itemsKeys.map(function(item) {
                         return item.split('.').slice(0, 2).join('.');

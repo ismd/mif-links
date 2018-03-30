@@ -28,15 +28,15 @@ module.exports = ['$scope', '$routeParams', 'Group', 'Link', function($scope, $r
         $scope.edit.values.title = $scope.groupInfo.title;
     });
 
-    $scope.fetchLinks = function(from, to) {
-        return Link.fetchLinks(from, to, $scope.idGroup);
+    $scope.fetchLinks = function(from, to, period) {
+        return Link.fetchLinks(from, to, $scope.idGroup, period);
     };
 
     $scope.searchLinks = function(search, idSearchRequest) {
         return Link.searchByGroup(search, $scope.idGroup, idSearchRequest);
     };
 
-    $scope.fetchVisitsByGroup = function(from, to) {
-        return Group.fetchVisitsById($scope.idGroup, from, to);
+    $scope.fetchVisitsByGroup = function(period) {
+        return Group.fetchVisitsById($scope.idGroup, period);
     };
 }];

@@ -87,12 +87,12 @@ module.exports = ['$q', '$http', function($q, $http) {
         return defer.promise;
     };
 
-    this.fetchVisitsById = function(id, from, to) {
+    this.fetchVisitsById = function(id, period) {
         var defer = $q.defer();
 
         var url = '/api/stat/fetch-by-group/' + id;
-        if (from && to) {
-            url += '/' + from + '/' + to;
+        if (period) {
+            url += '/' + period;
         }
 
         $http.get(url).then(function(result) {

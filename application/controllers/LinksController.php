@@ -92,11 +92,23 @@ class LinksController extends PsController {
             $where = [];
         }
 
+        if ($countArgs == 3) {
+            $period = explode('-', $args[2]);
+
+            $from = new DateTime($period[0]);
+            $to = new DateTime($period[1]);
+            $to->add(new DateInterval('P1D'));
+        } else {
+            $period = null;
+            $from = null;
+            $to = null;
+        }
+
         if ($countArgs > 0) {
             $limits = $args[0];
             $limits = explode('-', $limits);
 
-            $links = LinkMapper::getInstance()->fetch($where, (int)$limits[0] . ', ' . ((int)$limits[1] - (int)$limits[0]));
+            $links = LinkMapper::getInstance()->fetch($where, (int)$limits[0] . ', ' . ((int)$limits[1] - (int)$limits[0]), $from, $to);
         } else {
             $links = LinkMapper::getInstance()->fetch();
         }

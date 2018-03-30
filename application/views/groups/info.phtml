@@ -1,8 +1,8 @@
 <div class="groups-page container-fluid">
     <div class="row">
-        <div class="col-lg-2"></div>
+        <div class="col-sm-2"></div>
 
-        <div class="page-title col-lg-7">
+        <div class="page-title col-sm-5">
             <b>Группа:</b>
 
             <span ng-show="edit.title == false" ng-cloak>
@@ -25,7 +25,11 @@
             {{ groupInfo.stat_count }}
         </div>
 
-        <div class="col-lg-3"></div>
+        <div class="col-sm-3">
+            <div period-chooser></div>
+        </div>
+
+        <div class="col-sm-2"></div>
     </div>
 
     <div visits-chart
