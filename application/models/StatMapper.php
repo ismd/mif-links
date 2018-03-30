@@ -153,6 +153,11 @@ class StatMapper extends PsDbMapper {
             $to = new DateTime();
         }
 
+        if ($from->format('d.m.Y') == $to->format('d.m.Y')) {
+            $from = $from->modify('-1 day');
+            $from = $from->modify('-1 minute');
+        }
+
         $interval = new DateInterval('P1D');
         $period = new DatePeriod($from, $interval, $to);
 

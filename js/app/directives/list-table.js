@@ -115,7 +115,7 @@ module.exports = function() {
                     $scope.items = data.items;
                     $scope.pager.count = data.count;
 
-                    if ($scope.pager.from >= $scope.pager.count) {
+                    if ($scope.pager.from >= $scope.pager.count && $scope.pager.page != 0) {
                         updatePage(0);
                         fetchItems();
                     } else {
