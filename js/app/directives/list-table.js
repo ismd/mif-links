@@ -36,7 +36,7 @@ module.exports = function() {
             };
 
             $scope.nextPage = function() {
-                if ($scope.pager.from + $scope.itemsPerPage > $scope.pager.count) {
+                if ($scope.pager.from + $scope.itemsPerPage >= $scope.pager.count) {
                     return;
                 }
 
@@ -113,11 +113,15 @@ module.exports = function() {
             function fetchItems() {
                 $scope.fetchItems($scope.pager.from, $scope.pager.from + $scope.itemsPerPage, $routeParams.period).then(function(data) {
                     $scope.items = data.items;
-
-                    $scope.pager.to = $scope.pager.from + $scope.items.length;
                     $scope.pager.count = data.count;
 
-                    $scope.loading = false;
+                    if ($scope.pager.from >= $scope.pager.count) {
+                        updatePage(0);
+                        fetchItems();
+                    } else {
+                        $scope.pager.to = $scope.pager.from + $scope.items.length;
+                        $scope.loading = false;
+                    }
                 }, function() {
                     alert('Не удалось загрузить данные');
                 });
@@ -126,13 +130,9 @@ module.exports = function() {
             function updatePage(page) {
                 $scope.pager.page = page;
 
-                if (page > 0) {
-                    $route.updateParams({
-                        page: page + 1
-                    });
-                } else {
-                    $location.search('page', null);
-                }
+                $route.updateParams({
+                    page: page > 0 ? page + 1 : null
+                });
             }
         }]
     };

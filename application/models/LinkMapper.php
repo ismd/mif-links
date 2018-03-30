@@ -80,14 +80,25 @@ class LinkMapper extends PsDbMapper {
         return $links;
     }
 
-    public function fetchCount($where = []) {
+    public function fetchCount($where = [], DateTime $from = null, DateTime $to = null) {
         array_walk($where, function(&$value, $key) {
             $value = $key . ' = "' . $value . '"';
         });
 
+        if ($from != null && $to != null) {
+            $where[] = "s.visited >= ?";
+            $where[] = "s.visited < ?";
+        }
+
         $stmt = self::$db->prepare("SELECT 1 "
-            . "FROM Links"
-            . (!empty($where) ? " WHERE " . implode(' AND ', $where) : ''));
+            . "FROM Links l "
+            . "LEFT JOIN Stat s ON l.id = s.link_id "
+            . (!empty($where) ? "WHERE " . implode(' AND ', $where) . ' ' : '')
+            . "GROUP BY l.id");
+
+        if ($from != null && $to != null) {
+            $stmt->bind_param('ss', $from->format('Y-m-d'), $to->format('Y-m-d'));
+        }
 
         $stmt->execute();
         $stmt->store_result();
