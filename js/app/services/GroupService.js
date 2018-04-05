@@ -69,10 +69,15 @@ module.exports = ['$q', '$http', function($q, $http) {
         return defer.promise;
     };
 
-    this.fetchGroupById = function(id) {
+    this.fetchGroupById = function(id, period) {
         var defer = $q.defer();
 
-        $http.get('/api/groups/get/' + id).then(function(result) {
+        var url = '/api/groups/get/' + id;
+        if (period) {
+            url += '/' + period;
+        }
+
+        $http.get(url).then(function(result) {
             if (result.data.result == 'ok') {
                 defer.resolve(result.data.group);
             } else {

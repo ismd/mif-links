@@ -22,19 +22,33 @@ class GroupMapper extends PsDbMapper {
         ];
     }
 
-    public function fetch($where = [], $limit = null) {
+    public function fetch($where = [], $limit = null, DateTime $from = null, DateTime $to = null) {
         array_walk($where, function(&$value, $key) {
             $value = $key . ' = "' . $value . '"';
         });
 
-        $result = self::$db->query("SELECT g.id, g.title, COUNT(DISTINCT l.id) AS links_count, COUNT(s.id) AS stat_count " .
+        if ($from != null && $to != null) {
+            $period = "AND s.visited >= ? AND s.visited < ? ";
+        } else {
+            $period = null;
+        }
+
+        $stmt = self::$db->prepare("SELECT g.id, g.title, COUNT(DISTINCT l.id) AS links_count, COUNT(s.id) AS stat_count " .
                                    "FROM Groups g " .
                                    "LEFT JOIN Links l ON g.id = l.group_id " .
                                    "LEFT JOIN Stat s ON l.id = s.link_id " .
+                                   ($period != null ? $period : "") .
                                    (!empty($where) ? "WHERE " . implode(' AND ', $where) . ' ' : '') .
                                    "GROUP BY g.id " .
                                    "ORDER BY g.id DESC " .
                                    (!is_null($limit) ? "LIMIT " . $limit : ''));
+
+        if ($from != null && $to != null) {
+            $stmt->bind_param('ss', $from->format('Y-m-d'), $to->format('Y-m-d'));
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         $links = [];
         while ($row = $result->fetch_assoc()) {

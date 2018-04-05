@@ -23,10 +23,7 @@ module.exports = ['$scope', '$routeParams', 'Group', 'Link', function($scope, $r
         });
     };
 
-    Group.fetchGroupById($scope.idGroup).then(function(data) {
-        $scope.groupInfo = data;
-        $scope.edit.values.title = $scope.groupInfo.title;
-    });
+    loadGroupInfo();
 
     $scope.fetchLinks = function(from, to, period) {
         return Link.fetchLinks(from, to, $scope.idGroup, period);
@@ -39,4 +36,19 @@ module.exports = ['$scope', '$routeParams', 'Group', 'Link', function($scope, $r
     $scope.fetchVisitsByGroup = function(period) {
         return Group.fetchVisitsById($scope.idGroup, period);
     };
+
+    var currentPeriod = $routeParams.period;
+    $scope.$on('$routeUpdate', function(e, current) {
+        if ($routeParams.period != currentPeriod) {
+            loadGroupInfo();
+            currentPeriod = $routeParams.period;
+        }
+    });
+
+    function loadGroupInfo() {
+        Group.fetchGroupById($scope.idGroup, $routeParams.period).then(function(data) {
+            $scope.groupInfo = data;
+            $scope.edit.values.title = $scope.groupInfo.title;
+        });
+    }
 }];

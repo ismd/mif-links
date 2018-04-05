@@ -93,8 +93,23 @@ class GroupsController extends PsController {
     }
 
     public function getAction() {
-        $idGroup = (int)$this->getArgs()[0];
-        $groups = GroupMapper::getInstance()->fetch(['g.id' => $idGroup], 1);
+        $args = $this->getArgs();
+
+        $idGroup = (int)$args[0];
+        $countArgs = count($args);
+
+        if ($countArgs == 2) {
+            $period = explode('-', $args[1]);
+
+            $from = new DateTime($period[0]);
+            $to = new DateTime($period[1]);
+            $to->add(new DateInterval('P1D'));
+        } else {
+            $from = null;
+            $to = null;
+        }
+
+        $groups = GroupMapper::getInstance()->fetch(['g.id' => $idGroup], 1, $from, $to);
 
         if (count($groups) > 0) {
             $this->view->json([
