@@ -7,8 +7,16 @@
 class ErrorController extends PsController {
 
     public function indexAction() {
+        $shortLink = $_SERVER['REQUEST_URI'];
+        $shortLink = ltrim($shortLink, '/');
+
+        $firstPart = strstr($shortLink, '?', true);
+        if ($firstPart) {
+            $shortLink = $firstPart;
+        }
+
         $link = LinkMapper::getInstance()->fetch([
-            'l.short_link' => ltrim($_SERVER['REQUEST_URI'], '/'),
+            'l.short_link' => $shortLink,
         ], 1);
 
         if (empty($link)) {
