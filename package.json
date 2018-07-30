@@ -6,6 +6,5 @@
     "postinstall": "cd js && npm install && cd ../doc && npm install"
   },
   "dependencies": {
-    "angular-datepicker": "^1.0.5"
   }
 }

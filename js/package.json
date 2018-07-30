@@ -13,20 +13,20 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "^1.6.9",
+    "angular": "^1.7.2",
     "angular-chart.js": "^1.1.1",
     "angular-clipboard": "^1.6.2",
     "angular-datepicker": "^1.0.5",
-    "angular-route": "^1.6.9",
+    "angular-route": "^1.7.2",
     "bootstrap": "^3.3.7",
     "dateformat": "^3.0.3",
     "gulp": "^3.9.1",
     "gulp-browserify": "^0.5.1",
     "gulp-concat": "^2.6.1",
-    "gulp-less": "^3.3.0",
-    "gulp-uglify": "^3.0.0",
+    "gulp-less": "^4.0.1",
+    "gulp-uglify": "^3.0.1",
     "jquery": "^3.3.1",
-    "less-plugin-autoprefix": "^1.5.1",
+    "less-plugin-autoprefix": "^2.0.0",
     "less-plugin-clean-css": "^1.5.1"
   }
 }
