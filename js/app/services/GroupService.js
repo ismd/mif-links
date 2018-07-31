@@ -51,6 +51,26 @@ module.exports = ['$q', '$http', function($q, $http) {
         return defer.promise;
     };
 
+    this.removeGroup = function(id) {
+        var defer = $q.defer();
+
+        $http.post('/api/groups/remove', {
+            id: id
+        }).then(function(result) {
+            if (result.data.result != 'ok') {
+                defer.reject(result.data);
+                return;
+            }
+
+            defer.resolve();
+        }, function() {
+            alert('Не удалось удалить группу');
+            defer.reject();
+        });
+
+        return defer.promise;
+    };
+
     this.fetchGroups = function(from, to) {
         var defer = $q.defer();
 

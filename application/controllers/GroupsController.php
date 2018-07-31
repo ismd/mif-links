@@ -54,7 +54,7 @@ class GroupsController extends PsController {
             'g.title' => $post->title,
         ], 1);
 
-        if (count($links) > 0) {
+        if (count($groups) > 0) {
             $this->view->json([
                 'result' => 'duplicate',
             ]);
@@ -65,6 +65,39 @@ class GroupsController extends PsController {
         $this->view->json([
             'result' => 'ok',
         ]);
+    }
+
+    public function removeAction() {
+        $request = $this->getRequest();
+
+        if (!$request->isPost()) {
+            throw new Exception('Не POST-запрос');
+        }
+
+        $post = $request->getPost();
+        $groupId = (int)$post->id;
+
+        $links = LinkMapper::getInstance()->fetch([
+            'g.id' => $groupId,
+        ], 1);
+
+        if (count($links) > 0) {
+            $this->view->json([
+                'result' => 'error',
+                'text' => 'Можно удалять только группы без ссылок',
+            ]);
+        }
+
+        if (GroupMapper::getInstance()->remove($groupId)) {
+            $this->view->json([
+                'result' => 'ok',
+            ]);
+        } else {
+            $this->view->json([
+                'result' => 'error',
+                'text' => 'Не удалось удалить группу',
+            ]);
+        }
     }
 
     public function listAction() {

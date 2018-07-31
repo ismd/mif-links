@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = ['$scope', '$routeParams', 'Group', 'Link', function($scope, $routeParams, Group, Link) {
+module.exports = ['$scope', '$routeParams', '$window', 'Group', 'Link', function($scope, $routeParams, $window, Group, Link) {
     $scope.idGroup = $routeParams.id;
     $scope.groupInfo = null;
     $scope.edit = {
@@ -21,6 +21,20 @@ module.exports = ['$scope', '$routeParams', 'Group', 'Link', function($scope, $r
         }).finally(function() {
             $scope.edit.loading = false;
         });
+    };
+
+    $scope.removeGroup = function() {
+        if (confirm('Удалить группу ' + $scope.groupInfo.title + '?')) {
+            $scope.edit.loading = true;
+
+            Group.removeGroup($scope.idGroup).then(function() {
+                $window.location.href = '/admin/groups';
+            }, function(data) {
+                alert(data.text);
+            }).finally(function() {
+                $scope.edit.loading = false;
+            });
+        }
     };
 
     loadGroupInfo();

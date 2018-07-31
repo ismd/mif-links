@@ -70,14 +70,14 @@ $configMain = PsConfig::getInstance()->main;
 // Определяем окружение
 switch ($configMain->environment) {
     case 'development':
-        error_reporting(E_ALL ^ E_NOTICE);
+        error_reporting(E_ALL ^ E_WARNING ^ E_NOTICE);
         ini_set('display_errors', 'On');
         ini_set('display_startup_errors', true);
         break;
 
     case 'production':
     default:
-        error_reporting(E_ALL ^ E_NOTICE);
+        error_reporting(E_ALL ^ E_WARNING ^ E_NOTICE);
         ini_set('display_errors', 'Off');
         break;
 }

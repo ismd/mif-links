@@ -22,6 +22,12 @@ class GroupMapper extends PsDbMapper {
         ];
     }
 
+    public function remove($id) {
+        $stmt = self::$db->prepare("DELETE FROM Groups WHERE id = ? LIMIT 1");
+        $stmt->bind_param('i', $id);
+        return $stmt->execute();
+    }
+
     public function fetch($where = [], $limit = null, DateTime $from = null, DateTime $to = null) {
         array_walk($where, function(&$value, $key) {
             $value = $key . ' = "' . $value . '"';
