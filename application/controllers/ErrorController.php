@@ -26,7 +26,7 @@ class ErrorController extends PsController {
 
         $link = $link[0];
 
-        StatMapper::getInstance()->add($link['id'], [
+        StatMapper::getInstance()->add($link['id'], $link['group_id'], [
             'referer' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null,
             'user_agent' => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null,
             'ip' => $_SERVER['REMOTE_ADDR'],

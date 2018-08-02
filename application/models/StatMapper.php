@@ -2,9 +2,9 @@
 
 class StatMapper extends PsDbMapper {
 
-    public function add($idLink, $stat) {
-        $stmt = self::$db->prepare("INSERT INTO Stat (link_id, referer, user_agent, ip) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param('isss', $idLink, $stat['referer'], $stat['user_agent'], $stat['ip']);
+    public function add($idLink, $idGroup, $stat) {
+        $stmt = self::$db->prepare("INSERT INTO Stat (link_id, group_id, visited_date, referer, user_agent, ip) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param('iissss', $idLink, $idGroup, date('Y-m-d'), $stat['referer'], $stat['user_agent'], $stat['ip']);
         $stmt->execute();
     }
 
@@ -61,13 +61,11 @@ class StatMapper extends PsDbMapper {
     }
 
     public function fetchByGroup($groupId, DateTime $from = null, DateTime $to = null) {
-        $stmt = self::$db->prepare("SELECT DATE_FORMAT(s.visited, '%d.%m.%Y') AS visited_date, COUNT(s.id) AS stat_count " .
+        $stmt = self::$db->prepare("SELECT s.visited_date, COUNT(s.id) AS stat_count " .
                                    "FROM Stat s " .
-                                   "JOIN Links l ON s.link_id = l.id " .
-                                   "JOIN Groups g ON l.group_id = g.id " .
-                                   "WHERE g.id = ? " .
-                                   ($from && $to ? "AND s.visited >= ? AND s.visited < ? " : "") .
-                                   "GROUP BY visited_date " .
+                                   "WHERE s.group_id = ? " .
+                                   ($from && $to ? "s.visited BETWEEN ? AND ? " : "") .
+                                   "GROUP BY s.visited_date " .
                                    "ORDER BY s.id");
 
         if ($from && $to) {
@@ -95,8 +93,7 @@ class StatMapper extends PsDbMapper {
         }
 
         if (!$from || !$to) {
-            $explodeFirst = explode('.', $firstDate);
-            $from = new DateTime($explodeFirst[2] . '-' . $explodeFirst[1] . '-' . $explodeFirst[0]);
+            $from = new DateTime($firstDate);
             $from = $from->modify('-1 day');
             $to = new DateTime();
         }
@@ -107,7 +104,9 @@ class StatMapper extends PsDbMapper {
         $dates = [];
         foreach ($period as $date) {
             $formattedDate = $date->format('d.m.Y');
-            $dates[$formattedDate] = isset($resultDates[$formattedDate]) ? $resultDates[$formattedDate] : 0;
+            $sqlFormattedDate = $date->format('Y-m-d');
+
+            $dates[$formattedDate] = isset($resultDates[$sqlFormattedDate]) ? $resultDates[$sqlFormattedDate] : 0;
         }
 
         return $dates;

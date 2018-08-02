@@ -86,7 +86,7 @@ class LinksController extends PsController {
 
         if ($countArgs > 1) {
             $where = [
-                'group_id' => (int)$args[1],
+                'l.group_id' => (int)$args[1],
             ];
         } else {
             $where = [];
